@@ -15,7 +15,9 @@
  */
 package egovframework.example.sample.web;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import egovframework.example.sample.service.EgovSampleService;
 import egovframework.example.sample.service.SampleDefaultVO;
@@ -25,6 +27,8 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
@@ -35,6 +39,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
@@ -209,10 +214,31 @@ public class AdminController {
 		return "forward:/egovSampleList.do";
 	}*/
 	
-	@RequestMapping("/notrespassing/signin.do")
-	public String adminLogin(){
-		return "vetproject/";
+	@RequestMapping("/notrespassing/signinview.do")
+	public String adminLoginView(){
+		return "vetproject/adminLogin";
 	}
-	
+
+	@RequestMapping("/notrespassing/adminconsole.do")
+	public String adminConsole(){
+		return "vetproject/adminConsole";
+	}
+
+	@RequestMapping(value="/notrespassing/signin.do", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> adminLogin(HttpServletRequest request){
+		Map<String, Object> map = new HashMap<>();
+		int result = 0;
+		HttpSession session = request.getSession();
+		if(request.getParameter("adminId").equals("administrator") && request.getParameter("adminPw").equals("drowssapnimda79#$")){
+			result = 1;
+			System.out.println("result: 1");
+			session.setAttribute("sessionId", request.getParameter("adminId"));
+			session.setMaxInactiveInterval(60*10);
+		}
+		
+		map.put("result", result);
+		return map;
+	}
 	
 }
