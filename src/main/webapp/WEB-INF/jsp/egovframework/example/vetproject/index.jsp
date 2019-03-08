@@ -61,10 +61,12 @@
 			
 			<div class="section sec3" id="sec3">
 				<div class="container">
-					<p>더 많은 정보를 보고 싶으신가요?</p>
+					<p class="l1">더 많은 정보를 보고 싶으신가요?</p>
 					<p>동물 병원 찾기 앱을 설치하세요!</p>
-					<img src="<%=request.getContextPath() %>/images/vetproject/google-play.png" alt="안드로이드" id="getandroid"/>
-					<p>(QR코드)</p>
+					<div class="imgs">
+						<img src="<%=request.getContextPath() %>/images/vetproject/google_play.png" alt="안드로이드" id="getandroid" onclick="window.open('https://en.wikipedia.org/wiki/Veterinary_physician')"/>
+						<img src="<%=request.getContextPath() %>/images/vetproject/qr_code.png" alt="QR코드" id="getqr"/>					
+					</div>
 				</div>
 			</div>		
 		</div>
