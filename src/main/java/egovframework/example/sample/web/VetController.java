@@ -26,6 +26,7 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.annotations.Param;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -131,9 +132,21 @@ public class VetController {
 	
 	// 메인 화면 조회
 	@RequestMapping(value="/main.do")
-	public String mainView(@ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model){
+	public String mainView(@ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model, HttpServletRequest request){
 		int totCnt = vetService.selectVetListTotCnt(searchVO);
+		String position = request.getParameter("position");
+		System.out.println(position);
+		int cnt = vetService.selectVetListCntByPos(position);
+		Integer cityCnt = new Integer(cnt);
+		String cntByCity = cityCnt.toString();
+		System.out.println(cityCnt+"-cityCnt");
+		System.out.println(cntByCity+"-cntByCity");
+		
+		
+		
 		model.addAttribute("totalVet",totCnt);
+		request.setAttribute("cntByCity",cntByCity);
+		
 		return "vetproject/index";
 	}
 	

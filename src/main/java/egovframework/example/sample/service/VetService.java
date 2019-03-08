@@ -55,6 +55,6 @@ public interface VetService {
 	 */
 	int selectVetListTotCnt(SampleDefaultVO searchVO);
 
-	
+	int selectVetListCntByPos(String city);
 
 }

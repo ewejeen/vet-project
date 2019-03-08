@@ -115,4 +115,22 @@
 			SELECT COUNT(*) FROM hospital
 	</select>
 
+	<select id="selectVetListCntByPos" resultType="int">
+			SELECT COUNT(*) FROM hospital_geo2 WHERE province=#{province} AND city=#{city}
+	</select>
+
+	<select id="selectVetAxisByPos" >
+			SELECT
+				hos.hpt_name,
+			    geo2.x_axis,
+			    geo2.y_axis,
+			    geo2.province,
+			    geo2.city
+			FROM
+				hospital AS hos
+			INNER JOIN hospital_geo2 AS geo2
+			ON hos.hpt_id = geo2.hpt_id
+			WHERE province=#{province} AND city=#{city}
+	</select>
+
 </mapper>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -20,6 +21,12 @@
 	            time: 1500 // 카운트업 해주는 애니메이션의 전체 지속시간 (1000==1초). 
 	        });
 	    });
+	    
+	    /* var pos = $('#address').text();
+	    var posArr = pos.split(' ');
+	    console.log(posArr); */
+	    
+    	
 	</script>
 </head>
 <body>
@@ -48,7 +55,14 @@
 				<div class="container">
 					<p class="l1">내 주변의 동물병원을 찾아 보세요</p>
 					<div id="map"></div>
-					<p><span id="address">내 위치</span>에는 총 NNN 개의 동물병원이 있습니다.</p>
+					<p><span id="address">내 위치</span>에는 총 
+						<%-- <c:choose>
+							<c:when test="${cntByCity != null }"><span id="cntByCity">${cntByCity }</span></c:when>  
+							<c:otherwise><span id="cntByCity">N</span></c:otherwise>
+						</c:choose> --%>
+						<%-- <span id="cntByCity"><%=(Integer)request.getAttribute("cntByCity") %></span> --%>
+						<span id="cntByCity"><%=request.getAttribute("cntByCity") %></span>
+					개의 동물병원이 있습니다.</p>
 				</div>
 			</div>
 			
@@ -197,7 +211,7 @@
 
 				    function displayCenterInfo(result, status) {
 				        if (status === daum.maps.services.Status.OK) {
-							var adrs1 = document.getElementById('address');
+							var adrs = document.getElementById('address');
 
 				            for(var i = 0; i < result.length; i++) {
 				                // 행정동의 region_type 값은 'H' 이므로
@@ -205,7 +219,24 @@
 				                	var res = result[i].address_name;
 				                	var resArr = res.split(' ');
 				                	
-				                	adrs1.innerHTML = resArr[1];	// 시군구           	
+				                	adrs.innerHTML = resArr[1];	// 시군구           	
+								    console.log($('#address').text());
+				                	
+				                	
+
+								    $.ajax({
+								    	url : 'main.do',
+								    	type : 'POST',
+								    	data : {
+								    		'city' : resArr[0]
+								    	},
+								    	success : function(data){
+								    		console.log('데이터 보내기 성공');
+								    	}
+								    });
+								    
+								    
+								    
 				                    break;
 				                }
 				            }
@@ -213,6 +244,7 @@
 				    }
 				    
 				    // 카카오 지도 끝
+				    
 				    
 				}, function(error) {
 					console.error(error);
@@ -227,8 +259,8 @@
 		}
 	}
     getLocation();
-    
     // 지오로케이션 끝
+    
 	</script>
 	
 </body>

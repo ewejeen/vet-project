@@ -122,5 +122,10 @@ public class VetServiceImpl extends EgovAbstractServiceImpl implements VetServic
 	public List<?> searchVetList(String searchCondition, String searchKeyword) throws Exception {
 		return vetDAO.searchVetList(searchCondition, searchKeyword);
 	}
+	
+	@Override
+	public int selectVetListCntByPos(String city) {
+		return vetDAO.selectVetListCntByPos(city);
+	}
 
 }

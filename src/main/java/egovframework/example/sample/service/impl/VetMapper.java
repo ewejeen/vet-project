@@ -61,4 +61,5 @@ public interface VetMapper {
 	 */
 	int selectVetListTotCnt(SampleDefaultVO searchVO);
 
+	int selectVetListCntByPos(String city);
 }
