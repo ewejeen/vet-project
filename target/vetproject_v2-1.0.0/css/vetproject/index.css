@@ -1,0 +1,107 @@
+@CHARSET "UTF-8";
+
+#wrap {
+	width: 100%;
+	height: 100%;
+}
+
+.header {
+	position: fixed;
+}
+
+.main {
+	width: 100%;
+	height: 100%;
+}
+
+/*item*/
+.item {
+	width: auto;
+	height: auto;
+	position: fixed;
+	top: 45%;
+	right: 30px;
+	z-index: 10;
+}
+
+.item li {
+	width: 14px;
+	height: 14px;
+	margin: 10px auto;
+	border: 1px solid #008e7aa3;
+	border-radius: 50%;
+	background: #ffffffe0;
+}
+
+.item li:hover {
+	background: #008e7aa3;
+	cursor: pointer;
+}
+
+.item li.on {
+	background: #008e7a;
+	width: 12px;
+	height: 12px;
+}
+
+.section {
+	width: 100%;
+	height: 100%;
+	display: table;
+	overflow: hidden;
+}
+
+.section .container {
+	width: 75%;
+	margin: 0 auto;
+	display: table-cell;
+	/* vertical-align: bottom;
+	padding-bottom: 80px; */
+	vertical-align: middle;
+	padding-bottom: 0;
+}
+
+#sec0 {
+	width: 100%;
+	height: 100%;
+	display: table;
+}
+
+#sec0 .container {
+	display: table-cell;
+	vertical-align: middle;
+	padding-bottom: 0;
+}
+
+#sec0 .container p {
+	text-align: center;
+	line-height: 55px;
+	font-size: 40px;
+}
+
+#sec0 .container span {
+	font-size: 70px;
+	line-height: 90px;
+	margin-right: 10px;
+}
+
+#sec1 .container p {
+	text-align: center;
+	font-size: 30px;
+}
+
+#sec1 .container p.l1 {
+	margin-bottom: -20px;
+}
+
+#sec1 .container span {
+	font-size: 45px;
+	font-weight: 500;
+}
+
+#sec1 .container #map {
+	border: 1px solid;
+	width: 55%;
+	height: 550px;
+	margin: 30px auto;
+}

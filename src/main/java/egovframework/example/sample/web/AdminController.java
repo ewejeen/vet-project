@@ -22,7 +22,7 @@ import java.util.Map;
 import egovframework.example.sample.service.EgovSampleService;
 import egovframework.example.sample.service.SampleDefaultVO;
 import egovframework.example.sample.service.SampleVO;
-
+import egovframework.example.sample.service.VetVO;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
@@ -41,6 +41,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 /**
@@ -225,20 +226,32 @@ public class AdminController {
 	}
 
 	@RequestMapping(value="/notrespassing/signin.do", method=RequestMethod.POST)
-	@ResponseBody
-	public Map<String, Object> adminLogin(HttpServletRequest request){
-		Map<String, Object> map = new HashMap<>();
-		int result = 0;
-		HttpSession session = request.getSession();
-		if(request.getParameter("adminId").equals("administrator") && request.getParameter("adminPw").equals("drowssapnimda79#$")){
+	public ModelAndView outputJsonList(ModelAndView modelAndView, HttpServletRequest request) {
+	    Map<String, Object> map = new HashMap<>();
+	    String adminId = request.getParameter("adminId");
+	    String adminPw = request.getParameter("adminPw");
+	    int result = 0;
+	    if(adminId.equals("administrator") && adminPw.equals("drowssapnimda79#$")){
 			result = 1;
-			System.out.println("result: 1");
-			session.setAttribute("sessionId", request.getParameter("adminId"));
-			session.setMaxInactiveInterval(60*10);
+	    }
+	    map.put("result", result);
+	     
+	    modelAndView.addAllObjects(map);
+	 
+	    // setViewName에 들어갈 String 파라미터는 JsonView bean 설정해줬던 id와 같아야 한다.
+	    modelAndView.setViewName("jsonView");
+	     
+	    return modelAndView;
+	}
+	
+	@RequestMapping("/notrespassing/signout.do")
+	public String adminLogout(HttpServletRequest request){
+		HttpSession session = request.getSession();
+		if(session!=null){
+			session.invalidate();
+			System.out.println("로그아웃 성공"); 
 		}
-		
-		map.put("result", result);
-		return map;
+		return "forward:signinview.do";
 	}
 	
 }

@@ -39,14 +39,14 @@
 		$.ajax({
 			url : 'signin.do',
 			type : 'POST',
+			dataType : 'json',
 			data : {
 				'adminId' : id.val(),
 				'adminPw' : pw.val()
 			},
 			success : function(data){
-				console.log(data.result);
 				if(data.result==1){
-					location.href='notrepassing/adminconsole.do';
+					location.href='adminconsole.do';
 				} else{
 					alert('로그인 실패. 다시 시도해 주세요.');
 				}

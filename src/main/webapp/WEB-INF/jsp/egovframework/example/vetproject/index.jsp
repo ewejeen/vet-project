@@ -63,7 +63,7 @@
 				<div class="container">
 					<p>더 많은 정보를 보고 싶으신가요?</p>
 					<p>동물 병원 찾기 앱을 설치하세요!</p>
-					<p>(구글 플레이 로고)</p>
+					<img src="<%=request.getContextPath() %>/images/vetproject/google-play.png" alt="안드로이드" id="getandroid"/>
 					<p>(QR코드)</p>
 				</div>
 			</div>		
