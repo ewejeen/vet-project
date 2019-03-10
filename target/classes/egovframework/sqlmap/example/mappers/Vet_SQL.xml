@@ -70,23 +70,14 @@
 			LIMIT 0,30
 	</select>
 	
-	<select id="searchVetList" parameterType="searchVO" resultType="egovMap">
+	<select id="searchVetByName" resultType="egovMap">
 
 			SELECT
 				hpt_name
 			FROM
 				hospital
-			WHERE 1=1
-			<if test="searchKeyword!=null and searchKeyword!=''">
-				<choose>
-					<when test="searchCondition==0">
-						AND hpt_name LIKE '%' || #{searchKeyword} || '%'
-					</when>
-					<when test="searchCondition==1">
-						AND province LIKE '%' || #{searchKeyword} || '%'
-					</when>
-				</choose>
-			</if>
+			WHERE hpt_name
+			LIKE '%' || #{hpt_name} || '%'
 			ORDER BY hpt_name ASC
 			
 	</select>
@@ -116,7 +107,7 @@
 	</select>
 
 	<select id="selectVetListCntByPos" resultType="int">
-			SELECT COUNT(*) FROM hospital_geo2 WHERE province=#{province} AND city=#{city}
+			SELECT COUNT(*) FROM hospital_geo2 WHERE city=#{city}
 	</select>
 
 	<select id="selectVetAxisByPos" >

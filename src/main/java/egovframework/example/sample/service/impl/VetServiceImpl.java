@@ -26,6 +26,7 @@ import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
 import javax.annotation.Resource;
 
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -119,8 +120,8 @@ public class VetServiceImpl extends EgovAbstractServiceImpl implements VetServic
 	}*/
 	
 	@Override
-	public List<?> searchVetList(String searchCondition, String searchKeyword) throws Exception {
-		return vetDAO.searchVetList(searchCondition, searchKeyword);
+	public List<?> searchVetByName(String hpt_name) throws Exception {
+		return vetDAO.searchVetByName(hpt_name);
 	}
 	
 	@Override

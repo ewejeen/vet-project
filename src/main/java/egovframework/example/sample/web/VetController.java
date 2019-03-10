@@ -120,11 +120,11 @@ public class VetController {
 		return json;
 	}
 	
-	// 검색
-	@RequestMapping(value = "/vetSearch.do", produces = "application/json;charset=utf-8")
-	public @ResponseBody String vetAppSearch(@ModelAttribute("searchVO") SampleDefaultVO searchVO) throws Exception {
+	// 상호명으로 검색
+	@RequestMapping(value = "/vetSearchByName.do", produces = "application/json;charset=utf-8")
+	public @ResponseBody String vetSearchByName(String searchKeyword) throws Exception {
 		ObjectMapper om = new ObjectMapper();
-		List<?> list = vetService.searchVetList(searchVO.getSearchCondition(), searchVO.getSearchKeyword());
+		List<?> list = vetService.searchVetByName(searchKeyword);
 		String json = om.writeValueAsString(list);
 		
 		return json;
@@ -133,19 +133,20 @@ public class VetController {
 	// 메인 화면 조회
 	@RequestMapping(value="/main.do")
 	public String mainView(@ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model, HttpServletRequest request){
+		
 		int totCnt = vetService.selectVetListTotCnt(searchVO);
 		String position = request.getParameter("position");
 		System.out.println(position);
 		int cnt = vetService.selectVetListCntByPos(position);
 		Integer cityCnt = new Integer(cnt);
-		String cntByCity = cityCnt.toString();
-		System.out.println(cityCnt+"-cityCnt");
-		System.out.println(cntByCity+"-cntByCity");
-		
-		
+		String cntBy = String.format("%d",cnt);
+		//String cntByCity = cityCnt.toString();
+		System.out.println(position);
+		System.out.println(cntBy+"-cityCnt");
 		
 		model.addAttribute("totalVet",totCnt);
-		request.setAttribute("cntByCity",cntByCity);
+		//request.setAttribute("cntByCity",cntBy);
+		model.addAttribute("cntByCity",cntBy);
 		
 		return "vetproject/index";
 	}

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -61,7 +62,7 @@
 							<c:otherwise><span id="cntByCity">N</span></c:otherwise>
 						</c:choose> --%>
 						<%-- <span id="cntByCity"><%=(Integer)request.getAttribute("cntByCity") %></span> --%>
-						<span id="cntByCity"><%=request.getAttribute("cntByCity") %></span>
+						<span id="cntByCity">${cntByCity}</span>
 					개의 동물병원이 있습니다.</p>
 				</div>
 			</div>
@@ -222,13 +223,12 @@
 				                	adrs.innerHTML = resArr[1];	// 시군구           	
 								    console.log($('#address').text());
 				                	
-				                	
 
 								    $.ajax({
 								    	url : 'main.do',
 								    	type : 'POST',
 								    	data : {
-								    		'city' : resArr[0]
+								    		'position' : $('#address').text()
 								    	},
 								    	success : function(data){
 								    		console.log('데이터 보내기 성공');

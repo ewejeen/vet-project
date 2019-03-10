@@ -42,9 +42,9 @@ public interface VetService {
 	List<?> selectVetJsonListShort() throws Exception;
 	List<?> selectVetJsonListShort2() throws Exception;
 	
-	// 앱 내 병원 검색
+	// 앱 내 병원 상호명으로 검색
 	//List<?> searchVetList(SampleDefaultVO searchVO) throws Exception;
-	List<?> searchVetList(@Param("searchCondition") String searchCondition, @Param("searchKeyword") String searchKeyword) throws Exception;
+	List<?> searchVetByName(@Param("hpt_name") String hpt_name) throws Exception;
 	
 	
 	/**
