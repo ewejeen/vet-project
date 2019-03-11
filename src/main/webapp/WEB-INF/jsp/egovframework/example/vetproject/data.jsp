@@ -4,6 +4,38 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+	function fn_insert_review(hpt_id, hpt_rate, rv_title, rv_content, pet_type, visit_date, visit_is_new){
+		var param = JSON.stringify({
+			"hpt_id" : hpt_id,
+			"hpt_rate" : hpt_rate,
+			"rv_title" : rv_title,
+			"rv_content" : rv_content,
+			"pet_type" : pet_type,
+			"visit_date" : visit_date,
+			"visit_is_new" : visit_is_new
+		});
+		
+		$.ajax({
+			url : 'insertReview.do',
+			method : 'POST'
+			data : param,
+			contentType : "application/json; charset=UTF-8",
+			dataType : "json",
+			success : function(data) {
+				console.log(data);
+			},
+			error : function(xhr, status, msg) {
+				console.debug('xhr:\n ' + xhr);
+				console.debug('status:\n ' + status);
+				console.debug('msg:\n ' + msg);
+			}
+		});
+	}
+</script>
+
 <title>Insert title here</title>
 </head>
 <body>
@@ -26,12 +58,14 @@
 			<label for="visit_is_new">N번째 방문: </label><br />
 			<input type="radio" name="visit_is_new" id="visit_is_new" value="첫 방문" />첫 방문
 			<input type="radio" name="visit_is_new" id="visit_is_new" value="재방문" />재방문
+			<input type="button" value="작성하기" onclick="fn_insert_review()" />
 		</form>
 	</div>
 
 </body>
 
 <script>
+/*
 
 	/*
 
@@ -48,7 +82,7 @@
 	 alert('Wow!!!');
 	 }, 10000);
 
-	 */
+	 
 
 	//rvw 테이블에 AJAX로 id, cont 값을 입력 시키는 함수.
 	function saveRvw(id, cont) {
@@ -118,5 +152,8 @@
 			}, 1000);
 		}
 	}
+	*/
+	
+	
 </script>
 </html>

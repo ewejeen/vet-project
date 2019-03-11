@@ -76,12 +76,13 @@ public class ReviewController {
 	
 	// 후기 작성
 	@ResponseBody
-	@RequestMapping(value = "/insertReview.do", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-	public Map<String, Object> insertReview(ReviewVO vo, HttpServletRequest request) throws Exception {
+	@RequestMapping(value = "/insertReview.do", method = RequestMethod.POST)
+	public String insertReview(ReviewVO vo, HttpServletRequest request) throws Exception {
 		Map<String, Object> map = new HashMap<>();
 		int result = reviewService.insertReview(vo);
+		
 		map.put("result",result);
-		return map;
+		return "vetproject/data";
 	}
 	
 	/*
