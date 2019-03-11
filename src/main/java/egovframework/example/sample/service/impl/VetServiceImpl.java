@@ -119,9 +119,16 @@ public class VetServiceImpl extends EgovAbstractServiceImpl implements VetServic
 		return vetDAO.searchVetList(searchVO);
 	}*/
 	
+	// 상호명으로 검색
 	@Override
 	public List<?> searchVetByName(String hpt_name) throws Exception {
 		return vetDAO.searchVetByName(hpt_name);
+	}
+	
+	// 지역으로 검색
+	@Override
+	public List<?> searchVetByRegion(String province, String city) throws Exception {
+		return vetDAO.searchVetByRegion(province, city);
 	}
 	
 	@Override

@@ -129,6 +129,16 @@ public class VetController {
 		
 		return json;
 	}
+
+	// 지역으로 검색
+	@RequestMapping(value = "/vetSearchByRegion.do", produces = "application/json;charset=utf-8")
+	public @ResponseBody String vetSearchByRegion(String province, String city) throws Exception {
+		ObjectMapper om = new ObjectMapper();
+		List<?> list = vetService.searchVetByRegion(province, city);
+		String json = om.writeValueAsString(list);
+		
+		return json;
+	}
 	
 	// 메인 화면 조회
 	@RequestMapping(value="/main.do")

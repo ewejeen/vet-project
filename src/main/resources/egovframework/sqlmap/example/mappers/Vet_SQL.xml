@@ -71,15 +71,24 @@
 	</select>
 	
 	<select id="searchVetByName" resultType="egovMap">
-
 			SELECT
-				hpt_name
+				hospital.hpt_name, hospital_geo2.adrs_new
 			FROM
-				hospital
+				hospital INNER JOIN hospital_geo2
+				ON hospital.hpt_id = hospital_geo2.hpt_id
 			WHERE hpt_name
-			LIKE '%' || #{hpt_name} || '%'
-			ORDER BY hpt_name ASC
-			
+			LIKE CONCAT('%',#{hpt_name},'%')
+			ORDER BY hpt_name ASC		
+	</select>
+
+	<select id="searchVetByRegion" resultType="egovMap">
+			SELECT
+				hospital.hpt_name, hospital_geo2.adrs_new
+			FROM
+				hospital INNER JOIN hospital_geo2
+				ON hospital.hpt_id = hospital_geo2.hpt_id
+			WHERE province=#{province} AND city=#{city}
+			ORDER BY hpt_name ASC		
 	</select>
 	
 	<!-- <select id="selectSampleList" parameterType="searchVO" resultType="egovMap">

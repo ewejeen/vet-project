@@ -51,7 +51,11 @@ public interface VetMapper {
 	List<?> selectVetJsonListShort2() throws Exception;
 
 	//List<?> searchVetList(SampleDefaultVO searchVO) throws Exception;
+	
+	// 상호명으로 검색
 	List<?> searchVetByName(@Param("hpt_name") String hpt_name) throws Exception;
+	// 지역으로 검색
+	List<?> searchVetByRegion(@Param("province") String province, @Param("city") String city) throws Exception;
 	
 	/**
 	 * 동물병원 총 갯수를 조회한다.
