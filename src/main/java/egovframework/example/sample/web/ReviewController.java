@@ -19,22 +19,15 @@ package egovframework.example.sample.web;
 
 import egovframework.example.sample.service.ReviewService;
 import egovframework.example.sample.service.ReviewVO;
-import egovframework.example.sample.service.ReviewVO2;
 import egovframework.rte.fdl.property.EgovPropertyService;
 
 import java.util.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
@@ -174,7 +167,7 @@ public class ReviewController {
 	}*/
 	
 	@RequestMapping(value="/insertReview.do")
-	public String insert (ReviewVO vo, HttpServletRequest request) throws Exception{
+	public void insert (ReviewVO vo, HttpServletRequest request) throws Exception{
 		int hpt_id = Integer.parseInt(request.getParameter("hpt_id"));
 		String hpt_rate = request.getParameter("hpt_rate");
 		String rv_title = request.getParameter("rv_title");
@@ -187,10 +180,8 @@ public class ReviewController {
 		
 		if(reviewService.insertReview(vo)){
 			System.out.println("suc");
-			return "/notrespassing/adminconsole.do";
 		}
 		System.out.println("fail");
-		return "/main.do";
 	}
 	
 }

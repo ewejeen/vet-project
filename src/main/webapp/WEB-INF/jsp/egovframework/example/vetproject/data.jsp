@@ -7,8 +7,40 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <script>
+	
+
+	/*
+	 * 
+	 * Random한 값 범위를 설정하기 위한 로직
+	 * (int)(Math.random() * 최대값 - 최소값 + 1) + 최소값;
+	 */
+
+	function getRandomIntInclusive(min, max) {
+		return Math.floor((Math.random() * (max - min + 1)) + min);
+	}
+	 
+	function getRandomDate() {
+        var maxDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        
+        var minMonth = 1;
+        var maxMonth = 12;
+        
+        var randomMonth = getRandomIntInclusive(minMonth, maxMonth);
+        var randomDay = Math.floor((Math.random() * (maxDays[randomMonth-1] -2) + 1));
+        var randomYear = getRandomIntInclusive(2005,2019);
+        
+        var randomDate = randomYear+"-"+randomMonth+"-"+randomDay;
+        return randomDate;
+	}
+	 
+	 
+	
+	 
+	 
+		
+	
 	function fn_insert_review(){
-		var param = JSON.stringify({
+		/* var param = JSON.stringify({
 			"hpt_id" : $('#hpt_id').val(),
 			"hpt_rate" : $('#hpt_rate').val(),
 			"rv_title" : $('#rv_title').val(),
@@ -18,33 +50,74 @@
 			"visit_is_new" : $('input[name="visit_is_new"]:checked').val()
 		});
 		
-		 
-		console.log(param);
+		console.log(param); */
 		
-		$.ajax({
-			url : '/vetproject_v2/review/insertReview.do',
-			method : 'POST',
-			data : {
-				"hpt_id" : $('#hpt_id').val(),
-				"hpt_rate" : $('#hpt_rate').val(),
-				"rv_title" : $('#rv_title').val(),
-				"rv_content" : $('#rv_content').val(),
-				"pet_type" : $('#pet_type').val(),
-				"visit_date" : $('#visit_date').val(),
-				"visit_is_new" : $('input[name="visit_is_new"]:checked').val()
-			},
-			success : function(data) {
-				console.log('data'+data);
-			},
-			error : function(xhr, status, msg) {
-				console.debug('xhr:\n ' + xhr);
-				console.debug('status:\n ' + status);
-				console.debug('msg:\n ' + msg);
-			}
-		}); 
+		var hpt_id = getRandomIntInclusive(1, 4565);
+		console.log(hpt_id);
+		var rateArr = [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0];
+		var hpt_rate = rateArr[getRandomIntInclusive(0, 10)];
+		console.log(hpt_rate);
+		var rv_title = '방문 후기입니다.';
+		console.log(rv_title);
+		var rv_content = '방문 후기의 내용입니다.';
+		console.log(rv_content);
+		var petArr = ['강아지','고양이','조류','소','말','돼지','기타'];
+		var pet_type = petArr[getRandomIntInclusive(0,6)];
+		console.log(pet_type);
+		var visit_date = getRandomDate();
+		console.log(visit_date);
+		var visit_is_new = getRandomIntInclusive(0,1);
+		console.log(visit_is_new);
 		
+		setTimeout(function() {
+			$.ajax({
+				url : '/vetproject_v2/review/insertReview.do',
+				method : 'POST',
+				data : {
+					"hpt_id" : hpt_id,
+					"hpt_rate" : hpt_rate,
+					"rv_title" : rv_title,
+					"rv_content" : rv_content,
+					"pet_type" : pet_type,
+					"visit_date" : visit_date,
+					"visit_is_new" : visit_is_new
+				},
+				success : function(data) {
+					console.log('data'+data);
+				},
+				error : function(xhr, status, msg) {
+					console.debug('xhr:\n ' + xhr);
+					console.debug('status:\n ' + status);
+					console.debug('msg:\n ' + msg);
+				}
+			});
+		}, 500);
         
 	}
+	
+	
+	/* $.ajax({
+		url : '/vetproject_v2/review/insertReview.do',
+		method : 'POST',
+		data : {
+			"hpt_id" : $('#hpt_id').val(),
+			"hpt_rate" : $('#hpt_rate').val(),
+			"rv_title" : $('#rv_title').val(),
+			"rv_content" : $('#rv_content').val(),
+			"pet_type" : $('#pet_type').val(),
+			"visit_date" : $('#visit_date').val(),
+			"visit_is_new" : $('input[name="visit_is_new"]:checked').val()
+		},
+		success : function(data) {
+			console.log('data'+data);
+		},
+		error : function(xhr, status, msg) {
+			console.debug('xhr:\n ' + xhr);
+			console.debug('status:\n ' + status);
+			console.debug('msg:\n ' + msg);
+		}
+	}); */
+
 	
 	
 </script>
@@ -69,8 +142,8 @@
 			</select><br />
 			방문일 <input type="text" name="visit_date" id="visit_date" /><br />
 			<label for="visit_is_new">N번째 방문: </label><br />
-			<input type="radio" name="visit_is_new" value="0"  />첫 방문
-			<input type="radio" name="visit_is_new" value="1" checked/> 재방문
+			<input type="radio" name="visit_is_new" value="0" checked/>첫 방문
+			<input type="radio" name="visit_is_new" value="1"/> 재방문
 			<input type="button" value="작성하기" onclick="fn_insert_review()"/>
 		</form>
 	</div>
@@ -78,15 +151,13 @@
 </body>
 
 <script>
+	
 /*
 
 	/*
 
 	 //min (포함) 과 max (포함) 사이의 임의 정수를 반환하는 함수.
-	 function getRandomIntInclusive(min, max) {
-	 return Math.round(Math.random() * (max - min + 1)) + min;
-	 //  Math.round() 고르지 않은 분포의 난수를 생성한다.
-	 }
+	 
 
 	 //setTimeout()은 지연시간을 발생시킨 후 특정 함수를 호출함.
 

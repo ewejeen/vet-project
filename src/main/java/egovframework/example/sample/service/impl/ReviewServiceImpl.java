@@ -21,7 +21,6 @@ import java.util.Map;
 
 import egovframework.example.sample.service.ReviewService;
 import egovframework.example.sample.service.ReviewVO;
-import egovframework.example.sample.service.ReviewVO2;
 import egovframework.example.sample.service.SampleDefaultVO;
 import egovframework.example.sample.service.VetService;
 import egovframework.example.sample.service.VetVO;
