@@ -21,6 +21,7 @@ import java.util.Map;
 
 import egovframework.example.sample.service.ReviewService;
 import egovframework.example.sample.service.ReviewVO;
+import egovframework.example.sample.service.ReviewVO2;
 import egovframework.example.sample.service.SampleDefaultVO;
 import egovframework.example.sample.service.VetService;
 import egovframework.example.sample.service.VetVO;
@@ -57,10 +58,9 @@ public class ReviewServiceImpl extends EgovAbstractServiceImpl implements Review
 
 	@Resource(name="reviewMapper")
 	private ReviewMapper reviewDAO;
-
-	// 후기 작성
+	
 	@Override
-	public int insertReview(ReviewVO vo) {
+	public boolean insertReview(ReviewVO vo) {
 		return reviewDAO.insertReview(vo);
 	}
 }

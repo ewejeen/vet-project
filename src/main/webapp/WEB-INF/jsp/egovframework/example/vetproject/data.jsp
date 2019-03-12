@@ -7,40 +7,53 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <script>
-	function fn_insert_review(hpt_id, hpt_rate, rv_title, rv_content, pet_type, visit_date, visit_is_new){
+	function fn_insert_review(){
 		var param = JSON.stringify({
-			"hpt_id" : hpt_id,
-			"hpt_rate" : hpt_rate,
-			"rv_title" : rv_title,
-			"rv_content" : rv_content,
-			"pet_type" : pet_type,
-			"visit_date" : visit_date,
-			"visit_is_new" : visit_is_new
+			"hpt_id" : $('#hpt_id').val(),
+			"hpt_rate" : $('#hpt_rate').val(),
+			"rv_title" : $('#rv_title').val(),
+			"rv_content" : $('#rv_content').val(),
+			"pet_type" : $('#pet_type').val(),
+			"visit_date" : $('#visit_date').val(),
+			"visit_is_new" : $('input[name="visit_is_new"]:checked').val()
 		});
 		
+		 
+		console.log(param);
+		
 		$.ajax({
-			url : 'insertReview.do',
-			method : 'POST'
-			data : param,
-			contentType : "application/json; charset=UTF-8",
-			dataType : "json",
+			url : '/vetproject_v2/review/insertReview.do',
+			method : 'POST',
+			data : {
+				"hpt_id" : $('#hpt_id').val(),
+				"hpt_rate" : $('#hpt_rate').val(),
+				"rv_title" : $('#rv_title').val(),
+				"rv_content" : $('#rv_content').val(),
+				"pet_type" : $('#pet_type').val(),
+				"visit_date" : $('#visit_date').val(),
+				"visit_is_new" : $('input[name="visit_is_new"]:checked').val()
+			},
 			success : function(data) {
-				console.log(data);
+				console.log('data'+data);
 			},
 			error : function(xhr, status, msg) {
 				console.debug('xhr:\n ' + xhr);
 				console.debug('status:\n ' + status);
 				console.debug('msg:\n ' + msg);
 			}
-		});
+		}); 
+		
+        
 	}
+	
+	
 </script>
 
 <title>Insert title here</title>
 </head>
 <body>
 	<div class="reviewWrite">
-		<form action="insertReview.do" name="reviewForm">
+		<form name="reviewForm" id="reviewForm" method="POST">
 			병원ID <input type="text" name="hpt_id" id="hpt_id" /><br />
 			평점 <input type="text" name="hpt_rate" id="hpt_rate" /><br />
 			후기 제목 <input type="text" name="rv_title" id="rv_title" /><br />
@@ -56,9 +69,9 @@
 			</select><br />
 			방문일 <input type="text" name="visit_date" id="visit_date" /><br />
 			<label for="visit_is_new">N번째 방문: </label><br />
-			<input type="radio" name="visit_is_new" id="visit_is_new" value="첫 방문" />첫 방문
-			<input type="radio" name="visit_is_new" id="visit_is_new" value="재방문" />재방문
-			<input type="button" value="작성하기" onclick="fn_insert_review()" />
+			<input type="radio" name="visit_is_new" value="0"  />첫 방문
+			<input type="radio" name="visit_is_new" value="1" checked/> 재방문
+			<input type="button" value="작성하기" onclick="fn_insert_review()"/>
 		</form>
 	</div>
 

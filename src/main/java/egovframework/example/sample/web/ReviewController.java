@@ -15,45 +15,33 @@
  */
 package egovframework.example.sample.web;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Logger;
+
 
 import egovframework.example.sample.service.ReviewService;
 import egovframework.example.sample.service.ReviewVO;
-import egovframework.example.sample.service.SampleDefaultVO;
-import egovframework.example.sample.service.SampleVO;
-import egovframework.example.sample.service.VetService;
-import egovframework.example.sample.service.VetVO;
+import egovframework.example.sample.service.ReviewVO2;
 import egovframework.rte.fdl.property.EgovPropertyService;
-import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-import net.sf.json.JSONObject;
+
+import java.util.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.ibatis.annotations.Param;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.support.SessionStatus;
+
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 
+
 @Controller
+@RequestMapping("/review")
 public class ReviewController {
 	
 	/** ReviewService */
@@ -70,31 +58,139 @@ public class ReviewController {
 
 	
 	@RequestMapping(value="/insertData.do")
-	public String insertDatas(){
+	public String insertData(){
+	System.out.println("/insertData.do called");
 		return "vetproject/data";
 	}
 	
-	// 후기 작성
+	/*// 후기 작성
 	@ResponseBody
 	@RequestMapping(value = "/insertReview.do", method = RequestMethod.POST)
-	public String insertReview(ReviewVO vo, HttpServletRequest request) throws Exception {
+	public Map<String, Object> insertReview(ReviewVO vo, HttpServletRequest request) throws Exception {
 		Map<String, Object> map = new HashMap<>();
-		int result = reviewService.insertReview(vo);
-		
-		map.put("result",result);
-		return "vetproject/data";
+		map.put("hpt_id", request.getParameter("hpt_id"));
+		map.put("hpt_rate", request.getParameter("hpt_rate"));
+		map.put("rv_title", request.getParameter("rv_title"));
+		map.put("rv_content", request.getParameter("rv_content"));
+		map.put("pet_type", request.getParameter("pet_type"));
+		map.put("visit_date", request.getParameter("visit_date"));
+		map.put("visit_is_new", request.getParameter("visit_is_new"));
+		return map;
 	}
+	*/
 	
-	/*
-	// 후기 작성
+	
+	/*// 후기 작성
 	@ResponseBody 
-	@RequestMapping(value = "/insertReview.do", produces = "application/json;charset=utf-8")
-	public String insertReview( @RequestBody ReviewVO vo) throws Exception {
-		if( reviewService.insertReview(vo) ) {
+	@RequestMapping(value = "/insertReview.do", method=RequestMethod.POST)
+	public String insertReview(ReviewVO vo, HttpServletRequest request) throws Exception {
+		String json = request.getParameter("jsonData");
+		int hpt_id = vo.getHpt_id();
+		String hpt_rate = vo.getHpt_rate();
+		String rv_title = vo.getRv_title();
+		String rv_content =  vo.getRv_content();
+		String pet_type = vo.getPet_type();
+		String visit_date = vo.getVisit_date();
+		int visit_is_new = vo.getVisit_is_new();
+		
+		
+		
+		if(reviewService.insertReview(new ReviewVO(hpt_id, hpt_rate, rv_title, rv_content, pet_type, visit_date, visit_is_new))) {
+			System.out.println("success");
 			return "success";
 		}
 		
+		System.out.println("fail");
 		return "fail";
+	}*/
+	
+	/*@RequestMapping(value="/insertReview.do", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> json(HttpServletRequest request){
+		System.out.println("test.json");
+		
+		boolean result = reviewService.insertReview(Integer.parseInt(request.getParameter("hpt_id")), request.getParameter("hpt_rate"), request.getParameter("rv_title"), 
+		request.getParameter("rv_content"), request.getParameter("pet_type"), request.getParameter("visit_date"), Integer.parseInt(request.getParameter("visit_is_new")));
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("result", result);
+		return map;
+	}*/
+	
+	/*
+	*//**
+	 * 글을 등록한다.
+	 * @param sampleVO - 등록할 정보가 담긴 VO
+	 * @param searchVO - 목록 조회조건 정보가 담긴 VO
+	 * @param status
+	 * @return "forward:/egovSampleList.do"
+	 * @exception Exception
+	 *//*
+	@RequestMapping(value = "/insertReview.do", method = RequestMethod.POST)
+	public String addSample(ReviewVO reviewVO, BModel model, SessionStatus status)
+			throws Exception {
+
+		
+
+		if(reviewService.insertReview(reviewVO)){
+			return "forward:/main.do";
+		}
+		return "forward:/main.do";
+	}*/
+		
+	/*@ResponseBody
+	@RequestMapping(value="/insertReview.do")
+	public String insert (ReviewVO2 vo, HttpServletRequest request) throws Exception{
+		System.out.println("call");
+		String json = request.getParameter("param");
+		System.out.println("json: "+json);
+		int hpt_id = Integer.parseInt(request.getParameter("hpt_id"));
+		System.out.println(hpt_id);
+		String hpt_rate = request.getParameter("hpt_rate");
+		String rv_title = request.getParameter("rv_title");
+		String rv_content =  request.getParameter("rv_content");
+		String pet_type = request.getParameter("pet_type");
+		String visit_date = request.getParameter("visit_date");
+		int visit_is_new = Integer.parseInt(request.getParameter("visit_is_new"));
+		
+		vo = new ReviewVO2(hpt_id, hpt_rate, rv_title, rv_content, pet_type, visit_date, visit_is_new);
+		System.out.println(vo.toString());
+		
+		if(reviewService.insertReview(vo)){
+			System.out.println("suc");
+			return "successs";			
+		}
+		System.out.println("fail");
+		return "fail";
+	}*/
+	
+	/*@RequestMapping(value="/insertReview.do", method=RequestMethod.POST)
+	@ResponseBody
+	public Object insert (@RequestBody ReviewVO reviewVO){
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("hpt_id", reviewVO.getHpt_id());
+		
+		return map;
+	}*/
+	
+	@RequestMapping(value="/insertReview.do")
+	public String insert (ReviewVO vo, HttpServletRequest request) throws Exception{
+		int hpt_id = Integer.parseInt(request.getParameter("hpt_id"));
+		String hpt_rate = request.getParameter("hpt_rate");
+		String rv_title = request.getParameter("rv_title");
+		String rv_content =  request.getParameter("rv_content");
+		String pet_type = request.getParameter("pet_type");
+		String visit_date = request.getParameter("visit_date");
+		int visit_is_new = Integer.parseInt(request.getParameter("visit_is_new"));
+		
+		vo = new ReviewVO(hpt_id, hpt_rate, rv_title, rv_content, pet_type, visit_date, visit_is_new);
+		
+		if(reviewService.insertReview(vo)){
+			System.out.println("suc");
+			return "/notrespassing/adminconsole.do";
+		}
+		System.out.println("fail");
+		return "/main.do";
 	}
-	*/
+	
 }

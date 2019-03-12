@@ -22,5 +22,5 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 public interface ReviewMapper {
 
 	// 후기 작성
-	int insertReview(ReviewVO vo);
+	boolean insertReview(ReviewVO vo);
 }

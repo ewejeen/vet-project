@@ -14,11 +14,26 @@ public class ReviewVO {
 	private String pet_type;
 	private String visit_date;
 	private int visit_is_new;
+	
 
 	// review_comment 테이블
 	private int cmt_id;
 	private String cmt_content;
 	private Timestamp cmt_reg_date;
+	
+	
+	public ReviewVO () { }
+	public ReviewVO(int hpt_id, String hpt_rate, String rv_title, String rv_content, String pet_type,
+			String visit_date, int visit_is_new) {
+		super();
+		this.hpt_id = hpt_id;
+		this.hpt_rate = hpt_rate;
+		this.rv_title = rv_title;
+		this.rv_content = rv_content;
+		this.pet_type = pet_type;
+		this.visit_date = visit_date;
+		this.visit_is_new = visit_is_new;
+	}
 
 	public int getRv_id() {
 		return rv_id;
@@ -123,5 +138,13 @@ public class ReviewVO {
 	public void setCmt_reg_date(Timestamp cmt_reg_date) {
 		this.cmt_reg_date = cmt_reg_date;
 	}
-
+	@Override
+	public String toString() {
+		return "ReviewVO [rv_id=" + rv_id + ", hpt_id=" + hpt_id + ", hpt_rate=" + hpt_rate + ", rv_title=" + rv_title
+				+ ", rv_content=" + rv_content + ", rv_reg_date=" + rv_reg_date + ", rv_image=" + rv_image
+				+ ", pet_type=" + pet_type + ", visit_date=" + visit_date + ", visit_is_new=" + visit_is_new
+				+ ", cmt_id=" + cmt_id + ", cmt_content=" + cmt_content + ", cmt_reg_date=" + cmt_reg_date + "]";
+	}
+	
+	
 }

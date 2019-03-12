@@ -22,6 +22,7 @@ import org.apache.ibatis.annotations.Param;
 public interface ReviewService {
 
 	// 후기 작성
-	int insertReview(ReviewVO vo);
+	//boolean insertReview(int hpt_id, String hpt_rate, String rv_title, String rv_content, String pet_type, String visit_date, int visit_is_new);
+	boolean insertReview(ReviewVO vo);
 
 }
