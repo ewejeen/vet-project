@@ -172,11 +172,12 @@ public class ReviewController {
 		String hpt_rate = request.getParameter("hpt_rate");
 		String rv_title = request.getParameter("rv_title");
 		String rv_content =  request.getParameter("rv_content");
+		String rv_image =  request.getParameter("rv_image");
 		String pet_type = request.getParameter("pet_type");
 		String visit_date = request.getParameter("visit_date");
 		int visit_is_new = Integer.parseInt(request.getParameter("visit_is_new"));
 		
-		vo = new ReviewVO(hpt_id, hpt_rate, rv_title, rv_content, pet_type, visit_date, visit_is_new);
+		vo = new ReviewVO(hpt_id, hpt_rate, rv_title, rv_content, rv_image, pet_type, visit_date, visit_is_new);
 		
 		if(reviewService.insertReview(vo)){
 			System.out.println("suc");

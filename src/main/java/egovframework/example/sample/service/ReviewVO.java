@@ -23,13 +23,14 @@ public class ReviewVO {
 	
 	
 	public ReviewVO () { }
-	public ReviewVO(int hpt_id, String hpt_rate, String rv_title, String rv_content, String pet_type,
+	public ReviewVO(int hpt_id, String hpt_rate, String rv_title, String rv_content, String rv_image, String pet_type,
 			String visit_date, int visit_is_new) {
 		super();
 		this.hpt_id = hpt_id;
 		this.hpt_rate = hpt_rate;
 		this.rv_title = rv_title;
 		this.rv_content = rv_content;
+		this.rv_image = rv_image;
 		this.pet_type = pet_type;
 		this.visit_date = visit_date;
 		this.visit_is_new = visit_is_new;

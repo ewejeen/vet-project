@@ -27,7 +27,7 @@
         
         var randomMonth = getRandomIntInclusive(minMonth, maxMonth);
         var randomDay = Math.floor((Math.random() * (maxDays[randomMonth-1] -2) + 1));
-        var randomYear = getRandomIntInclusive(2005,2019);
+        var randomYear = getRandomIntInclusive(2010,2019);
         
         var randomDate = randomYear+"-"+randomMonth+"-"+randomDay;
         return randomDate;
@@ -53,48 +53,49 @@
 		console.log(param); */
 		
 		var hpt_id = getRandomIntInclusive(1, 4565);
-		console.log(hpt_id);
 		var rateArr = [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0];
-		var hpt_rate = rateArr[getRandomIntInclusive(0, 10)];
-		console.log(hpt_rate);
+		var hpt_rate = rateArr[getRandomIntInclusive(0,10)];
 		var rv_title = '방문 후기입니다.';
-		console.log(rv_title);
 		var rv_content = '방문 후기의 내용입니다.';
-		console.log(rv_content);
+		var typeArr = ['.jpg', '.png'];
+		var image_type = typeArr[getRandomIntInclusive(0,1)];
+		var rv_image = 'image'+ getRandomIntInclusive(0,50) + image_type;
 		var petArr = ['강아지','고양이','조류','소','말','돼지','기타'];
 		var pet_type = petArr[getRandomIntInclusive(0,6)];
-		console.log(pet_type);
 		var visit_date = getRandomDate();
-		console.log(visit_date);
 		var visit_is_new = getRandomIntInclusive(0,1);
-		console.log(visit_is_new);
 		
-		setTimeout(function() {
-			$.ajax({
-				url : '/vetproject_v2/review/insertReview.do',
-				method : 'POST',
-				data : {
-					"hpt_id" : hpt_id,
-					"hpt_rate" : hpt_rate,
-					"rv_title" : rv_title,
-					"rv_content" : rv_content,
-					"pet_type" : pet_type,
-					"visit_date" : visit_date,
-					"visit_is_new" : visit_is_new
-				},
-				success : function(data) {
-					console.log('data'+data);
-				},
-				error : function(xhr, status, msg) {
-					console.debug('xhr:\n ' + xhr);
-					console.debug('status:\n ' + status);
-					console.debug('msg:\n ' + msg);
-				}
-			});
-		}, 500);
+		$.ajax({
+			url : '/vetproject_v2/review/insertReview.do',
+			method : 'POST',
+			data : {
+				"hpt_id" : hpt_id,
+				"hpt_rate" : hpt_rate,
+				"rv_title" : rv_title,
+				"rv_content" : rv_content,
+				"rv_image" : rv_image,
+				"pet_type" : pet_type,
+				"visit_date" : visit_date,
+				"visit_is_new" : visit_is_new
+			},
+			success : function(data) {
+				console.log('data'+data);
+			},
+			error : function(xhr, status, msg) {
+				console.debug('xhr:\n ' + xhr);
+				console.debug('status:\n ' + status);
+				console.debug('msg:\n ' + msg);
+			}
+		});
         
 	}
 	
+	function fn_loop(){
+		var i=0;
+		for(i=0;i<3000;i++){
+			fn_insert_review();
+		}
+	}
 	
 	/* $.ajax({
 		url : '/vetproject_v2/review/insertReview.do',
@@ -122,7 +123,7 @@
 	
 </script>
 
-<title>Insert title here</title>
+<title>데이터 등록 화면</title>
 </head>
 <body>
 	<div class="reviewWrite">
@@ -131,6 +132,7 @@
 			평점 <input type="text" name="hpt_rate" id="hpt_rate" /><br />
 			후기 제목 <input type="text" name="rv_title" id="rv_title" /><br />
 			후기 내용 <input type="text" name="rv_content" id="rv_content" /><br />
+			이미지 <input type="text" name="rv_image" id="rv_image" /><br />
 			반려동물 종류<select name="pet_type" id="pet_type">
 				<option value="강아지">강아지</option>
 				<option value="고양이">고양이</option>
@@ -144,7 +146,7 @@
 			<label for="visit_is_new">N번째 방문: </label><br />
 			<input type="radio" name="visit_is_new" value="0" checked/>첫 방문
 			<input type="radio" name="visit_is_new" value="1"/> 재방문
-			<input type="button" value="작성하기" onclick="fn_insert_review()"/>
+			<input type="button" value="작성하기" onclick="fn_loop()"/>
 		</form>
 	</div>
 
