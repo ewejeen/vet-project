@@ -62,7 +62,7 @@
 							<c:otherwise><span id="cntByCity">N</span></c:otherwise>
 						</c:choose> --%>
 						<%-- <span id="cntByCity"><%=(Integer)request.getAttribute("cntByCity") %></span> --%>
-						<span id="cntByCity">${cntByCity}</span>
+						<span id="cntByCity">N</span>
 					개의 동물병원이 있습니다.</p>
 				</div>
 			</div>
@@ -177,6 +177,8 @@
 				    // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
 				    var zoomControl = new daum.maps.ZoomControl();
 				    map.addControl(zoomControl, daum.maps.ControlPosition.RIGHT);
+				 	// 마우스 휠과 모바일 터치를 이용한 지도 확대, 축소를 막는다
+					map.setZoomable(false);
 				    
 				    /*
 				 	// 마커가 표시될 위치입니다 
@@ -223,20 +225,6 @@
 				                	adrs.innerHTML = resArr[1];	// 시군구           	
 								    console.log($('#address').text());
 				                	
-
-								    $.ajax({
-								    	url : 'main.do',
-								    	type : 'POST',
-								    	data : {
-								    		'position' : $('#address').text()
-								    	},
-								    	success : function(data){
-								    		console.log('데이터 보내기 성공');
-								    	}
-								    });
-								    
-								    
-								    
 				                    break;
 				                }
 				            }
@@ -252,14 +240,34 @@
 					enableHighAccuracy : false,
 					maximumAge : 0,
 					timeout : Infinity
+					
 				}
 			);
 		} else {
 			alert('GPS를 지원하지 않습니다');
 		}
 	}
-    getLocation();
+    
+    $(document).ready(getLocation());
     // 지오로케이션 끝
+    
+    setTimeout(function() {
+		getCountByCity();
+	}, 500);
+	
+    function getCountByCity(){
+	    $.ajax({
+	    	url : 'getCountByCity.do',
+	    	type : 'POST',
+	    	data : {
+	    		'position' : $('#address').text()
+	    	},
+	    	success : function(data){
+	    		console.log('data:' +data);
+	    		$('#cntByCity').text(data);
+	    	}
+	    });
+    }
     
 	</script>
 	

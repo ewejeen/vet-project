@@ -143,22 +143,30 @@ public class VetController {
 	// 메인 화면 조회
 	@RequestMapping(value="/main.do")
 	public String mainView(@ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model, HttpServletRequest request){
-		
 		int totCnt = vetService.selectVetListTotCnt(searchVO);
 		String position = request.getParameter("position");
-		System.out.println(position);
 		int cnt = vetService.selectVetListCntByPos(position);
+		System.out.println("cnt: "+cnt);
 		Integer cityCnt = new Integer(cnt);
+		System.out.println("cityCnt: "+cityCnt);
 		String cntBy = String.format("%d",cnt);
 		//String cntByCity = cityCnt.toString();
 		System.out.println(position);
-		System.out.println(cntBy+"-cityCnt");
+		System.out.println(cntBy+"-cntBy");
 		
 		model.addAttribute("totalVet",totCnt);
-		//request.setAttribute("cntByCity",cntBy);
-		model.addAttribute("cntByCity",cntBy);
+		request.setAttribute("cntByCity",cntBy);
 		
 		return "vetproject/index";
+	}
+	
+	@RequestMapping(value="/getCountByCity.do")
+	@ResponseBody
+	public String getCntByCity(String position, HttpServletRequest request){
+		position = request.getParameter("position");
+		int cnt = vetService.selectVetListCntByPos(position);
+		System.out.println(cnt);
+		return String.format("%d", cnt);
 	}
 	
 	@RequestMapping(value="/")
