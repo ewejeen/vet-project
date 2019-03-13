@@ -63,13 +63,4 @@ public class ReviewServiceImpl extends EgovAbstractServiceImpl implements Review
 		return reviewDAO.insertReview(vo);
 	}
 	
-	@Override
-	public double getRateAvg(int hpt_id) {
-		return reviewDAO.getRateAvg(hpt_id);
-	}
-	
-	@Override
-	public int getRvCnt(int hpt_id) {
-		return reviewDAO.getRvCnt(hpt_id);
-	}
 }

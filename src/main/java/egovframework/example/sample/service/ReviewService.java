@@ -25,10 +25,5 @@ public interface ReviewService {
 	//boolean insertReview(int hpt_id, String hpt_rate, String rv_title, String rv_content, String pet_type, String visit_date, int visit_is_new);
 	boolean insertReview(ReviewVO vo);
 	
-	// 병원 별 평점 평균 얻기
-	double getRateAvg(int hpt_id);
-	
-	// 병원 별 후기 개수 얻기
-	int getRvCnt(int hpt_id);
 
 }

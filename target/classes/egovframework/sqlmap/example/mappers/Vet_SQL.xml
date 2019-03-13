@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.example.sample.service.impl.VetMapper">
+
+	<resultMap id="vet" type="egovframework.example.sample.service.VetVO">
+		<result property="hpt_id" column="hpt_id"/>
+		<result property="hpt_name" column="hpt_name"/>
+		<result property="hpt_phone" column="hpt_phone"/>
+		<result property="hpt_open" column="hpt_open"/>
+		<result property="hpt_hit" column="hpt_hit"/>
+		<result property="adrs_old" column="adrs_old"/>
+		<result property="adrs_new" column="adrs_new"/>
+		<result property="province" column="province"/>
+		<result property="city" column="city"/>
+		<result property="x_axis" column="x_axis"/>
+		<result property="y_axis" column="y_axis"/>
+	</resultMap>
+
+	<!-- <select id="selectSample" resultMap="sample">
+
+			SELECT
+				ID, title, content, reg_date, image
+			FROM notice
+			WHERE ID=#{id}
+
+	</select>
+
+	<select id="selectSampleList" parameterType="searchVO" resultType="egovMap">
+
+			SELECT
+				ID, title, content, reg_date, image
+			FROM notice
+			WHERE 1=1
+			<if test="searchKeyword != null and searchKeyword != ''">
+		        <choose>
+		            <when test="searchCondition == 0">
+						AND	title LIKE '%' || #{searchKeyword} || '%'
+					</when>
+		            <when test="searchCondition == 1">
+						AND	content LIKE '%' || #{searchKeyword} || '%'
+					</when>
+				</choose>
+			</if>
+			ORDER BY ID desc
+			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<select id="selectVetJsonList" resultType="egovMap">
+			SELECT
+				ID, title, content, reg_date, image
+			FROM notice
+			ORDER BY ID desc
+	</select> -->
+
+	<select id="selectVetJsonListShort" resultType="egovMap">
+			SELECT
+				hpt_id, hpt_name, hpt_open, hpt_hit
+			FROM hospital
+			ORDER BY hpt_id desc LIMIT 0,20
+	</select>
+
+	<select id="selectVetJsonListShort2" resultType="egovMap">
+			SELECT
+				hos.hpt_name,
+			    geo2.adrs_new
+			FROM
+				hospital AS hos
+			INNER JOIN hospital_geo2 AS geo2
+			ON hos.hpt_id = geo2.hpt_id
+			LIMIT 0,30
+	</select>
+	<!-- 상호명으로 검색 결과 리스트 -->
+	<select id="searchVetByName" resultType="egovMap">
+			SELECT
+				hos.hpt_name, 
+				IFNULL (NULLIF(geo.adrs_new,''), geo.adrs_old) address, <!-- 신주소 없으면 구주소 가져오기 -->
+				avg(rv.hpt_rate) rate_avg, count(rv.rv_id) review_cnt
+			FROM
+				hospital as hos INNER JOIN hospital_geo2 as geo
+				ON hos.hpt_id = geo.hpt_id
+				INNER JOIN review as rv ON hos.hpt_id = rv.hpt_id
+				GROUP BY hos.hpt_id
+			HAVING hos.hpt_name
+			LIKE CONCAT('%',#{hpt_name},'%')
+			ORDER BY hos.hpt_name ASC		
+	</select>
+
+	<!-- 지역명으로 검색 결과 리스트 -->
+	<select id="searchVetByRegion" resultType="egovMap">
+			SELECT
+				hos.hpt_name,
+				IFNULL (NULLIF(geo.adrs_new,''), geo.adrs_old) address, <!-- 신주소 없으면 구주소 가져오기 -->
+				avg(rv.hpt_rate) rate_avg, count(rv.hpt_rate) review_cnt
+			FROM
+				hospital as hos INNER JOIN hospital_geo2 as geo
+				ON hos.hpt_id = geo.hpt_id
+				INNER JOIN review as rv on hos.hpt_id = rv.hpt_id
+			WHERE geo.province=#{province} AND geo.city=#{city}
+			GROUP BY hos.hpt_id
+			ORDER BY hos.hpt_name ASC
+	
+	</select>
+	<!-- <select id="selectSampleList" parameterType="searchVO" resultType="egovMap">
+
+			SELECT
+				ID, title, content, reg_date, image
+			FROM notice
+			WHERE 1=1
+			<if test="searchKeyword != null and searchKeyword != ''">
+		        <choose>
+		            <when test="searchCondition == 0">
+						AND	title LIKE '%' || #{searchKeyword} || '%'
+					</when>
+		            <when test="searchCondition == 1">
+						AND	content LIKE '%' || #{searchKeyword} || '%'
+					</when>
+				</choose>
+			</if>
+			ORDER BY ID desc
+			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	 -->
+
+	<!-- 지도 마커 표시 위해 지역별로 병원 이름과 주소 얻기 -->
+	<select id="selectNameAndAdrs" resultType="egovMap">
+			SELECT
+				hos.hpt_name, 
+				IFNULL (NULLIF(geo.adrs_new,''), geo.adrs_old) address 
+			FROM hospital as hos INNER JOIN hospital_geo2 as geo
+			ON hos.hpt_id = geo.hpt_id
+			WHERE province=#{province} AND city=#{city}
+	</select>
+	
+
+</mapper>
