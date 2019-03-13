@@ -63,30 +63,42 @@
 			
 			<div class="section sec2" id="sec2">
 				<div class="container">
-					<div class="top">
-						<div class="l1">
-							<p>원하시는 지역의 추천 동물병원을 살펴 보세요</p>
-							<span>다른 지역 보기</span>
-						</div>
-						<div class="l2">
-							<span>지역: </span>
-							<span id="sec2Region"></span>
-						</div>
-					</div>
-					<div class="con">
-						<div class="gnb">
-							<ul>
-								<li>평점이 높은 병원</li>
-								<li>후기가 많은 병원</li>
-								<li>조회수가 높은 병원</li>
-							</ul>
-						</div>
-						<div class="statistics">
-							<div class="left">
-								<p>(통계)</p>
+					<div class="nofloat">
+						
+						<div id="myModal" class="modal">
+					      <div class="modal-content">
+					      	<div class="close">
+					        	<span id="closeModal">&times;</span>
+					        </div>                                                               
+					        <p>동물 병원 찾기 앱에서 확인해 주세요!</p>
+					      </div>
+					    </div>					
+					
+						<div class="top">
+							<div class="l1">
+								<p>원하시는 지역의 추천 동물병원을 살펴 보세요!</p>
+								<span id="openModal">다른 지역 보기</span>
 							</div>
-							<div class="right">
-								<p>(통계)</p>
+							<div class="l2">
+								<span>현재 지역: </span>
+								<span id="sec2Region">현재 지역</span>
+							</div>
+						</div>
+						<div class="con">
+							<div class="gnb">
+								<ul>
+									<li>평점이 높은 병원</li>
+									<li>후기가 많은 병원</li>
+									<li>조회수가 높은 병원</li>
+								</ul>
+							</div>
+							<div class="statistics">
+								<div class="left">
+									<p>(통계)</p>
+								</div>
+								<div class="right">
+									<p>(통계)</p>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -220,6 +232,7 @@
 				    function displayCenterInfo(result, status) {
 				        if (status === daum.maps.services.Status.OK) {
 							var adrs = document.getElementById('address');
+							var sec2Region = document.getElementById('sec2Region');
 
 				            for(var i = 0; i < result.length; i++) {
 				                // 행정동의 region_type 값은 'H' 이므로
@@ -230,6 +243,7 @@
 				                	var province = resArr[0];
 				                	var city = resArr[1];
 				                	adrs.innerHTML = city;	// 시군구  
+				                	sec2Region.innerHTML = province+" "+city;	// 시도+시군구  
 				                	
 								    console.log('시도:' + province);
 								    console.log('시군구: ' + city);
@@ -332,10 +346,25 @@
    	    });
 	}, 500);
 	
-    
-    
-    
-    
+	</script>
+	
+	<script>
+		//Modal창 띄우기
+	    $('#openModal').click(function(){
+	    	$('#myModal').show();
+	    });
+
+	    $('#closeModal').click(function(){
+	    	$('#myModal').hide();
+	    });
+		
+	    // 모달 밖의 구역을 클릭하면 닫기
+	    window.onclick = function(event) {
+	        var modal = document.getElementById('myModal');
+	    	if (event.target == modal) {
+		    	modal.style.display='none';
+	        }
+	    }
 	</script>
 	
 </body>
