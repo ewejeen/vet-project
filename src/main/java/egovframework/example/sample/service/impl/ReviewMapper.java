@@ -15,6 +15,8 @@
  */
 package egovframework.example.sample.service.impl;
 
+import org.apache.ibatis.annotations.Param;
+
 import egovframework.example.sample.service.ReviewVO;
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
@@ -23,4 +25,5 @@ public interface ReviewMapper {
 
 	// 후기 작성
 	boolean insertReview(ReviewVO vo);
+	
 }

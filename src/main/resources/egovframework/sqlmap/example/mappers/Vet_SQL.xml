@@ -69,28 +69,37 @@
 			ON hos.hpt_id = geo2.hpt_id
 			LIMIT 0,30
 	</select>
-	
+	<!-- 상호명으로 검색 결과 리스트 -->
 	<select id="searchVetByName" resultType="egovMap">
 			SELECT
-				hospital.hpt_name, hospital_geo2.adrs_new
+				hos.hpt_name, 
+				IFNULL (NULLIF(geo.adrs_new,''), geo.adrs_old) address, <!-- 신주소 없으면 구주소 가져오기 -->
+				avg(rv.hpt_rate) rate_avg, count(rv.rv_id) review_cnt
 			FROM
-				hospital INNER JOIN hospital_geo2
-				ON hospital.hpt_id = hospital_geo2.hpt_id
-			WHERE hpt_name
+				hospital as hos INNER JOIN hospital_geo2 as geo
+				ON hos.hpt_id = geo.hpt_id
+				INNER JOIN review as rv ON hos.hpt_id = rv.hpt_id
+				GROUP BY hos.hpt_id
+			HAVING hos.hpt_name
 			LIKE CONCAT('%',#{hpt_name},'%')
-			ORDER BY hpt_name ASC		
+			ORDER BY hos.hpt_name ASC		
 	</select>
 
+	<!-- 지역명으로 검색 결과 리스트 -->
 	<select id="searchVetByRegion" resultType="egovMap">
 			SELECT
-				hospital.hpt_name, hospital_geo2.adrs_new
+				hos.hpt_name,
+				IFNULL (NULLIF(geo.adrs_new,''), geo.adrs_old) address, <!-- 신주소 없으면 구주소 가져오기 -->
+				avg(rv.hpt_rate) rate_avg, count(rv.hpt_rate) review_cnt
 			FROM
-				hospital INNER JOIN hospital_geo2
-				ON hospital.hpt_id = hospital_geo2.hpt_id
-			WHERE province=#{province} AND city=#{city}
-			ORDER BY hpt_name ASC		
-	</select>
+				hospital as hos INNER JOIN hospital_geo2 as geo
+				ON hos.hpt_id = geo.hpt_id
+				INNER JOIN review as rv on hos.hpt_id = rv.hpt_id
+			WHERE geo.province=#{province} AND geo.city=#{city}
+			GROUP BY hos.hpt_id
+			ORDER BY hos.hpt_name ASC
 	
+	</select>
 	<!-- <select id="selectSampleList" parameterType="searchVO" resultType="egovMap">
 
 			SELECT
@@ -111,14 +120,8 @@
 			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
 	</select>
 	 -->
-	<select id="selectVetListTotCnt" parameterType="searchVO" resultType="int">
-			SELECT COUNT(*) FROM hospital
-	</select>
 
-	<select id="selectVetListCntByPos" resultType="int">
-			SELECT COUNT(*) FROM hospital_geo2 WHERE city=#{city}
-	</select>
-
+	<!-- 지도 마커 표시 위해 지역별로 병원 이름과 주소 얻기 -->
 	<select id="selectNameAndAdrs" resultType="egovMap">
 			SELECT
 				hos.hpt_name, 
@@ -127,5 +130,6 @@
 			ON hos.hpt_id = geo.hpt_id
 			WHERE province=#{province} AND city=#{city}
 	</select>
+	
 
 </mapper>

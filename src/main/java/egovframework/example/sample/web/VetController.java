@@ -189,9 +189,25 @@ public class VetController {
 		return json;
 	}
 
+	@RequestMapping("/getRateAvg.do")
+	@ResponseBody
+	public String getRateAvg(){
+		String result = "";
+		
+		return result;
+	}
+
+	@RequestMapping("/getRvCnt.do")
+	@ResponseBody
+	public String getRvCnt(){
+		String result = "";
+		
+		return result;
+	}
 	
 
 	
+	//안됨
 	@RequestMapping(value="/")
 	public String mainView2(){
 		return "vetproject/index";

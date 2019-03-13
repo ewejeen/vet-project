@@ -18,78 +18,15 @@
 		<result property="cmt_reg_date" column="cmt_reg_date"/>
 	</resultMap>
 
-	<!-- <select id="selectSample" resultMap="sample">
-
-			SELECT
-				ID, title, content, reg_date, image
-			FROM notice
-			WHERE ID=#{id}
-
-	</select>
-
-	<select id="selectSampleList" parameterType="searchVO" resultType="egovMap">
-
-			SELECT
-				ID, title, content, reg_date, image
-			FROM notice
-			WHERE 1=1
-			<if test="searchKeyword != null and searchKeyword != ''">
-		        <choose>
-		            <when test="searchCondition == 0">
-						AND	title LIKE '%' || #{searchKeyword} || '%'
-					</when>
-		            <when test="searchCondition == 1">
-						AND	content LIKE '%' || #{searchKeyword} || '%'
-					</when>
-				</choose>
-			</if>
-			ORDER BY ID desc
-			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
-	</select>
-	
-	<select id="selectVetJsonList" resultType="egovMap">
-			SELECT
-				ID, title, content, reg_date, image
-			FROM notice
-			ORDER BY ID desc
-	</select> -->
-	
-	<select id="searchVetByName" resultType="egovMap">
-			SELECT
-				hospital.hpt_name, hospital_geo2.adrs_new
-			FROM
-				hospital INNER JOIN hospital_geo2
-				ON hospital.hpt_id = hospital_geo2.hpt_id
-			WHERE hpt_name
-			LIKE CONCAT('%',#{hpt_name},'%')
-			ORDER BY hpt_name ASC		
-	</select>
-
-	<select id="searchVetByRegion" resultType="egovMap">
-			SELECT
-				hospital.hpt_name, hospital_geo2.adrs_new
-			FROM
-				hospital INNER JOIN hospital_geo2
-				ON hospital.hpt_id = hospital_geo2.hpt_id
-			WHERE province=#{province} AND city=#{city}
-			ORDER BY hpt_name ASC		
-	</select>
-	
-	
-	<select id="selectVetListTotCnt" parameterType="searchVO" resultType="int">
-			SELECT COUNT(*) FROM hospital
-	</select>
-
-	<select id="selectVetListCntByPos" resultType="int">
-			SELECT COUNT(*) FROM hospital_geo2 WHERE city=#{city}
-	</select>
-
+	<!-- 후기 입력하기 -->
 	<insert id="insertReview" parameterType="egovframework.example.sample.service.ReviewVO">
 			INSERT INTO 
 				review(hpt_id, hpt_rate, rv_title, rv_content, rv_image, pet_type, visit_date, visit_is_new)
 			VALUES
 				(#{hpt_id}, #{hpt_rate}, #{rv_title}, #{rv_content}, #{rv_image}, #{pet_type}, #{visit_date}, #{visit_is_new})
 	</insert>
+	
+	
 	
 
 </mapper>
