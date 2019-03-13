@@ -18,6 +18,7 @@ package egovframework.example.sample.web;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 
 import egovframework.example.sample.service.SampleDefaultVO;
 import egovframework.example.sample.service.VetService;
@@ -168,6 +169,28 @@ public class VetController {
 		System.out.println(cnt);
 		return String.format("%d", cnt);
 	}
+
+	/*@RequestMapping(value = "/getAxis.do", produces = "application/json;charset=utf-8")
+	public @ResponseBody String getAxis(String province, String city) throws Exception {
+		ObjectMapper om = new ObjectMapper();
+		List<?> list = vetService.searchVetByRegion(province, city);
+		String json = om.writeValueAsString(list);
+		
+		return json;
+	}*/
+	
+	// 마커 표시 위해 이름, 주소 조회
+	@RequestMapping(value = "/selectNameAndAdrs.do", produces = "application/json;charset=utf-8")
+	public @ResponseBody String selectNameAndAdrs(String province, String city) throws Exception {
+		ObjectMapper om = new ObjectMapper();
+		List<?> list = vetService.selectNameAndAdrs(province, city);
+		String json = om.writeValueAsString(list);
+		
+		return json;
+	}
+
+	
+
 	
 	@RequestMapping(value="/")
 	public String mainView2(){

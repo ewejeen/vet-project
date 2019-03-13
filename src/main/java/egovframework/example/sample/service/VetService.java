@@ -16,6 +16,7 @@
 package egovframework.example.sample.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -59,5 +60,8 @@ public interface VetService {
 	int selectVetListTotCnt(SampleDefaultVO searchVO);
 
 	int selectVetListCntByPos(String city);
+	
+	// 마커 표시 위해 이름, 주소 조회
+	List<?> selectNameAndAdrs(@Param("province") String province, @Param("city") String city) throws Exception;
 
 }

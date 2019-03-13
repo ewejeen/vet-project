@@ -56,21 +56,40 @@
 				<div class="container">
 					<p class="l1">내 주변의 동물병원을 찾아 보세요</p>
 					<div id="map"></div>
-					<p><span id="address">내 위치</span>에는 총 
-						<%-- <c:choose>
-							<c:when test="${cntByCity != null }"><span id="cntByCity">${cntByCity }</span></c:when>  
-							<c:otherwise><span id="cntByCity">N</span></c:otherwise>
-						</c:choose> --%>
-						<%-- <span id="cntByCity"><%=(Integer)request.getAttribute("cntByCity") %></span> --%>
-						<span id="cntByCity">N</span>
+					<p><span id="address">내 위치</span>에는 총 <span id="cntByCity">N</span>
 					개의 동물병원이 있습니다.</p>
 				</div>
 			</div>
 			
 			<div class="section sec2" id="sec2">
 				<div class="container">
-					<p>원하시는 지역의 추천 동물병원을 살펴 보세요</p>
-					<p>(통계)</p>
+					<div class="top">
+						<div class="l1">
+							<p>원하시는 지역의 추천 동물병원을 살펴 보세요</p>
+							<span>다른 지역 보기</span>
+						</div>
+						<div class="l2">
+							<span>지역: </span>
+							<span id="sec2Region"></span>
+						</div>
+					</div>
+					<div class="con">
+						<div class="gnb">
+							<ul>
+								<li>평점이 높은 병원</li>
+								<li>후기가 많은 병원</li>
+								<li>조회수가 높은 병원</li>
+							</ul>
+						</div>
+						<div class="statistics">
+							<div class="left">
+								<p>(통계)</p>
+							</div>
+							<div class="right">
+								<p>(통계)</p>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			
@@ -158,7 +177,6 @@
 					var myLat = position.coords.latitude;
 					var myLng = position.coords.longitude;
 					
-					
 					// 카카오 지도
 				    var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
 				    var options = { //지도를 생성할 때 필요한 기본 옵션
@@ -180,24 +198,8 @@
 				 	// 마우스 휠과 모바일 터치를 이용한 지도 확대, 축소를 막는다
 					map.setZoomable(false);
 				    
-				    /*
-				 	// 마커가 표시될 위치입니다 
-				    var markerPosition  = new daum.maps.LatLng(myLat, myLng); 
-
-				    // 마커를 생성합니다
-				    var marker = new daum.maps.Marker({
-				        position: markerPosition
-				    });
-
-				    // 마커가 지도 위에 표시되도록 설정합니다
-				    marker.setMap(map);
-
-				    // 아래 코드는 지도 위의 마커를 제거하는 코드입니다
-				    // marker.setMap(null);    
-				    */
-				    
-					///////////////////////////
-				    var geocoder = new daum.maps.services.Geocoder();
+					// 주소-좌표 변환 객체를 생성합니다
+					var geocoder = new daum.maps.services.Geocoder();
 				    
 				    // 현재 지도 중심좌표로 주소를 검색해서 표시합니다
 					searchAddrFromCoords(map.getCenter(), displayCenterInfo);
@@ -212,6 +214,9 @@
 				        geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
 				    }
 
+				    var res ='';
+				    var resArr = new Array();
+				    
 				    function displayCenterInfo(result, status) {
 				        if (status === daum.maps.services.Status.OK) {
 							var adrs = document.getElementById('address');
@@ -219,12 +224,73 @@
 				            for(var i = 0; i < result.length; i++) {
 				                // 행정동의 region_type 값은 'H' 이므로
 				                if (result[i].region_type === 'H') {
-				                	var res = result[i].address_name;
-				                	var resArr = res.split(' ');
+				                	res = result[i].address_name;
+				                	resArr = res.split(' ');
+				                					                	
+				                	var province = resArr[0];
+				                	var city = resArr[1];
+				                	adrs.innerHTML = city;	// 시군구  
 				                	
-				                	adrs.innerHTML = resArr[1];	// 시군구           	
-								    console.log($('#address').text());
+								    console.log('시도:' + province);
+								    console.log('시군구: ' + city);
 				                	
+								    function getNameAdrs(province, city){
+								    	var name='';
+								    	$.ajax({
+								    		url : 'selectNameAndAdrs.do',
+								    		type : 'POST',
+								    		data : {
+								    			'province' : province,
+								    			'city' : city
+								    		},
+								    		success : function(data){
+								    			var positions = JSON.stringify(data);
+								    			
+								    			for(var i=0;i<data.length;i++){
+								    				name = data[i].hptName;
+
+													// 주소로 좌표를 검색합니다
+													function search(name){
+														geocoder.addressSearch(data[i].address, function(result, status) {
+															
+														    // 정상적으로 검색이 완료됐으면 
+														     if (status === daum.maps.services.Status.OK) {
+														        var coords = new daum.maps.LatLng(result[0].y, result[0].x);
+												    			
+														    	// 마커를 클릭했을 때 마커 위에 표시할 인포윈도우를 생성합니다
+														        var iwContent = '<div style="padding:5px;font-size:13px">'+name+'</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+														            iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+
+														        // 인포윈도우를 생성합니다
+														        var infowindow = new daum.maps.InfoWindow({
+														            content : iwContent,
+														            removable : iwRemoveable
+														        });
+
+														        // 결과값으로 받은 위치를 마커로 표시합니다
+														        var marker = new daum.maps.Marker({
+														            map: map,
+														            position: coords,	// 마커를 표시할 위치
+														            clickable: true  	// 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
+														        });
+														        
+														        // 마커에 클릭이벤트를 등록합니다
+														        daum.maps.event.addListener(marker, 'click', function() {
+														              // 마커 위에 인포윈도우를 표시합니다
+														              infowindow.open(map, marker);  
+														        });
+
+														    } 
+														});   														
+													}
+													search(name);
+								    			}
+								    		}
+								    	});	
+								    }
+								    
+								    getNameAdrs(province, city);
+								   
 				                    break;
 				                }
 				            }
@@ -251,23 +317,24 @@
     $(document).ready(getLocation());
     // 지오로케이션 끝
     
+    
+    // 지역별 동물병원 개수 delay 줘서 불러옴 (지도보다 늦게 가져와야 하는 값이므로)
     setTimeout(function() {
-		getCountByCity();
+   	    $.ajax({
+   	    	url : 'getCountByCity.do',
+   	    	type : 'POST',
+   	    	data : {
+   	    		'position' : $('#address').text()
+   	    	},
+   	    	success : function(data){
+   	    		$('#cntByCity').text(data);
+   	    	}
+   	    });
 	}, 500);
 	
-    function getCountByCity(){
-	    $.ajax({
-	    	url : 'getCountByCity.do',
-	    	type : 'POST',
-	    	data : {
-	    		'position' : $('#address').text()
-	    	},
-	    	success : function(data){
-	    		console.log('data:' +data);
-	    		$('#cntByCity').text(data);
-	    	}
-	    });
-    }
+    
+    
+    
     
 	</script>
 	

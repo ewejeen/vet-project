@@ -135,5 +135,11 @@ public class VetServiceImpl extends EgovAbstractServiceImpl implements VetServic
 	public int selectVetListCntByPos(String city) {
 		return vetDAO.selectVetListCntByPos(city);
 	}
+	
+	// 마커 표시 위해 이름, 주소 조회
+	@Override
+	public List<?> selectNameAndAdrs(String province, String city) throws Exception {
+		return vetDAO.selectNameAndAdrs(province, city);
+	}
 
 }

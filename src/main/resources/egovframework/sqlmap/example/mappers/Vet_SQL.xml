@@ -119,17 +119,12 @@
 			SELECT COUNT(*) FROM hospital_geo2 WHERE city=#{city}
 	</select>
 
-	<select id="selectVetAxisByPos" >
+	<select id="selectNameAndAdrs" resultType="egovMap">
 			SELECT
-				hos.hpt_name,
-			    geo2.x_axis,
-			    geo2.y_axis,
-			    geo2.province,
-			    geo2.city
-			FROM
-				hospital AS hos
-			INNER JOIN hospital_geo2 AS geo2
-			ON hos.hpt_id = geo2.hpt_id
+				hos.hpt_name, 
+				IFNULL (NULLIF(geo.adrs_new,''), geo.adrs_old) address 
+			FROM hospital as hos INNER JOIN hospital_geo2 as geo
+			ON hos.hpt_id = geo.hpt_id
 			WHERE province=#{province} AND city=#{city}
 	</select>
 
