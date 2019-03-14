@@ -58,10 +58,11 @@
 <body>
 	<div id="wrap">
 		<div class="signIn">
-			<div class="signInForm" style="border: 1px solid">
+			<div class="signInForm">
 				<ul>
 				    <li class="top">
-				        <h1>VET 관리자 로그인</h1>    
+				    	<img src="<%=request.getContextPath() %>/images/vetproject/logo_findvet.png"" alt="로고" />
+				        <h1>관리자 로그인</h1>    
 				    </li>
 					
 					<li>

@@ -17,6 +17,7 @@ package egovframework.example.sample.web;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +30,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.ListUtils;
 import org.apache.ibatis.annotations.Param;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Controller;
@@ -101,21 +103,11 @@ public class VetController {
 		return vetService.selectVet(vetVO);
 	}
 	
-	
-	@RequestMapping(value = "/vetJson.do", produces = "application/json;charset=utf-8")
-	public @ResponseBody String vetJson() throws Exception {
-		ObjectMapper om = new ObjectMapper();
-		List<?> list = vetService.selectVetJsonListShort();
-		String json = om.writeValueAsString(list);
-		System.out.println(json);
-		
-		return json;
-	}
-
+	// JSON 반환 샘플
 	@RequestMapping(value = "/vetJsonShort.do", produces = "application/json;charset=utf-8")
 	public @ResponseBody String vetJsonShort() throws Exception {
 		ObjectMapper om = new ObjectMapper();
-		List<?> list = vetService.selectVetJsonListShort2();
+		List<?> list = vetService.selectVetJsonListShort();
 		String json = om.writeValueAsString(list);
 		
 		return json;
@@ -140,6 +132,57 @@ public class VetController {
 		
 		return json;
 	}
+
+	// 앱 상세 화면***********************
+	@RequestMapping(value = "/searchVetDetail.do", produces = "application/json;charset=utf-8")
+	public @ResponseBody String searchVetDetail(int hpt_id) throws Exception {
+		ObjectMapper om = new ObjectMapper();
+		List<?> list = vetService.searchVetDetail(hpt_id);		
+		List<?> list2 = vetService.searchVetDetailScores(hpt_id);
+		ArrayList<?> listArr = new ArrayList<>(list);
+		ArrayList<?> list2Arr = new ArrayList<>(list2);
+		
+		for(int i=0;i<listArr.size();i++){
+			System.out.println(listArr.get(i));
+		}
+		
+		/*List<?> listCon = new ArrayList<>();
+		for(int i=0;i<list.size();i++){
+			System.out.println(list.get(i));
+			List<?> sub = (List<?>) list.get(i);
+			sub.addAll(list2Arr);
+			
+		}*/
+		
+/*
+ * 
+ * List<String> myString = new ArrayList<String>();
+
+// How you add your data in string list
+myString.add("Test 1");
+myString.add("Test 2");
+myString.add("Test 3");
+myString.add("Test 4");
+
+int i = 0;
+while (i < myString.size()) {
+    System.out.println(myString.get(i));
+    i++;
+}
+ */
+		
+		
+		String json = om.writeValueAsString(listArr);
+		
+		return json;
+	}
+	
+
+	
+	
+	
+	
+	
 	
 	// 메인 화면 조회
 	@RequestMapping(value="/main.do")
@@ -147,6 +190,8 @@ public class VetController {
 		int totCnt = vetService.selectVetListTotCnt(searchVO);
 		String position = request.getParameter("position");
 		int cnt = vetService.selectVetListCntByPos(position);
+		System.out.println("position:"+position);
+		System.out.println(cnt);
 		String cntBy = String.format("%d",cnt);
 		
 		model.addAttribute("totalVet",totCnt);

@@ -52,14 +52,8 @@
 			ORDER BY ID desc
 	</select> -->
 
+	<!-- 앱***************************************************************************************** -->
 	<select id="selectVetJsonListShort" resultType="egovMap">
-			SELECT
-				hpt_id, hpt_name, hpt_open, hpt_hit
-			FROM hospital
-			ORDER BY hpt_id desc LIMIT 0,20
-	</select>
-
-	<select id="selectVetJsonListShort2" resultType="egovMap">
 			SELECT
 				hos.hpt_name,
 			    geo2.adrs_new
@@ -69,10 +63,12 @@
 			ON hos.hpt_id = geo2.hpt_id
 			LIMIT 0,30
 	</select>
+	
+	
 	<!-- 상호명으로 검색 결과 리스트 -->
 	<select id="searchVetByName" resultType="egovMap">
 			SELECT
-				hos.hpt_name, 
+				hos.hpt_id, hos.hpt_name, 
 				IFNULL (NULLIF(geo.adrs_new,''), geo.adrs_old) address, <!-- 신주소 없으면 구주소 가져오기 -->
 				avg(rv.hpt_rate) rate_avg, count(rv.rv_id) review_cnt
 			FROM
@@ -88,7 +84,7 @@
 	<!-- 지역명으로 검색 결과 리스트 -->
 	<select id="searchVetByRegion" resultType="egovMap">
 			SELECT
-				hos.hpt_name,
+				hos.hpt_id, hos.hpt_name,
 				IFNULL (NULLIF(geo.adrs_new,''), geo.adrs_old) address, <!-- 신주소 없으면 구주소 가져오기 -->
 				avg(rv.hpt_rate) rate_avg, count(rv.hpt_rate) review_cnt
 			FROM
@@ -100,27 +96,31 @@
 			ORDER BY hos.hpt_name ASC
 	
 	</select>
-	<!-- <select id="selectSampleList" parameterType="searchVO" resultType="egovMap">
-
+	
+	<!-- 상세 보기 -->
+	<select id="searchVetDetail" resultType="egovMap">
 			SELECT
-				ID, title, content, reg_date, image
-			FROM notice
-			WHERE 1=1
-			<if test="searchKeyword != null and searchKeyword != ''">
-		        <choose>
-		            <when test="searchCondition == 0">
-						AND	title LIKE '%' || #{searchKeyword} || '%'
-					</when>
-		            <when test="searchCondition == 1">
-						AND	content LIKE '%' || #{searchKeyword} || '%'
-					</when>
-				</choose>
-			</if>
-			ORDER BY ID desc
-			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+				hos.hpt_id, hos.hpt_name, hos.hpt_phone, hos.hpt_open, hos.hpt_hit,
+				geo.adrs_new, geo.adrs_old,
+				rv.rv_id, rv.rv_title, rv.rv_content, rv.rv_reg_date
+			FROM
+				hospital as hos INNER JOIN hospital_geo2 as geo
+				ON hos.hpt_id = geo.hpt_id
+				INNER JOIN review as rv ON hos.hpt_id = rv.hpt_id
+			WHERE hos.hpt_id=#{hpt_id}
 	</select>
-	 -->
-
+	
+	<!-- 상세 보기 평점, 후기 수 -->
+	<select id="searchVetDetailScores" resultType="egovMap">
+			SELECT
+				avg(hpt_rate), count(rv_id)
+			FROM
+				review
+			WHERE hpt_id=#{hpt_id}
+	</select>
+	
+	
+	<!-- 웹***************************************************************************************** -->
 	<!-- 지도 마커 표시 위해 지역별로 병원 이름과 주소 얻기 -->
 	<select id="selectNameAndAdrs" resultType="egovMap">
 			SELECT
@@ -131,10 +131,12 @@
 			WHERE province=#{province} AND city=#{city}
 	</select>
 	
+	<!-- 전국 동물병원 총 개수 -->
 	<select id="selectVetListTotCnt" parameterType="searchVO" resultType="int">
 			SELECT COUNT(*) FROM hospital
 	</select>
 
+	<!-- 지역 병 동물병원 총 개수 -->
 	<select id="selectVetListCntByPos" resultType="int">
 			SELECT COUNT(*) FROM hospital_geo2 WHERE city=#{city}
 	</select>

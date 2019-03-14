@@ -43,12 +43,8 @@ public interface VetMapper {
 	 */
 	List<?> selectVetList(SampleDefaultVO searchVO) throws Exception;
 	
-	// JSON 객체 얻기 위한 동물병원 목록을 조회한다.
-	List<?> selectVetJsonList() throws Exception;
-
-	// JSON 객체 얻기 위한 동물병원 목록을 조회한다.
+	// JSON 객체 얻기 위한 동물병원 목록을 조회 샘플
 	List<?> selectVetJsonListShort() throws Exception;
-	List<?> selectVetJsonListShort2() throws Exception;
 
 	//List<?> searchVetList(SampleDefaultVO searchVO) throws Exception;
 	
@@ -56,6 +52,12 @@ public interface VetMapper {
 	List<?> searchVetByName(@Param("hpt_name") String hpt_name) throws Exception;
 	// 지역으로 검색
 	List<?> searchVetByRegion(@Param("province") String province, @Param("city") String city) throws Exception;
+	
+	// 앱 상세화면 조회
+	List<?> searchVetDetail(@Param("hpt_id") int hpt_id) throws Exception;
+	// 앱 상세에 들어갈 평점과 후기 개수
+	List<?> searchVetDetailScores(@Param("hpt_id") int hpt_id) throws Exception;
+	
 	
 	/**
 	 * 동물병원 총 갯수를 조회한다.

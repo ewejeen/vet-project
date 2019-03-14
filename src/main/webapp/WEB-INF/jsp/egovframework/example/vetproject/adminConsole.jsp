@@ -12,9 +12,27 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <title>관리자 콘솔</title>
 <script>
-	if(${sessionId eq null }){
+	/* if(${sessionId eq null }){
 		alert('관리자만 접근 가능합니다.');
 		history.go(-1);	
+	} */
+	
+	function fn_logout_admin(){
+		if(confirm('로그아웃 하시겠습니까?')){
+			$.ajax({
+				url : '/vetproject_v2/notrespassing/signout.do',
+				type : 'POST',
+				success : function(data) {
+					if (data.result == 1) {
+						alert('로그아웃 되었습니다.');
+						location.href = '/vetproject_v2/notrespassing/signinview.do';
+					} else {
+						alert('로그아웃에 실패했습니다.. 다시 시도해 주세요.');
+					}
+				}
+			});
+			
+		}
 	}
 </script>
 </head>
@@ -22,6 +40,8 @@
 	<div id="wrap">
 		<div class="console">
 			관리자 콘솔
+			${sessionId }님 로그인
+			<button onclick="fn_logout_admin()">로그아웃</button>
 		</div>
 	</div>
 </body>

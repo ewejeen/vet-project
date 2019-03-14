@@ -226,13 +226,17 @@ public class AdminController {
 	}
 
 	@RequestMapping(value="/notrespassing/signin.do", method=RequestMethod.POST)
-	public ModelAndView outputJsonList(ModelAndView modelAndView, HttpServletRequest request) {
+	public ModelAndView adminLogin(ModelAndView modelAndView, HttpServletRequest request) {
 	    Map<String, Object> map = new HashMap<>();
+	    HttpSession session = request.getSession();
 	    String adminId = request.getParameter("adminId");
 	    String adminPw = request.getParameter("adminPw");
+	    
 	    int result = 0;
 	    if(adminId.equals("administrator") && adminPw.equals("drowssapnimda79#$")){
 			result = 1;
+			session.setAttribute("sessionId", adminId);
+			session.setMaxInactiveInterval(60*3);
 	    }
 	    map.put("result", result);
 	     
@@ -243,15 +247,26 @@ public class AdminController {
 	     
 	    return modelAndView;
 	}
+	/* 1. jackson-databind dependency를 추가
+     * 2. controller에서 result를 담은 map을 return하는 방식 -> result를 담은 map을 modelandview에 add해서 modelandview를 return하는 방식
+	 * 3. jquery ajax에서 받을 때 dataType : 'json' 추가
+	 */
 	
-	@RequestMapping("/notrespassing/signout.do")
-	public String adminLogout(HttpServletRequest request){
+	@RequestMapping(value="/notrespassing/signout.do", method=RequestMethod.POST)
+	public ModelAndView adminLogout(ModelAndView modelAndView, HttpServletRequest request){
+		Map<String, Object> map = new HashMap<>();
 		HttpSession session = request.getSession();
+		int result = 0;
 		if(session!=null){
 			session.invalidate();
+			result = 1;
 			System.out.println("로그아웃 성공"); 
 		}
-		return "forward:signinview.do";
+		map.put("result", result);
+		System.out.println(map.get("result"));
+		modelAndView.addAllObjects(map);
+		modelAndView.setViewName("jsonView");
+		return modelAndView;
 	}
 	
 }

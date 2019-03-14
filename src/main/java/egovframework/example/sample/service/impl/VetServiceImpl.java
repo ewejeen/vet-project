@@ -24,6 +24,7 @@ import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
 import javax.annotation.Resource;
 
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -93,22 +94,11 @@ public class VetServiceImpl extends EgovAbstractServiceImpl implements VetServic
 	public int selectVetListTotCnt(SampleDefaultVO searchVO) {
 		return vetDAO.selectVetListTotCnt(searchVO);
 	}
-
-	// JSON 리스트 받아오기
-	@Override
-	public List<?> selectVetJsonList() throws Exception {
-		return vetDAO.selectVetJsonList();
-	}
 	
-	// JSON 리스트 받아오기short
+	// JSON 리스트 받아오기short 샘플
 	@Override
 	public List<?> selectVetJsonListShort() throws Exception {
 		return vetDAO.selectVetJsonListShort();
-	}
-
-	@Override
-	public List<?> selectVetJsonListShort2() throws Exception {
-		return vetDAO.selectVetJsonListShort2();
 	}
 	
 	/*@Override
@@ -132,6 +122,19 @@ public class VetServiceImpl extends EgovAbstractServiceImpl implements VetServic
 	public int selectVetListCntByPos(String city) {
 		return vetDAO.selectVetListCntByPos(city);
 	}
+	
+	// 앱 상세화면 조회
+	@Override
+	public List<?> searchVetDetail(int hpt_id) throws Exception {
+		return vetDAO.searchVetDetail(hpt_id);
+	}
+	
+	// 앱 상세에 들어갈 평점과 후기 개수
+	@Override
+	public List<?> searchVetDetailScores(int hpt_id) throws Exception {
+		return vetDAO.searchVetDetailScores(hpt_id);
+	}
+	
 	
 	// 마커 표시 위해 이름, 주소 조회
 	@Override

@@ -7,6 +7,7 @@
 <head>
 	<meta charset="UTF-8" />
 	<title>VET_PROJECT</title>
+	<link rel="shortcut icon" href="">
 	<link rel="stylesheet" href="<%=request.getContextPath() %>/css/vetproject/index.css" media="all" />
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<!-- CountUp -->
@@ -184,7 +185,7 @@
     function getLocation() {
     	 
 		if (navigator.geolocation) { // GPS를 지원하면
-			navigator.geolocation.watchPosition(
+			navigator.geolocation.getCurrentPosition(
 				function(position) {
 					var myLat = position.coords.latitude;
 					var myLng = position.coords.longitude;
@@ -344,7 +345,7 @@
    	    		$('#cntByCity').text(data);
    	    	}
    	    });
-	}, 500);
+	}, 1000);
 	
 	</script>
 	

@@ -38,10 +38,8 @@ public interface VetService {
 	 */
 	List<?> selectVetList(SampleDefaultVO searchVO) throws Exception;
 
-	// JSON 객체를 얻기 위한 목록을 조회한다.
-	List<?> selectVetJsonList() throws Exception;
+	// JSON 객체를 얻기 위한 목록 조회 샘플
 	List<?> selectVetJsonListShort() throws Exception;
-	List<?> selectVetJsonListShort2() throws Exception;
 	
 	// 앱 내 병원 상호명으로 검색
 	//List<?> searchVetList(SampleDefaultVO searchVO) throws Exception;
@@ -49,6 +47,11 @@ public interface VetService {
 
 	// 앱 내 병원 지역으로 검색
 	List<?> searchVetByRegion(@Param("province") String province, @Param("city") String city) throws Exception;
+	
+	// 앱 상세화면 조회
+	List<?> searchVetDetail(@Param("hpt_id") int hpt_id) throws Exception;
+	// 앱 상세에 들어갈 평점과 후기 개수
+	List<?> searchVetDetailScores(@Param("hpt_id") int hpt_id) throws Exception;
 	
 	
 	/**
