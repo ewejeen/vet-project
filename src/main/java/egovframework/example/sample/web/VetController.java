@@ -110,7 +110,7 @@ public class VetController {
 		List<?> list = vetService.selectVetJsonListShort();
 		String json = om.writeValueAsString(list);
 		
-		return json;
+		return "{\"android\":"+json+"}";
 	}
 	
 	// 상호명으로 검색

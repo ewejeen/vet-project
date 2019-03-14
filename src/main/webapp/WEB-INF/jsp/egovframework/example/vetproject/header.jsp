@@ -7,7 +7,7 @@
 <div class="header">
 	<div class="gnb">
 		<ul>
-			<li class="home"><img src="images/vetproject/ic_home.png" alt="홈" onclick="location.href='main.do'"/></li>
+			<li class="home"><img src="<%=request.getContextPath() %>/images/vetproject/ic_home.png" alt="홈" onclick="location.href='main.do'"/></li>
 			<li class="logo" onclick="location.href='main.do'"><span>VET_PROJECT_LOGO</span></li>
 			<li class="notice"><span onclick="location.href='egovSampleList.do'">공지사항</span></li>
 		</ul>

@@ -37,11 +37,24 @@
 </script>
 </head>
 <body>
+	<jsp:include page="header.jsp" />
 	<div id="wrap">
 		<div class="console">
-			관리자 콘솔
-			${sessionId }님 로그인
-			<button onclick="fn_logout_admin()">로그아웃</button>
+			<div class="top">
+				${sessionId }님 로그인
+				<button onclick="fn_logout_admin()">로그아웃</button>
+			</div>
+			<div class="main">
+				<p class="title">관리자 페이지</p>
+				<div class="boards">
+					<div class="notice">
+						<p>공지사항 등록</p>
+					</div>
+					<div class="review">
+						<p>후기 관리</p>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </body>
