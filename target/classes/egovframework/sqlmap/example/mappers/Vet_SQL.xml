@@ -131,5 +131,12 @@
 			WHERE province=#{province} AND city=#{city}
 	</select>
 	
+	<select id="selectVetListTotCnt" parameterType="searchVO" resultType="int">
+			SELECT COUNT(*) FROM hospital
+	</select>
+
+	<select id="selectVetListCntByPos" resultType="int">
+			SELECT COUNT(*) FROM hospital_geo2 WHERE city=#{city}
+	</select>
 
 </mapper>

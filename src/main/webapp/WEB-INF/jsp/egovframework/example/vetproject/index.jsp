@@ -87,9 +87,9 @@
 						<div class="con">
 							<div class="gnb">
 								<ul>
-									<li>평점이 높은 병원</li>
-									<li>후기가 많은 병원</li>
-									<li>조회수가 높은 병원</li>
+									<li>통계1</li>
+									<li>통계2</li>
+									<li>통계3</li>
 								</ul>
 							</div>
 							<div class="statistics">
@@ -242,7 +242,7 @@
 				                					                	
 				                	var province = resArr[0];
 				                	var city = resArr[1];
-				                	adrs.innerHTML = city;	// 시군구  
+				                	adrs.innerHTML = city;	// 시군구  에는 N개의 병원이 있습니다.
 				                	sec2Region.innerHTML = province+" "+city;	// 시도+시군구  
 				                	
 								    console.log('시도:' + province);

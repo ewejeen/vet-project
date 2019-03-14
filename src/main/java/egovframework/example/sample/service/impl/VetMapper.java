@@ -21,11 +21,10 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import egovframework.example.sample.service.SampleDefaultVO;
-import egovframework.example.sample.service.SampleVO;
 import egovframework.example.sample.service.VetVO;
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
-@Mapper("vetMapper")
+@Mapper("mapperVet")
 public interface VetMapper {
 
 	/**

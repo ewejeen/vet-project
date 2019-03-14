@@ -147,13 +147,7 @@ public class VetController {
 		int totCnt = vetService.selectVetListTotCnt(searchVO);
 		String position = request.getParameter("position");
 		int cnt = vetService.selectVetListCntByPos(position);
-		System.out.println("cnt: "+cnt);
-		Integer cityCnt = new Integer(cnt);
-		System.out.println("cityCnt: "+cityCnt);
 		String cntBy = String.format("%d",cnt);
-		//String cntByCity = cityCnt.toString();
-		System.out.println(position);
-		System.out.println(cntBy+"-cntBy");
 		
 		model.addAttribute("totalVet",totCnt);
 		request.setAttribute("cntByCity",cntBy);
@@ -170,14 +164,6 @@ public class VetController {
 		return String.format("%d", cnt);
 	}
 
-	/*@RequestMapping(value = "/getAxis.do", produces = "application/json;charset=utf-8")
-	public @ResponseBody String getAxis(String province, String city) throws Exception {
-		ObjectMapper om = new ObjectMapper();
-		List<?> list = vetService.searchVetByRegion(province, city);
-		String json = om.writeValueAsString(list);
-		
-		return json;
-	}*/
 	
 	// 마커 표시 위해 이름, 주소 조회
 	@RequestMapping(value = "/selectNameAndAdrs.do", produces = "application/json;charset=utf-8")
@@ -187,24 +173,7 @@ public class VetController {
 		String json = om.writeValueAsString(list);
 		
 		return json;
-	}
-
-	@RequestMapping("/getRateAvg.do")
-	@ResponseBody
-	public String getRateAvg(){
-		String result = "";
-		
-		return result;
-	}
-
-	@RequestMapping("/getRvCnt.do")
-	@ResponseBody
-	public String getRvCnt(){
-		String result = "";
-		
-		return result;
-	}
-	
+	}	
 
 	
 	//안됨

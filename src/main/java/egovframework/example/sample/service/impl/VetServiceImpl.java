@@ -15,9 +15,7 @@
  */
 package egovframework.example.sample.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import egovframework.example.sample.service.SampleDefaultVO;
 import egovframework.example.sample.service.VetService;
@@ -26,7 +24,6 @@ import egovframework.rte.fdl.cmmn.EgovAbstractServiceImpl;
 
 import javax.annotation.Resource;
 
-import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -58,7 +55,7 @@ public class VetServiceImpl extends EgovAbstractServiceImpl implements VetServic
 	//@Resource(name = "sampleDAO")
 	//private SampleDAO sampleDAO;
 	// TODO mybatis 사용
-	@Resource(name="vetMapper")
+	@Resource(name="mapperVet")
 	private VetMapper vetDAO;
 
 	/**
