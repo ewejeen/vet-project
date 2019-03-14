@@ -29,6 +29,12 @@
 	border: 1px solid #13323a;
 }
 
+.console .top button:hover{
+	cursor:pointer;
+	background:#13323a;
+	color:#fff;
+}
+
 .console .main {
 	widgh: 100%;
 	height: 100%;
