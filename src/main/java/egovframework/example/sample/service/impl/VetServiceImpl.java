@@ -123,18 +123,6 @@ public class VetServiceImpl extends EgovAbstractServiceImpl implements VetServic
 		return vetDAO.selectVetListCntByPos(city);
 	}
 	
-	// 앱 상세화면 조회
-	@Override
-	public List<?> searchVetDetail(int hpt_id) throws Exception {
-		return vetDAO.searchVetDetail(hpt_id);
-	}
-	
-	// 앱 상세에 들어갈 평점과 후기 개수
-	@Override
-	public List<?> searchVetDetailScores(int hpt_id) throws Exception {
-		return vetDAO.searchVetDetailScores(hpt_id);
-	}
-	
 	
 	// 마커 표시 위해 이름, 주소 조회
 	@Override

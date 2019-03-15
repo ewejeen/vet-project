@@ -58,9 +58,22 @@ public class ReviewServiceImpl extends EgovAbstractServiceImpl implements Review
 	@Resource(name="reviewMapper")
 	private ReviewMapper reviewDAO;
 	
+	// 후기 작성
 	@Override
 	public boolean insertReview(ReviewVO vo) {
 		return reviewDAO.insertReview(vo);
+	}
+	
+	// 후기 리스트 데이터
+	@Override
+	public List<?> reviewList() throws Exception {
+		return reviewDAO.reviewList();
+	}
+	
+	// 후기 리스트 데이터 3개만
+	@Override
+	public List<?> reviewListThree() throws Exception {
+		return reviewDAO.reviewList();
 	}
 	
 }

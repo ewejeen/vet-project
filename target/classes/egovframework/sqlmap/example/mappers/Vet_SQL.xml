@@ -70,6 +70,7 @@
 			SELECT
 				hos.hpt_id, hos.hpt_name, 
 				IFNULL (NULLIF(geo.adrs_new,''), geo.adrs_old) address, <!-- 신주소 없으면 구주소 가져오기 -->
+				geo.adrs_new, geo.adrs_old, hos.hpt_phone, hos.hpt_hit,
 				avg(rv.hpt_rate) rate_avg, count(rv.rv_id) review_cnt
 			FROM
 				hospital as hos INNER JOIN hospital_geo2 as geo
@@ -86,6 +87,7 @@
 			SELECT
 				hos.hpt_id, hos.hpt_name,
 				IFNULL (NULLIF(geo.adrs_new,''), geo.adrs_old) address, <!-- 신주소 없으면 구주소 가져오기 -->
+				geo.adrs_new, geo.adrs_old, hos.hpt_phone, hos.hpt_hit,
 				avg(rv.hpt_rate) rate_avg, count(rv.hpt_rate) review_cnt
 			FROM
 				hospital as hos INNER JOIN hospital_geo2 as geo
@@ -97,27 +99,28 @@
 	
 	</select>
 	
-	<!-- 상세 보기 -->
-	<select id="searchVetDetail" resultType="egovMap">
+	<!-- 후기 리스트 -->
+	<select id="reviewList" resultType="egovMap">
 			SELECT
-				hos.hpt_id, hos.hpt_name, hos.hpt_phone, hos.hpt_open, hos.hpt_hit,
-				geo.adrs_new, geo.adrs_old,
-				rv.rv_id, rv.rv_title, rv.rv_content, rv.rv_reg_date
-			FROM
-				hospital as hos INNER JOIN hospital_geo2 as geo
-				ON hos.hpt_id = geo.hpt_id
-				INNER JOIN review as rv ON hos.hpt_id = rv.hpt_id
-			WHERE hos.hpt_id=#{hpt_id}
-	</select>
-	
-	<!-- 상세 보기 평점, 후기 수 -->
-	<select id="searchVetDetailScores" resultType="egovMap">
-			SELECT
-				avg(hpt_rate), count(rv_id)
+				rv_id, hpt_id, rv_title, rv_content, rv_reg_date, rv_image, pet_type, visit_date, visit_id_new
 			FROM
 				review
-			WHERE hpt_id=#{hpt_id}
+			ORDER BY
+				rv_reg_date DESC
 	</select>
+	
+	<!-- 후기 리스트 3개만 -->
+	<select id="reviewListThree" resultType="egovMap">
+			SELECT
+				rv_id, hpt_id, rv_title, rv_content, rv_reg_date, rv_image, pet_type, visit_date, visit_id_new
+			FROM
+				review
+			ORDER BY
+				rv_reg_date DESC
+			LIMIT 0,3
+	</select>
+	
+	
 	
 	
 	<!-- 웹***************************************************************************************** -->

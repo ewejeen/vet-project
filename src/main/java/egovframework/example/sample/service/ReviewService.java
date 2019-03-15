@@ -25,5 +25,8 @@ public interface ReviewService {
 	//boolean insertReview(int hpt_id, String hpt_rate, String rv_title, String rv_content, String pet_type, String visit_date, int visit_is_new);
 	boolean insertReview(ReviewVO vo);
 	
-
+	// 후기 리스트 데이터
+	List<?> reviewList() throws Exception;
+	// 후기 리스트 데이터 3개만
+	List<?> reviewListThree() throws Exception;
 }

@@ -15,6 +15,8 @@
  */
 package egovframework.example.sample.service.impl;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 import egovframework.example.sample.service.ReviewVO;
@@ -26,4 +28,8 @@ public interface ReviewMapper {
 	// 후기 작성
 	boolean insertReview(ReviewVO vo);
 	
+	// 후기 리스트 데이터
+	List<?> reviewList() throws Exception;
+	// 후기 리스트 데이터 3개만
+	List<?> reviewListThree() throws Exception;
 }

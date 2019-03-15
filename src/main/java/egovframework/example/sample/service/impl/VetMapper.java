@@ -52,11 +52,8 @@ public interface VetMapper {
 	List<?> searchVetByName(@Param("hpt_name") String hpt_name) throws Exception;
 	// 지역으로 검색
 	List<?> searchVetByRegion(@Param("province") String province, @Param("city") String city) throws Exception;
-	
-	// 앱 상세화면 조회
-	List<?> searchVetDetail(@Param("hpt_id") int hpt_id) throws Exception;
-	// 앱 상세에 들어갈 평점과 후기 개수
-	List<?> searchVetDetailScores(@Param("hpt_id") int hpt_id) throws Exception;
+
+
 	
 	
 	/**

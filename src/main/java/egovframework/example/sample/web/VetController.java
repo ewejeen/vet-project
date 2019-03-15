@@ -132,54 +132,12 @@ public class VetController {
 		
 		return json;
 	}
-
-	// 앱 상세 화면***********************
-	@RequestMapping(value = "/searchVetDetail.do", produces = "application/json;charset=utf-8")
-	public @ResponseBody String searchVetDetail(int hpt_id) throws Exception {
-		ObjectMapper om = new ObjectMapper();
-		List<?> list = vetService.searchVetDetail(hpt_id);		
-		List<?> list2 = vetService.searchVetDetailScores(hpt_id);
-		ArrayList<?> listArr = new ArrayList<>(list);
-		ArrayList<?> list2Arr = new ArrayList<>(list2);
-		
-		for(int i=0;i<listArr.size();i++){
-			System.out.println(listArr.get(i));
-		}
-		
-		/*List<?> listCon = new ArrayList<>();
-		for(int i=0;i<list.size();i++){
-			System.out.println(list.get(i));
-			List<?> sub = (List<?>) list.get(i);
-			sub.addAll(list2Arr);
-			
-		}*/
-		
-/*
- * 
- * List<String> myString = new ArrayList<String>();
-
-// How you add your data in string list
-myString.add("Test 1");
-myString.add("Test 2");
-myString.add("Test 3");
-myString.add("Test 4");
-
-int i = 0;
-while (i < myString.size()) {
-    System.out.println(myString.get(i));
-    i++;
-}
- */
-		
-		
-		String json = om.writeValueAsString(listArr);
-		
-		return json;
-	}
 	
-
+	// 후기 리스트
 	
 	
+	// 후기 리스트 3개
+
 	
 	
 	
