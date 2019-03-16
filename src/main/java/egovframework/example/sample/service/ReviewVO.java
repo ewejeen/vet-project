@@ -1,6 +1,7 @@
 package egovframework.example.sample.service;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -11,8 +12,9 @@ public class ReviewVO {
 	private String hpt_rate;
 	private String rv_title;
 	private String rv_content;
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
-	private Timestamp rv_reg_date;
+	//@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+	private Timestamp reg_date;
+	private String rv_reg_date = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(reg_date);
 	private String rv_image;
 	private String pet_type;
 	private String visit_date;
@@ -79,11 +81,11 @@ public class ReviewVO {
 		this.rv_content = rv_content;
 	}
 
-	public Timestamp getRv_reg_date() {
+	public String getRv_reg_date() {
 		return rv_reg_date;
 	}
 
-	public void setRv_reg_date(Timestamp rv_reg_date) {
+	public void setRv_reg_date(String rv_reg_date) {
 		this.rv_reg_date = rv_reg_date;
 	}
 
