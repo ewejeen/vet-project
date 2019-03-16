@@ -133,11 +133,6 @@ public class VetController {
 		return json;
 	}
 	
-	// 후기 리스트
-	
-	
-	// 후기 리스트 3개
-
 	
 	
 	

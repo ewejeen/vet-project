@@ -29,7 +29,7 @@ public interface ReviewMapper {
 	boolean insertReview(ReviewVO vo);
 	
 	// 후기 리스트 데이터
-	List<?> reviewList() throws Exception;
+	List<?> reviewList(@Param("hpt_id") int hpt_id) throws Exception;
 	// 후기 리스트 데이터 3개만
-	List<?> reviewListThree() throws Exception;
+	List<?> reviewListThree(@Param("hpt_id") int hpt_id) throws Exception;
 }

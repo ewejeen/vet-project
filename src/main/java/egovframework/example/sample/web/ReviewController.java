@@ -26,9 +26,10 @@ import java.util.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 
@@ -183,6 +184,26 @@ public class ReviewController {
 			System.out.println("suc");
 		}
 		System.out.println("fail");
+	}
+	
+	// 후기 리스트
+	@RequestMapping(value = "/reviewList.do", produces = "application/json;charset=utf-8")
+	public @ResponseBody String reviewList(int hpt_id) throws Exception {
+		ObjectMapper om = new ObjectMapper();
+		List<?> list = reviewService.reviewList(hpt_id);
+		String json = om.writeValueAsString(list);
+		
+		return json;
+	}
+	
+	// 후기 리스트 3개
+	@RequestMapping(value = "/reviewListThree.do", produces = "application/json;charset=utf-8")
+	public @ResponseBody String reviewListThree(int hpt_id) throws Exception {
+		ObjectMapper om = new ObjectMapper();
+		List<?> list = reviewService.reviewListThree(hpt_id);
+		String json = om.writeValueAsString(list);
+		
+		return json;
 	}
 	
 }

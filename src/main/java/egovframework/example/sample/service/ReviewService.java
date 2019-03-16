@@ -26,7 +26,7 @@ public interface ReviewService {
 	boolean insertReview(ReviewVO vo);
 	
 	// 후기 리스트 데이터
-	List<?> reviewList() throws Exception;
+	List<?> reviewList(int hpt_id) throws Exception;
 	// 후기 리스트 데이터 3개만
-	List<?> reviewListThree() throws Exception;
+	List<?> reviewListThree(int hpt_id) throws Exception;
 }

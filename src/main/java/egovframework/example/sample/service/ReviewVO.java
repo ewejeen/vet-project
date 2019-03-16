@@ -2,6 +2,8 @@ package egovframework.example.sample.service;
 
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class ReviewVO {
 	// review 테이블
 	private int rv_id;
@@ -9,6 +11,7 @@ public class ReviewVO {
 	private String hpt_rate;
 	private String rv_title;
 	private String rv_content;
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
 	private Timestamp rv_reg_date;
 	private String rv_image;
 	private String pet_type;

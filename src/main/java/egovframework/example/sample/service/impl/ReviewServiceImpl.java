@@ -66,14 +66,14 @@ public class ReviewServiceImpl extends EgovAbstractServiceImpl implements Review
 	
 	// 후기 리스트 데이터
 	@Override
-	public List<?> reviewList() throws Exception {
-		return reviewDAO.reviewList();
+	public List<?> reviewList(int hpt_id) throws Exception {
+		return reviewDAO.reviewList(hpt_id);
 	}
 	
 	// 후기 리스트 데이터 3개만
 	@Override
-	public List<?> reviewListThree() throws Exception {
-		return reviewDAO.reviewList();
+	public List<?> reviewListThree(int hpt_id) throws Exception {
+		return reviewDAO.reviewListThree(hpt_id);
 	}
 	
 }

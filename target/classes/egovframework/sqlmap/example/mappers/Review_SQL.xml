@@ -26,7 +26,30 @@
 				(#{hpt_id}, #{hpt_rate}, #{rv_title}, #{rv_content}, #{rv_image}, #{pet_type}, #{visit_date}, #{visit_is_new})
 	</insert>
 	
+	<!-- 후기 리스트 -->
+	<select id="reviewList" resultType="egovMap">
+			SELECT
+				rv_id, hpt_id, rv_title, rv_content, rv_reg_date, rv_image, pet_type, visit_date, visit_is_new
+			FROM
+				review
+			WHERE 
+				hpt_id=#{hpt_id}
+			ORDER BY
+				rv_reg_date DESC
+	</select>
 	
+	<!-- 후기 리스트 3개만 -->
+	<select id="reviewListThree" resultType="egovMap">
+			SELECT
+				rv_id, hpt_id, rv_title, rv_content, rv_reg_date, rv_image, pet_type, visit_date, visit_is_new
+			FROM
+				review
+			WHERE 
+				hpt_id=#{hpt_id}
+			ORDER BY
+				rv_reg_date DESC
+			LIMIT 0,3
+	</select>
 	
 
 </mapper>
