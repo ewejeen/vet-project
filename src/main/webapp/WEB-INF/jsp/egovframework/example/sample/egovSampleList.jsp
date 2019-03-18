@@ -30,32 +30,32 @@
         
         /* 글 수정 화면 function */
         function fn_egov_update(id) {
-           	document.listForm.action = "<c:url value='/updateSampleView.do?id="+id+"'/>";
+           	document.listForm.action = "<c:url value='/updateNoticeView.do?id="+id+"'/>";
            	document.listForm.submit();
         }
 
         /* 글 보기 화면 function */
         function fn_egov_select(id) {
-           	document.listForm.action = "<c:url value='/selectSampleView.do?id="+id+"'/>";
+           	document.listForm.action = "<c:url value='/selectNoticeView.do?id="+id+"'/>";
            	document.listForm.submit();
         }
         
         /* 글 등록 화면 function */
         function fn_egov_addView() {
-        	document.listForm.action = "<c:url value='/addSampleView.do'/>";
+        	document.listForm.action = "<c:url value='/addNoticeView.do'/>";
            	document.listForm.submit();
         }
         
         /* 글 목록 화면 function */
         function fn_egov_selectList() {
-        	document.listForm.action = "<c:url value='/egovSampleList.do'/>";
+        	document.listForm.action = "<c:url value='/noticeList.do'/>";
            	document.listForm.submit();
         }
         
         /* pagination 페이지 링크 function */
         function fn_egov_link_page(pageNo){
         	document.listForm.pageIndex.value = pageNo;
-        	document.listForm.action = "<c:url value='/egovSampleList.do'/>";
+        	document.listForm.action = "<c:url value='/noticeList.do'/>";
            	document.listForm.submit();
         }
         

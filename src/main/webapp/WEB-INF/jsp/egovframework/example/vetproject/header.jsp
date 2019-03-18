@@ -9,7 +9,7 @@
 		<ul>
 			<li class="home"><img src="<%=request.getContextPath() %>/images/vetproject/ic_home.png" alt="홈" onclick="location.href='<%=request.getContextPath() %>/main.do'"/></li>
 			<li class="logo"><img src="<%=request.getContextPath() %>/images/vetproject/logo_findvet.png" alt="로고" onclick="location.href='<%=request.getContextPath() %>/main.do'"/></li>
-			<li class="notice"><span onclick="location.href='egovSampleList.do'">공지사항</span></li>
+			<li class="notice"><span onclick="location.href='noticeList.do'">공지사항</span></li>
 		</ul>
 	</div>
 </div>

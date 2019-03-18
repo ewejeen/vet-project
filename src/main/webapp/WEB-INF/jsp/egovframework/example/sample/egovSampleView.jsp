@@ -38,13 +38,13 @@
         
         /* 글 목록 화면 function */
         function fn_egov_selectList() {
-           	document.detailForm.action = "<c:url value='/egovSampleList.do'/>";
+           	document.detailForm.action = "<c:url value='/noticeList.do'/>";
            	document.detailForm.submit();
         }
         
         /* 글 삭제 function */
         function fn_egov_delete() {
-           	document.detailForm.action = "<c:url value='/deleteSample.do'/>";
+           	document.detailForm.action = "<c:url value='/deleteNotice.do'/>";
            	document.detailForm.submit();
         }
         
@@ -54,7 +54,7 @@
         	/* if(!validateSampleVO(frm)){
                 return;
             }else{ */
-            	frm.action = "<c:url value="${registerFlag == 'create' ? '/addSample.do' : '/updateSample.do'}"/>";
+            	frm.action = "<c:url value="${registerFlag == 'create' ? '/addNotice.do' : '/updateNotice.do'}"/>";
                 frm.submit();
             
         }

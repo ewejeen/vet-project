@@ -5,7 +5,7 @@
 
 <form-validation>
 
-    <formset>
+    <!-- <formset>
         <form name="sampleVO">
         	<field property="name" depends="required">
         		<arg0 key="title.sample.name" />
@@ -17,6 +17,6 @@
         		<arg0 key="title.sample.regUser" />
 			</field>
         </form>
-    </formset>
+    </formset> -->
 
 </form-validation>

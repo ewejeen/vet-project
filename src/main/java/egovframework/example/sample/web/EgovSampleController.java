@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
@@ -76,7 +77,7 @@ public class EgovSampleController {
 	 * @return "egovSampleList"
 	 * @exception Exception
 	 */
-	@RequestMapping(value = "/egovSampleList.do")
+	@RequestMapping(value = "/noticeList.do")
 	public String selectSampleList(@ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model)
 			throws Exception {
 
@@ -113,8 +114,8 @@ public class EgovSampleController {
 	 * @return "egovSampleRegister"
 	 * @exception Exception
 	 */
-	@RequestMapping(value = "/addSampleView.do", method = RequestMethod.POST)
-	public String addSampleView(@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
+	@RequestMapping(value = "/addNoticeView.do", method = RequestMethod.POST)
+	public String addNoticeView(@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
 		model.addAttribute("sampleVO", new SampleVO());
 		return "sample/egovSampleRegister";
 	}
@@ -130,8 +131,8 @@ public class EgovSampleController {
 	 * @return "forward:/egovSampleList.do"
 	 * @exception Exception
 	 */
-	@RequestMapping(value = "/addSample.do", method = RequestMethod.POST)
-	public String addSample(@ModelAttribute("searchVO") SampleDefaultVO searchVO, SampleVO sampleVO,
+	@RequestMapping(value = "/addNotice.do", method = RequestMethod.POST)
+	public String addNotice(@ModelAttribute("searchVO") SampleDefaultVO searchVO, SampleVO sampleVO,
 			BindingResult bindingResult, Model model, SessionStatus status) throws Exception {
 
 		// Server-Side Validation
@@ -144,7 +145,18 @@ public class EgovSampleController {
 
 		sampleService.insertSample(sampleVO);
 		status.setComplete();
-		return "forward:/egovSampleList.do";
+		return "forward:/noticeList.do";
+	}
+	
+	@RequestMapping(value = "/addNoticeAjax.do", method = RequestMethod.POST)
+	@ResponseBody
+	public void addNoticeAjax(SampleVO sampleVO,
+			Model model, SessionStatus status) throws Exception {
+
+		
+		sampleService.insertSample(sampleVO);
+		status.setComplete();
+		System.out.println("등록됨");
 	}
 
 	/**
@@ -158,8 +170,8 @@ public class EgovSampleController {
 	 * @return "egovSampleRegister"
 	 * @exception Exception
 	 */
-	@RequestMapping("/updateSampleView.do")
-	public String updateSampleView(@RequestParam("id") String id,
+	@RequestMapping("/updateNoticeView.do")
+	public String updateNoticeView(@RequestParam("id") String id,
 			@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
 		SampleVO sampleVO = new SampleVO();
 		// 변수명 CoC 에 따라 sampleVO
@@ -184,8 +196,8 @@ public class EgovSampleController {
 	}
 	
 	// 글 조회 화면
-	@RequestMapping("/selectSampleView.do")
-	public String selectSampleView(@RequestParam("id") String id,
+	@RequestMapping("/selectNoticeView.do")
+	public String selectNoticeView(@RequestParam("id") String id,
 			@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
 		SampleVO sampleVO = new SampleVO();
 		// 변수명 CoC 에 따라 sampleVO

@@ -163,7 +163,7 @@ public class VetController {
 	}
 
 	
-	// 마커 표시 위해 이름, 주소 조회
+	// 해당 province+city의 동물병원 마커 표시 위해 이름+주소 조회
 	@RequestMapping(value = "/selectNameAndAdrs.do", produces = "application/json;charset=utf-8")
 	public @ResponseBody String selectNameAndAdrs(String province, String city) throws Exception {
 		ObjectMapper om = new ObjectMapper();
