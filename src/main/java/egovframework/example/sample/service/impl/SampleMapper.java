@@ -70,7 +70,8 @@ public interface SampleMapper {
 	 * @return 조회한 글
 	 * @exception Exception
 	 */
-	SampleVO selectSample(SampleVO vo) throws Exception;
+	//SampleVO selectSample(SampleVO vo) throws Exception;
+	SampleVO selectSample(String id) throws Exception;
 
 	/**
 	 * 글 목록을 조회한다.

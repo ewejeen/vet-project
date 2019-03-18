@@ -29,8 +29,14 @@
     <script type="text/javaScript" language="javascript" defer="defer">
         
         /* 글 수정 화면 function */
-        function fn_egov_select(id) {
+        function fn_egov_update(id) {
            	document.listForm.action = "<c:url value='/updateSampleView.do?id="+id+"'/>";
+           	document.listForm.submit();
+        }
+
+        /* 글 보기 화면 function */
+        function fn_egov_select(id) {
+           	document.listForm.action = "<c:url value='/selectSampleView.do?id="+id+"'/>";
            	document.listForm.submit();
         }
         
@@ -92,8 +98,8 @@
         	</div>
         	<!-- List -->
         	<div id="table">
-        		<table width="100%" border="0" cellpadding="0" cellspacing="0" summary="카테고리ID, 케테고리명, 사용여부, Description, 등록자 표시하는 테이블">
-        			<caption style="visibility:hidden">카테고리ID, 케테고리명, 사용여부, Description, 등록자 표시하는 테이블</caption>
+        		<table width="100%" border="0" cellpadding="0" cellspacing="0" summary="공지글 ID, 제목, 등록자('관리자'), 등록일 표시하는 테이블">
+        			<caption style="visibility:hidden">공지글 ID, 제목, 등록자("관리자"), 등록일 표시하는 테이블</caption>
         			<colgroup>
         				<col width="200"/>
         				<col width="?"/>

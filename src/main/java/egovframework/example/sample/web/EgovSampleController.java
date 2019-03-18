@@ -159,11 +159,11 @@ public class EgovSampleController {
 	 * @exception Exception
 	 */
 	@RequestMapping("/updateSampleView.do")
-	public String updateSampleView(@RequestParam("selectedId") String id,
+	public String updateSampleView(@RequestParam("id") String id,
 			@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
 		SampleVO sampleVO = new SampleVO();
 		// 변수명 CoC 에 따라 sampleVO
-		model.addAttribute(selectSample(sampleVO, searchVO));
+		model.addAttribute(selectSample(id, searchVO));
 		return "sample/egovSampleRegister";
 	}
 
@@ -178,9 +178,18 @@ public class EgovSampleController {
 	 * @return @ModelAttribute("sampleVO") - 조회한 정보
 	 * @exception Exception
 	 */
-	public SampleVO selectSample(SampleVO sampleVO, @ModelAttribute("searchVO") SampleDefaultVO searchVO)
+	public SampleVO selectSample(@RequestParam("id") String id, @ModelAttribute("searchVO") SampleDefaultVO searchVO)
 			throws Exception {
-		return sampleService.selectSample(sampleVO);
+		return sampleService.selectSample(id);
+	}
+	
+	@RequestMapping("/selectSampleView.do")
+	public String selectSampleView(@RequestParam("id") String id,
+			@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
+		SampleVO sampleVO = new SampleVO();
+		// 변수명 CoC 에 따라 sampleVO
+		model.addAttribute(selectSample(id, searchVO));
+		return "sample/egovSampleView";
 	}
 
 	/**
