@@ -9,12 +9,12 @@ public class ReviewVO {
 	// review 테이블
 	private int rv_id;
 	private int hpt_id;
-	private String hpt_rate;
+	private double hpt_rate;
 	private String rv_title;
 	private String rv_content;
 	//@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
-	private Timestamp reg_date;
-	private String rv_reg_date = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(reg_date);
+	private Timestamp rv_reg_date;
+	//private String rv_reg_date = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(reg_date);	// JSON을 위한 String화 (DB에서 해줬으므로 안 해도 될 듯? JSON은 여기 안 거친다)
 	private String rv_image;
 	private String pet_type;
 	private String visit_date;
@@ -28,7 +28,7 @@ public class ReviewVO {
 	
 	
 	public ReviewVO () { }
-	public ReviewVO(int hpt_id, String hpt_rate, String rv_title, String rv_content, String rv_image, String pet_type,
+	public ReviewVO(int hpt_id, double hpt_rate, String rv_title, String rv_content, String rv_image, String pet_type,
 			String visit_date, int visit_is_new) {
 		super();
 		this.hpt_id = hpt_id;
@@ -57,11 +57,11 @@ public class ReviewVO {
 		this.hpt_id = hpt_id;
 	}
 
-	public String getHpt_rate() {
+	public double getHpt_rate() {
 		return hpt_rate;
 	}
 
-	public void setHpt_rate(String hpt_rate) {
+	public void setHpt_rate(double hpt_rate) {
 		this.hpt_rate = hpt_rate;
 	}
 
@@ -81,11 +81,11 @@ public class ReviewVO {
 		this.rv_content = rv_content;
 	}
 
-	public String getRv_reg_date() {
+	public Timestamp getRv_reg_date() {
 		return rv_reg_date;
 	}
 
-	public void setRv_reg_date(String rv_reg_date) {
+	public void setRv_reg_date(Timestamp rv_reg_date) {
 		this.rv_reg_date = rv_reg_date;
 	}
 

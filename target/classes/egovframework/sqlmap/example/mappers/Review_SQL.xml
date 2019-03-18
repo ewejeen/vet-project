@@ -19,7 +19,7 @@
 	</resultMap>
 
 	<!-- 후기 입력하기 -->
-	<insert id="insertReview" parameterType="egovframework.example.sample.service.ReviewVO">
+	<insert id="insertReview" parameterType="ReviewVO">
 			INSERT INTO 
 				review(hpt_id, hpt_rate, rv_title, rv_content, rv_image, pet_type, visit_date, visit_is_new)
 			VALUES
@@ -53,6 +53,18 @@
 			ORDER BY
 				rv_reg_date DESC
 			LIMIT 0,3
+	</select>
+	
+	<!-- 후기 상세 보기 -->
+	<select id="reviewDetail" resultType="egovMap">
+			SELECT
+				rv_id, hpt_id, hpt_rate, rv_title, rv_content, 
+				DATE_FORMAT(rv_reg_date, '%Y-%m-%d') AS rv_reg_date, 
+				rv_image, pet_type, visit_date, visit_is_new
+			FROM
+				review
+			WHERE 
+				rv_id=#{rv_id}
 	</select>
 	
 	

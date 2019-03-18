@@ -60,8 +60,8 @@ public class ReviewServiceImpl extends EgovAbstractServiceImpl implements Review
 	
 	// 후기 작성
 	@Override
-	public boolean insertReview(ReviewVO vo) {
-		return reviewDAO.insertReview(vo);
+	public void insertReview(ReviewVO vo) {
+		reviewDAO.insertReview(vo);
 	}
 	
 	// 후기 리스트 데이터
@@ -76,4 +76,10 @@ public class ReviewServiceImpl extends EgovAbstractServiceImpl implements Review
 		return reviewDAO.reviewListThree(hpt_id);
 	}
 	
+	// 후기 리스트 상세 보기
+	@Override
+	public List<?> reviewDetail(int rv_id) throws Exception {
+		return reviewDAO.reviewDetail(rv_id);
+	}
+		
 }

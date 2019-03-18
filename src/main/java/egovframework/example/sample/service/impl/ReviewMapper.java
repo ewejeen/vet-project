@@ -26,10 +26,12 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 public interface ReviewMapper {
 
 	// 후기 작성
-	boolean insertReview(ReviewVO vo);
+	void insertReview(ReviewVO vo);
 	
 	// 후기 리스트 데이터
 	List<?> reviewList(@Param("hpt_id") int hpt_id) throws Exception;
 	// 후기 리스트 데이터 3개만
 	List<?> reviewListThree(@Param("hpt_id") int hpt_id) throws Exception;
+	// 후기 리스트 상세 보기
+	List<?> reviewDetail(@Param("rv_id") int rv_id) throws Exception;
 }

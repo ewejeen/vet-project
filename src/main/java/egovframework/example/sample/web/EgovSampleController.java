@@ -183,6 +183,7 @@ public class EgovSampleController {
 		return sampleService.selectSample(id);
 	}
 	
+	// 글 조회 화면
 	@RequestMapping("/selectSampleView.do")
 	public String selectSampleView(@RequestParam("id") String id,
 			@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {

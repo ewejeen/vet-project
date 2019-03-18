@@ -15,38 +15,52 @@
  */
 package egovframework.example.sample.web;
 
+import java.util.List;
 
-
+import egovframework.example.sample.service.EgovSampleService;
 import egovframework.example.sample.service.ReviewService;
 import egovframework.example.sample.service.ReviewVO;
+import egovframework.example.sample.service.SampleDefaultVO;
+import egovframework.example.sample.service.SampleVO;
 
 import egovframework.rte.fdl.property.EgovPropertyService;
-import net.sf.json.JSONObject;
-import net.sf.json.util.JSONTokener;
-
-import java.util.*;
+import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
-
+/**
+ * @Class Name : EgovSampleController.java
+ * @Description : EgovSample Controller Class
+ * @Modification Information
+ * @ @ 수정일 수정자 수정내용 @ --------- --------- ------------------------------- @
+ *   2009.03.16 최초생성
+ *
+ * @author 개발프레임웍크 실행환경 개발팀
+ * @since 2009. 03.16
+ * @version 1.0
+ * @see
+ *
+ * 		Copyright (C) by MOPAS All right reserved.
+ */
 
 @RequestMapping("/review")
 @Controller
 public class ReviewController {
-	
-	/** ReviewService */
+
+	/** EgovSampleService */
 	@Resource(name = "reviewService")
 	private ReviewService reviewService;
 
@@ -57,191 +71,43 @@ public class ReviewController {
 	/** Validator */
 	@Resource(name = "beanValidator")
 	protected DefaultBeanValidator beanValidator;
-
-	
-	@RequestMapping(value="/insertData.do")
-	public String insertData(){
-	System.out.println("/insertData.do called");
-		return "vetproject/data";
-	}
-	
-	/*// 후기 작성
-	@ResponseBody
-	@RequestMapping(value = "/insertReview.do", method = RequestMethod.POST)
-	public Map<String, Object> insertReview(ReviewVO vo, HttpServletRequest request) throws Exception {
-		Map<String, Object> map = new HashMap<>();
-		map.put("hpt_id", request.getParameter("hpt_id"));
-		map.put("hpt_rate", request.getParameter("hpt_rate"));
-		map.put("rv_title", request.getParameter("rv_title"));
-		map.put("rv_content", request.getParameter("rv_content"));
-		map.put("pet_type", request.getParameter("pet_type"));
-		map.put("visit_date", request.getParameter("visit_date"));
-		map.put("visit_is_new", request.getParameter("visit_is_new"));
-		return map;
-	}
-	*/
-	
-	
-	/*// 후기 작성
-	@ResponseBody 
-	@RequestMapping(value = "/insertReview.do", method=RequestMethod.POST)
-	public String insertReview(ReviewVO vo, HttpServletRequest request) throws Exception {
-		String json = request.getParameter("jsonData");
-		int hpt_id = vo.getHpt_id();
-		String hpt_rate = vo.getHpt_rate();
-		String rv_title = vo.getRv_title();
-		String rv_content =  vo.getRv_content();
-		String pet_type = vo.getPet_type();
-		String visit_date = vo.getVisit_date();
-		int visit_is_new = vo.getVisit_is_new();
-		
-		
-		
-		if(reviewService.insertReview(new ReviewVO(hpt_id, hpt_rate, rv_title, rv_content, pet_type, visit_date, visit_is_new))) {
-			System.out.println("success");
-			return "success";
-		}
-		
-		System.out.println("fail");
-		return "fail";
-	}*/
-	
-	/*@RequestMapping(value="/insertReview.do", method=RequestMethod.POST)
-	@ResponseBody
-	public Map<String, Object> json(HttpServletRequest request){
-		System.out.println("test.json");
-		
-		boolean result = reviewService.insertReview(Integer.parseInt(request.getParameter("hpt_id")), request.getParameter("hpt_rate"), request.getParameter("rv_title"), 
-		request.getParameter("rv_content"), request.getParameter("pet_type"), request.getParameter("visit_date"), Integer.parseInt(request.getParameter("visit_is_new")));
-		
-		Map<String, Object> map = new HashMap<>();
-		map.put("result", result);
-		return map;
-	}*/
-	
-	/*
+/*
 	*//**
-	 * 글을 등록한다.
-	 * @param sampleVO - 등록할 정보가 담긴 VO
-	 * @param searchVO - 목록 조회조건 정보가 담긴 VO
-	 * @param status
-	 * @return "forward:/egovSampleList.do"
+	 * 글 목록을 조회한다. (pageing)
+	 * 
+	 * @param searchVO
+	 *            - 조회할 정보가 담긴 SampleDefaultVO
+	 * @param model
+	 * @return "egovSampleList"
 	 * @exception Exception
 	 *//*
-	@RequestMapping(value = "/insertReview.do", method = RequestMethod.POST)
-	public String addSample(ReviewVO reviewVO, BModel model, SessionStatus status)
+	@RequestMapping(value = "/egovSampleList.do")
+	public String selectSampleList(@ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model)
 			throws Exception {
 
-		
+		*//** EgovPropertyService.sample *//*
+		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
+		searchVO.setPageSize(propertiesService.getInt("pageSize"));
 
-		if(reviewService.insertReview(reviewVO)){
-			return "forward:/main.do";
-		}
-		return "forward:/main.do";
-	}*/
-		
-	/*@ResponseBody
-	@RequestMapping(value="/insertReview.do")
-	public String insert (ReviewVO2 vo, HttpServletRequest request) throws Exception{
-		System.out.println("call");
-		String json = request.getParameter("param");
-		System.out.println("json: "+json);
-		int hpt_id = Integer.parseInt(request.getParameter("hpt_id"));
-		System.out.println(hpt_id);
-		String hpt_rate = request.getParameter("hpt_rate");
-		String rv_title = request.getParameter("rv_title");
-		String rv_content =  request.getParameter("rv_content");
-		String pet_type = request.getParameter("pet_type");
-		String visit_date = request.getParameter("visit_date");
-		int visit_is_new = Integer.parseInt(request.getParameter("visit_is_new"));
-		
-		vo = new ReviewVO2(hpt_id, hpt_rate, rv_title, rv_content, pet_type, visit_date, visit_is_new);
-		System.out.println(vo.toString());
-		
-		if(reviewService.insertReview(vo)){
-			System.out.println("suc");
-			return "successs";			
-		}
-		System.out.println("fail");
-		return "fail";
-	}*/
-	
-	/*@RequestMapping(value="/insertReview.do", method=RequestMethod.POST)
-	@ResponseBody
-	public Object insert (@RequestBody ReviewVO reviewVO){
-		HashMap<String, Object> map = new HashMap<>();
-		map.put("hpt_id", reviewVO.getHpt_id());
-		
-		return map;
-	}*/
-	
-	
-	@RequestMapping(value="/insertReview.do", method=RequestMethod.POST)
-	public void insert (ReviewVO vo, HttpServletRequest request) throws Exception{
-		System.out.println("insertReview called");
-		int hpt_id = Integer.parseInt(request.getParameter("hpt_id"));
-		String hpt_rate = request.getParameter("hpt_rate");
-		String visit_date = request.getParameter("visit_date");
-		String pet_type = request.getParameter("pet_type");
-		int visit_is_new = Integer.parseInt(request.getParameter("visit_is_new"));
-		String rv_title = request.getParameter("rv_title");
-		String rv_content =  request.getParameter("rv_content");
-		String rv_image =  request.getParameter("rv_image");
-		
-		vo = new ReviewVO(hpt_id, hpt_rate, rv_title, rv_content, rv_image, pet_type, visit_date, visit_is_new);
-		
-		if(reviewService.insertReview(vo)){
-			System.out.println("suc");
-		}
-		System.out.println("fail");
-	}
-	
-	
-	
+		*//** pageing setting *//*
+		PaginationInfo paginationInfo = new PaginationInfo();
+		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
+		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
+		paginationInfo.setPageSize(searchVO.getPageSize());
 
-	@RequestMapping(value="/insertReview3.do", method=RequestMethod.POST)
-	public ModelAndView adminLogin(ModelAndView modelAndView, ReviewVO vo, HttpServletRequest request) {
-	    Map<String, Object> map = new HashMap<>();
-	    int hpt_id = Integer.parseInt(request.getParameter("hpt_id"));
-		String hpt_rate = request.getParameter("hpt_rate");
-		String visit_date = request.getParameter("visit_date");
-		String pet_type = request.getParameter("pet_type");
-		int visit_is_new = Integer.parseInt(request.getParameter("visit_is_new"));
-		String rv_title = request.getParameter("rv_title");
-		String rv_content =  request.getParameter("rv_content");
-		String rv_image =  request.getParameter("rv_image");
-		
-		vo = new ReviewVO(hpt_id, hpt_rate, rv_title, rv_content, rv_image, pet_type, visit_date, visit_is_new);
-	    
-	    int result = 0;
-	    if(reviewService.insertReview(vo)){
-			System.out.println("suc");
-			result=1;
-		}
-	    map.put("result", result);
-	     
-	    modelAndView.addAllObjects(map);
-	 
-	    // setViewName에 들어갈 String 파라미터는 JsonView bean 설정해줬던 id와 같아야 한다.
-	    modelAndView.setViewName("jsonView");
-	     
-	    return modelAndView;
-	}
-	
-	/* 1. jackson-databind dependency를 추가
-     * 2. controller에서 result를 담은 map을 return하는 방식 -> result를 담은 map을 modelandview에 add해서 modelandview를 return하는 방식
-	 * 3. jquery ajax에서 받을 때 dataType : 'json' 추가
-	 */
+		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
+		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
+		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-	
-	/*@RequestMapping(value="/insertReview.do", method= RequestMethod.POST)
-	public boolean saveRst(ReviewVO vo, HttpServletRequest request) throws Exception {
-		String json = request.getParameter("form");
-		String escapedJson = StringEscapeUtils.unescapeHtml(json);
-		JSONTokener tokener = new JSONTokener(escapedJson);
-		JSONObject jsonObject = new JSONObject();
-		
-    }*/
+		List<?> sampleList = sampleService.selectSampleList(searchVO);
+		model.addAttribute("resultList", sampleList);
+
+		int totCnt = sampleService.selectSampleListTotCnt(searchVO);
+		paginationInfo.setTotalRecordCount(totCnt);
+		model.addAttribute("paginationInfo", paginationInfo);
+
+		return "sample/egovSampleList";
+	}*/
 	
 	// 후기 리스트
 	@RequestMapping(value = "/reviewList.do", produces = "application/json;charset=utf-8")
@@ -263,4 +129,155 @@ public class ReviewController {
 		return json;
 	}
 	
+	// 후기 조회
+	@RequestMapping(value = "/reviewDetail.do", produces = "application/json;charset=utf-8")
+	public @ResponseBody String reviewDetail(int rv_id) throws Exception {
+		ObjectMapper om = new ObjectMapper();
+		List<?> list = reviewService.reviewDetail(rv_id);
+		String json = om.writeValueAsString(list);
+		
+		return json;
+	}
+	
+
+	/**
+	 * 후기 등록 화면을 조회한다.
+	 * 
+	 * @param searchVO
+	 *            - 목록 조회조건 정보가 담긴 VO
+	 * @param model
+	 * @return "egovSampleRegister"
+	 * @exception Exception
+	 */
+	@RequestMapping(value = "/addReviewView.do", method = RequestMethod.GET)
+	public String addSampleView(Model model) throws Exception {
+		model.addAttribute("reviewVO", new ReviewVO());
+		return "vetproject/reviewRegister";
+	}
+
+	/**
+	 * 후기를 등록한다.
+	 * 
+	 * @param sampleVO
+	 *            - 등록할 정보가 담긴 VO
+	 * @param searchVO
+	 *            - 목록 조회조건 정보가 담긴 VO
+	 * @param status
+	 * @return "forward:/egovSampleList.do"
+	 * @exception Exception
+	 * validator 없앰
+	 */
+	@RequestMapping(value = "/addReview.do", method = RequestMethod.POST)
+	public String addReview(ReviewVO reviewVO,
+			Model model, SessionStatus status) throws Exception {
+		reviewService.insertReview(reviewVO);
+		status.setComplete();
+		return "vetproject/success";
+	}
+	
+	@RequestMapping(value = "/addAppReview.do", method = RequestMethod.POST)
+	public @ResponseBody String addAppReview(ReviewVO reviewVO,
+			Model model, SessionStatus status) throws Exception {
+		reviewService.insertReview(reviewVO);
+		status.setComplete();
+
+		ObjectMapper om = new ObjectMapper();
+		List<?> list = reviewService.reviewDetail(reviewVO.getRv_id());
+		String json = om.writeValueAsString(list);
+		
+		return json;
+	}
+/*
+	*//**
+	 * 글 수정화면을 조회한다.
+	 * 
+	 * @param id
+	 *            - 수정할 글 id
+	 * @param searchVO
+	 *            - 목록 조회조건 정보가 담긴 VO
+	 * @param model
+	 * @return "egovSampleRegister"
+	 * @exception Exception
+	 *//*
+	@RequestMapping("/updateSampleView.do")
+	public String updateSampleView(@RequestParam("id") String id,
+			@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
+		SampleVO sampleVO = new SampleVO();
+		// 변수명 CoC 에 따라 sampleVO
+		model.addAttribute(selectSample(id, searchVO));
+		return "sample/egovSampleRegister";
+	}
+
+	*//**
+	 * 글을 조회한다.
+	 * 
+	 * @param sampleVO
+	 *            - 조회할 정보가 담긴 VO
+	 * @param searchVO
+	 *            - 목록 조회조건 정보가 담긴 VO
+	 * @param status
+	 * @return @ModelAttribute("sampleVO") - 조회한 정보
+	 * @exception Exception
+	 *//*
+	public SampleVO selectSample(@RequestParam("id") String id, @ModelAttribute("searchVO") SampleDefaultVO searchVO)
+			throws Exception {
+		return sampleService.selectSample(id);
+	}
+	
+	// 글 조회 화면
+	@RequestMapping("/selectSampleView.do")
+	public String selectSampleView(@RequestParam("id") String id,
+			@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
+		SampleVO sampleVO = new SampleVO();
+		// 변수명 CoC 에 따라 sampleVO
+		model.addAttribute(selectSample(id, searchVO));
+		return "sample/egovSampleView";
+	}
+
+	*//**
+	 * 글을 수정한다.
+	 * 
+	 * @param sampleVO
+	 *            - 수정할 정보가 담긴 VO
+	 * @param searchVO
+	 *            - 목록 조회조건 정보가 담긴 VO
+	 * @param status
+	 * @return "forward:/egovSampleList.do"
+	 * @exception Exception
+	 *//*
+	@RequestMapping("/updateSample.do")
+	public String updateSample(@ModelAttribute("searchVO") SampleDefaultVO searchVO, SampleVO sampleVO,
+			BindingResult bindingResult, Model model, SessionStatus status) throws Exception {
+
+		beanValidator.validate(sampleVO, bindingResult);
+
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("sampleVO", sampleVO);
+			return "sample/egovSampleRegister";
+		}
+
+		sampleService.updateSample(sampleVO);
+		status.setComplete();
+		return "forward:/egovSampleList.do";
+	}
+
+	*//**
+	 * 글을 삭제한다.
+	 * 
+	 * @param sampleVO
+	 *            - 삭제할 정보가 담긴 VO
+	 * @param searchVO
+	 *            - 목록 조회조건 정보가 담긴 VO
+	 * @param status
+	 * @return "forward:/egovSampleList.do"
+	 * @exception Exception
+	 *//*
+	@RequestMapping("/deleteSample.do")
+	public String deleteSample(SampleVO sampleVO, @ModelAttribute("searchVO") SampleDefaultVO searchVO,
+			SessionStatus status) throws Exception {
+		sampleService.deleteSample(sampleVO);
+		status.setComplete();
+		return "forward:/egovSampleList.do";
+	}*/
+
 }
