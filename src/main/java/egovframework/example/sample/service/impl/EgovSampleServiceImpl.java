@@ -59,13 +59,14 @@ public class EgovSampleServiceImpl extends EgovAbstractServiceImpl implements Eg
 	// TODO mybatis 사용
 	@Resource(name="sampleMapper")
 	private SampleMapper sampleDAO;
-
+	
 	/**
 	 * 글을 등록한다.
 	 * @param vo - 등록할 정보가 담긴 SampleVO
 	 * @return 등록 결과
 	 * @exception Exception
 	 */
+
 	@Override
 	public void insertSample(SampleVO vo) throws Exception {
 		sampleDAO.insertSample(vo);
@@ -128,11 +129,6 @@ public class EgovSampleServiceImpl extends EgovAbstractServiceImpl implements Eg
 	@Override
 	public int selectSampleListTotCnt(SampleDefaultVO searchVO) {
 		return sampleDAO.selectSampleListTotCnt(searchVO);
-	}
-
-	@Override
-	public List<?> selectSampleJsonList() throws Exception {
-		return sampleDAO.selectSampleJsonList();
 	}
 
 }

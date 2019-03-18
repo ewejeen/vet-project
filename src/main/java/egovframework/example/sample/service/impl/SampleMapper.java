@@ -79,9 +79,6 @@ public interface SampleMapper {
 	 * @exception Exception
 	 */
 	List<?> selectSampleList(SampleDefaultVO searchVO) throws Exception;
-	
-	// JSON 객체 얻기 위한 글 목록을 조회한다.
-	List<?> selectSampleJsonList() throws Exception;
 
 	/**
 	 * 글 총 갯수를 조회한다.

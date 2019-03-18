@@ -6,6 +6,7 @@
 	box-shadow:2px 2px 2px #999;
 	background:#fff;
 	z-index:10;
+	position:fixed;
 }
 
 .header .gnb {
@@ -26,6 +27,7 @@
 	width: 46px;
 	margin-top: 17px;
 	cursor: pointer;
+	float:left;
 }
 
 .header .gnb ul li.logo {

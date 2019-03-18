@@ -19,23 +19,31 @@ package egovframework.example.sample.web;
 
 import egovframework.example.sample.service.ReviewService;
 import egovframework.example.sample.service.ReviewVO;
+
 import egovframework.rte.fdl.property.EgovPropertyService;
+import net.sf.json.JSONObject;
+import net.sf.json.util.JSONTokener;
 
 import java.util.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 
 
-@Controller
 @RequestMapping("/review")
+@Controller
 public class ReviewController {
 	
 	/** ReviewService */
@@ -167,16 +175,18 @@ public class ReviewController {
 		return map;
 	}*/
 	
-	@RequestMapping(value="/insertReview.do")
+	
+	@RequestMapping(value="/insertReview.do", method=RequestMethod.POST)
 	public void insert (ReviewVO vo, HttpServletRequest request) throws Exception{
+		System.out.println("insertReview called");
 		int hpt_id = Integer.parseInt(request.getParameter("hpt_id"));
 		String hpt_rate = request.getParameter("hpt_rate");
+		String visit_date = request.getParameter("visit_date");
+		String pet_type = request.getParameter("pet_type");
+		int visit_is_new = Integer.parseInt(request.getParameter("visit_is_new"));
 		String rv_title = request.getParameter("rv_title");
 		String rv_content =  request.getParameter("rv_content");
 		String rv_image =  request.getParameter("rv_image");
-		String pet_type = request.getParameter("pet_type");
-		String visit_date = request.getParameter("visit_date");
-		int visit_is_new = Integer.parseInt(request.getParameter("visit_is_new"));
 		
 		vo = new ReviewVO(hpt_id, hpt_rate, rv_title, rv_content, rv_image, pet_type, visit_date, visit_is_new);
 		
@@ -185,6 +195,53 @@ public class ReviewController {
 		}
 		System.out.println("fail");
 	}
+	
+	
+	
+
+	@RequestMapping(value="/insertReview3.do", method=RequestMethod.POST)
+	public ModelAndView adminLogin(ModelAndView modelAndView, ReviewVO vo, HttpServletRequest request) {
+	    Map<String, Object> map = new HashMap<>();
+	    int hpt_id = Integer.parseInt(request.getParameter("hpt_id"));
+		String hpt_rate = request.getParameter("hpt_rate");
+		String visit_date = request.getParameter("visit_date");
+		String pet_type = request.getParameter("pet_type");
+		int visit_is_new = Integer.parseInt(request.getParameter("visit_is_new"));
+		String rv_title = request.getParameter("rv_title");
+		String rv_content =  request.getParameter("rv_content");
+		String rv_image =  request.getParameter("rv_image");
+		
+		vo = new ReviewVO(hpt_id, hpt_rate, rv_title, rv_content, rv_image, pet_type, visit_date, visit_is_new);
+	    
+	    int result = 0;
+	    if(reviewService.insertReview(vo)){
+			System.out.println("suc");
+			result=1;
+		}
+	    map.put("result", result);
+	     
+	    modelAndView.addAllObjects(map);
+	 
+	    // setViewName에 들어갈 String 파라미터는 JsonView bean 설정해줬던 id와 같아야 한다.
+	    modelAndView.setViewName("jsonView");
+	     
+	    return modelAndView;
+	}
+	
+	/* 1. jackson-databind dependency를 추가
+     * 2. controller에서 result를 담은 map을 return하는 방식 -> result를 담은 map을 modelandview에 add해서 modelandview를 return하는 방식
+	 * 3. jquery ajax에서 받을 때 dataType : 'json' 추가
+	 */
+
+	
+	/*@RequestMapping(value="/insertReview.do", method= RequestMethod.POST)
+	public boolean saveRst(ReviewVO vo, HttpServletRequest request) throws Exception {
+		String json = request.getParameter("form");
+		String escapedJson = StringEscapeUtils.unescapeHtml(json);
+		JSONTokener tokener = new JSONTokener(escapedJson);
+		JSONObject jsonObject = new JSONObject();
+		
+    }*/
 	
 	// 후기 리스트
 	@RequestMapping(value = "/reviewList.do", produces = "application/json;charset=utf-8")

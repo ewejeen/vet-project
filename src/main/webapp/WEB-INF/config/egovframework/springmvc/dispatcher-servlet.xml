@@ -44,7 +44,7 @@
 		<property name="paramName" value="language" />
 	</bean>
 
-	<bean
+	<!-- <bean
 		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="defaultErrorView" value="cmmn/egovError" />
 		<property name="exceptionMappings">
@@ -55,7 +55,7 @@
 				<prop key="org.springframework.security.AccessDeniedException">cmmn/egovError</prop>
 			</props>
 		</property>
-	</bean>
+	</bean> -->
 
 	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver"
 		p:order="1" p:viewClass="org.springframework.web.servlet.view.JstlView"
@@ -80,25 +80,26 @@
 
 
 	<mvc:annotation-driven>
-		<!-- messageConverter -->
-		<mvc:message-converters>
-			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
-				<property name="supportedMediaTypes">
-					<list>
-						<value>text/html;charset=UTF-8</value>
-					</list>
-				</property>
-			</bean>
-			<bean
-				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-				<property name="supportedMediaTypes">
-					<list>
-						<value>application/json;charset=UTF-8</value>
-					</list>
-				</property>
-			</bean>
-		</mvc:message-converters>
-	</mvc:annotation-driven>
+    <!-- messageConvertert -->
+    <mvc:message-converters>
+      <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+        <property name="supportedMediaTypes">
+          <list>
+            <value>text/html; charset=UTF-8</value>
+          </list>
+        </property>
+      </bean>
+
+      <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="supportedMediaTypes">
+          <list>
+            <value>application/json; charset=UTF-8</value>
+          </list>
+        </property>
+      </bean>
+    </mvc:message-converters>
+
+  </mvc:annotation-driven>
 
 	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver"
 		p:order="0" />

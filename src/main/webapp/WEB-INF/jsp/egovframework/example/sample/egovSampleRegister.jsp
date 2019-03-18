@@ -19,19 +19,20 @@
   * Copyright (C) 2009 by MOPAS  All right reserved.
   */
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <c:set var="registerFlag" value="${empty sampleVO.id ? 'create' : 'modify'}"/>
+    <!-- id 있으면 registerFlag가 modify, 없으면 create -->
+    <c:set var="registerFlag" value="${selectedId eq null ? 'create' : 'modify'}"/>
     <title>Sample <c:if test="${registerFlag == 'create'}"><spring:message code="button.create" /></c:if>
                   <c:if test="${registerFlag == 'modify'}"><spring:message code="button.modify" /></c:if>
     </title>
     <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/sample.css'/>"/>
     
-    <!--For Commons Validator Client Side-->
+    <%-- <!--For Commons Validator Client Side-->
     <script type="text/javascript" src="<c:url value='/cmmn/validator.do'/>"></script>
-    <validator:javascript formName="sampleVO" staticJavascript="false" xhtml="true" cdata="false"/>
+    <validator:javascript formName="detailForm" staticJavascript="false" xhtml="true" cdata="false"/> --%>
     
     <script type="text/javaScript" language="javascript" defer="defer">
         
@@ -50,12 +51,12 @@
         /* 글 등록 function */
         function fn_egov_save() {
         	frm = document.detailForm;
-        	if(!validateSampleVO(frm)){
+        	/* if(!validateSampleVO(frm)){
                 return;
-            }else{
+            }else{ */
             	frm.action = "<c:url value="${registerFlag == 'create' ? '/addSample.do' : '/updateSample.do'}"/>";
                 frm.submit();
-            }
+            
         }
         
        
@@ -108,13 +109,13 @@
     				<form:textarea path="content" rows="5" cols="58" />&nbsp;<form:errors path="content" />
                 </td>
     		</tr>
-    		<tr>
+    		<%-- <tr>
     			<td class="tbtd_caption"><label for="reg_date">Reg_Date</label></td>
     			<td class="tbtd_content">
     				<form:input path="reg_date" maxlength="30" cssClass="txt"/>
     				&nbsp;<form:errors path="reg_date" />
     			</td>
-    		</tr>
+    		</tr> --%>
     		<tr>
     			<td class="tbtd_caption"><label for="image">Image</label></td>
     			<td class="tbtd_content">

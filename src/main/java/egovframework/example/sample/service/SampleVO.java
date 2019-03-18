@@ -16,6 +16,7 @@
 package egovframework.example.sample.service;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 /**
  * @Class Name : SampleVO.java
@@ -38,7 +39,8 @@ public class SampleVO extends SampleDefaultVO {
 	private int id;
 	private String title;
 	private String content;
-	private Timestamp reg_date;
+	private Timestamp reg_date;	
+	//private String reg_date = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(n_reg_date);	// String으로 변환
 	private String image;
 
 	public int getId() {

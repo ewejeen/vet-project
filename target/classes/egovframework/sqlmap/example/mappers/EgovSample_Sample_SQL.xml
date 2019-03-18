@@ -38,7 +38,7 @@
 	<select id="selectSample" resultMap="sample">
 
 			SELECT
-				ID, title, content, reg_date, image
+				id, title, content, reg_date, image
 			FROM notice
 			WHERE ID=#{id}
 
@@ -47,29 +47,21 @@
 	<select id="selectSampleList" parameterType="searchVO" resultType="egovMap">
 
 			SELECT
-				ID, title, content, reg_date, image
+				id, title, content, reg_date, image
 			FROM notice
 			WHERE 1=1
 			<if test="searchKeyword != null and searchKeyword != ''">
 		        <choose>
 		            <when test="searchCondition == 0">
-						AND	title LIKE '%' || #{searchKeyword} || '%'
+						AND	title LIKE CONCAT('%', #{searchKeyword}, '%')
 					</when>
 		            <when test="searchCondition == 1">
-						AND	content LIKE '%' || #{searchKeyword} || '%'
+						AND	content LIKE CONCAT('%', #{searchKeyword}, '%')
 					</when>
 				</choose>
 			</if>
 			ORDER BY ID desc
 			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
-	</select>
-	
-	<select id="selectSampleJsonList" resultType="egovMap">
-
-			SELECT
-				ID, title, content, reg_date, image
-			FROM notice
-			ORDER BY ID desc
 	</select>
 
 	<select id="selectSampleListTotCnt" parameterType="searchVO" resultType="int">
@@ -80,10 +72,10 @@
 			<if test="searchKeyword != null and searchKeyword != ''">
 		        <choose>
 		            <when test="searchCondition == 0">
-						AND title LIKE '%' || #{searchKeyword} || '%'
+						AND title LIKE CONCAT('%', #{searchKeyword}, '%')
 					</when>
 		            <when test="searchCondition == 1">
-						AND	content LIKE '%' || #{searchKeyword} || '%'
+						AND	content LIKE CONCAT('%', #{searchKeyword}, '%')
 					</when>
 				</choose>
 			</if>

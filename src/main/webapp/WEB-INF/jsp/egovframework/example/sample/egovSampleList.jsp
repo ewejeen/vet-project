@@ -36,7 +36,8 @@
         
         /* 글 등록 화면 function */
         function fn_egov_addView() {
-           	location.href='addSampleView.do';
+        	document.listForm.action = "<c:url value='/addSampleView.do'/>";
+           	document.listForm.submit();
         }
         
         /* 글 목록 화면 function */
