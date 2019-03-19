@@ -133,6 +133,13 @@ public class VetController {
 		return json;
 	}
 	
+	// 동물병원 조회수 +1
+	@RequestMapping(value="/vetHitUp.do")
+	public @ResponseBody String vetHitUp(int hpt_id) throws Exception{
+		int result = vetService.vetHitUp(hpt_id);
+		return String.valueOf(result);
+	}
+	
 	
 	
 	

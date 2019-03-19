@@ -18,6 +18,16 @@ public class VetVO extends SampleDefaultVO {
 	private String hpt_open;
 	private int hpt_hit;
 
+	public VetVO() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public VetVO(int hpt_id, int hpt_hit) {
+		super();
+		this.hpt_id = hpt_id;
+		this.hpt_hit = hpt_hit;
+	}
+
 	public int getHpt_id() {
 		return hpt_id;
 	}

@@ -129,5 +129,11 @@ public class VetServiceImpl extends EgovAbstractServiceImpl implements VetServic
 	public List<?> selectNameAndAdrs(String province, String city) throws Exception {
 		return vetDAO.selectNameAndAdrs(province, city);
 	}
+	
+	// 동물병원 조회수 +1
+	@Override
+	public int vetHitUp(int hpt_id) throws Exception {
+		return vetDAO.vetHitUp(hpt_id);
+	}
 
 }

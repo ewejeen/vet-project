@@ -99,9 +99,15 @@
 	
 	</select>
 	
-	
-	
-	
+	<!-- 병원 상세 보기 클릭 시 조회수 +1 -->
+	<update id="vetHitUp" parameterType="int">
+		UPDATE
+			hospital
+		SET
+			hpt_hit = hpt_hit + 1
+		WHERE 
+			hpt_id = #{hpt_id}
+	</update>
 	
 	
 	<!-- 웹***************************************************************************************** -->

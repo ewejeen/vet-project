@@ -68,4 +68,7 @@ public interface VetMapper {
 	
 	// 마커 표시 위해 이름, 주소 조회
 	List<?> selectNameAndAdrs(@Param("province") String province, @Param("city") String city) throws Exception;
+	
+	// 동물병원 조회수 +1
+	int vetHitUp(@Param("hpt_id") int hpt_id) throws Exception;
 }
