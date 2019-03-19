@@ -71,4 +71,8 @@ public interface VetMapper {
 	
 	// 동물병원 조회수 +1
 	int vetHitUp(@Param("hpt_id") int hpt_id) throws Exception;
+	
+	// 평점 좋은 병원
+	List<?> statisticsRate(@Param("province") String province, @Param("city") String city) throws Exception;
+
 }

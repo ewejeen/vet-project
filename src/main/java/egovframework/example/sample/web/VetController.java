@@ -160,6 +160,7 @@ public class VetController {
 		return "vetproject/index";
 	}
 	
+	// 지역별 동물병원 개수 조회
 	@RequestMapping(value="/getCountByCity.do")
 	@ResponseBody
 	public String getCntByCity(String position, HttpServletRequest request){
@@ -169,7 +170,6 @@ public class VetController {
 		return String.format("%d", cnt);
 	}
 
-	
 	// 해당 province+city의 동물병원 마커 표시 위해 이름+주소 조회
 	@RequestMapping(value = "/selectNameAndAdrs.do", produces = "application/json;charset=utf-8")
 	public @ResponseBody String selectNameAndAdrs(String province, String city) throws Exception {
@@ -179,12 +179,15 @@ public class VetController {
 		
 		return json;
 	}	
-
 	
-	//안됨
-	@RequestMapping(value="/")
-	public String mainView2(){
-		return "vetproject/index";
-	}
+	// 평점 높은 병원
+	@RequestMapping(value = "/statisticsRate.do", produces = "application/json;charset=utf-8")
+	public @ResponseBody String statisticsRate (String province, String city) throws Exception {
+		ObjectMapper om = new ObjectMapper();
+		List<?> list = vetService.statisticsRate(province, city);
+		String json = om.writeValueAsString(list);
+		
+		return json;
+	}	
 	
 }

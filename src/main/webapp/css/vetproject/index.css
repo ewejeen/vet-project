@@ -228,7 +228,7 @@
 
 #sec2 .con .gnb ul li {
 	float: left;
-	width: 33%;
+	width: 50%;
 	text-align: center;
 	font-size: 24px;
 	cursor: pointer;
@@ -250,14 +250,13 @@
 	width: 50%;
 	height: 100%;
 	float: left;
-	background: #eee;
+	background: #ddd;
 }
 
 #sec2 .con .statistics .right {
 	width: 50%;
 	height: 100%;
 	float: left;
-	background: #ddd;
 }
 
 /* sec3 begins */

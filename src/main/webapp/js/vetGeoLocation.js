@@ -113,12 +113,12 @@ function getLocation() {
 
 													    } 
 													});   														
-												}
+												} // search 끝
 												search(name);
 							    			}
 							    		}
 							    	});	
-							    }
+							    } //getNameAdrs 끝
 								    
 							    getNameAdrs(province, city);
 							   

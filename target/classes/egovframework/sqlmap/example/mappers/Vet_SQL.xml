@@ -96,7 +96,6 @@
 			WHERE geo.province=#{province} AND geo.city=#{city}
 			GROUP BY hos.hpt_id
 			ORDER BY hos.hpt_name ASC
-	
 	</select>
 	
 	<!-- 병원 상세 보기 클릭 시 조회수 +1 -->
@@ -130,5 +129,26 @@
 	<select id="selectVetListCntByPos" resultType="int">
 			SELECT COUNT(*) FROM hospital_geo2 WHERE city=#{city}
 	</select>
+	
+	<!-- 통계 -->
+	<!-- 해당 지역의 평점 높은 병원 -->
+	<select id="statisticsRate" resultType="egovMap">
+			SELECT
+				hos.hpt_id, hos.hpt_name,
+				IFNULL (NULLIF(geo.adrs_new,''), geo.adrs_old) address, <!-- 신주소 없으면 구주소 가져오기 -->
+				hos.hpt_phone, 
+				avg(rv.hpt_rate) rate_avg, count(rv.hpt_rate) review_cnt
+			FROM
+				hospital as hos INNER JOIN hospital_geo2 as geo
+				ON hos.hpt_id = geo.hpt_id
+				INNER JOIN review as rv on hos.hpt_id = rv.hpt_id
+			WHERE geo.province=#{province} AND geo.city=#{city}
+			GROUP BY hos.hpt_id
+			ORDER BY avg(rv.hpt_rate) DESC
+			LIMIT 0,5
+	</select>
 
+	<!-- 해당 지역의 반려동물 타입 별 재방문율 높은 병원 -->
+	<!-- 재방문율 계산 방법 -->
+	
 </mapper>
