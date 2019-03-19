@@ -24,6 +24,7 @@ public interface ReviewService {
 	// 후기 작성
 	//boolean insertReview(int hpt_id, String hpt_rate, String rv_title, String rv_content, String pet_type, String visit_date, int visit_is_new);
 	void insertReview(ReviewVO vo);
+	int insertReviewAjax(ReviewVO vo) throws Exception;
 	
 	// 후기 리스트 데이터
 	List<?> reviewList(int hpt_id) throws Exception;

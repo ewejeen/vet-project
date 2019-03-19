@@ -63,6 +63,10 @@ public class ReviewServiceImpl extends EgovAbstractServiceImpl implements Review
 	public void insertReview(ReviewVO vo) {
 		reviewDAO.insertReview(vo);
 	}
+	@Override
+	public int insertReviewAjax(ReviewVO vo) throws Exception {
+		return reviewDAO.insertReviewAjax(vo);
+	}
 	
 	// 후기 리스트 데이터
 	@Override

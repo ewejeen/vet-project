@@ -20,6 +20,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import egovframework.example.sample.service.ReviewVO;
+import egovframework.example.sample.service.SampleVO;
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
 @Mapper("reviewMapper")
@@ -27,6 +28,7 @@ public interface ReviewMapper {
 
 	// 후기 작성
 	void insertReview(ReviewVO vo);
+	int insertReviewAjax(ReviewVO vo) throws Exception;
 	
 	// 후기 리스트 데이터
 	List<?> reviewList(@Param("hpt_id") int hpt_id) throws Exception;
@@ -34,4 +36,5 @@ public interface ReviewMapper {
 	List<?> reviewListThree(@Param("hpt_id") int hpt_id) throws Exception;
 	// 후기 리스트 상세 보기
 	List<?> reviewDetail(@Param("rv_id") int rv_id) throws Exception;
+
 }

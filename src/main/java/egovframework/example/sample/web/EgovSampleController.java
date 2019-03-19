@@ -148,16 +148,6 @@ public class EgovSampleController {
 		return "forward:/noticeList.do";
 	}
 	
-	@RequestMapping(value = "/addNoticeAjax.do", method = RequestMethod.POST)
-	@ResponseBody
-	public void addNoticeAjax(SampleVO sampleVO,
-			Model model, SessionStatus status) throws Exception {
-
-		
-		sampleService.insertSample(sampleVO);
-		status.setComplete();
-		System.out.println("등록됨");
-	}
 
 	/**
 	 * 글 수정화면을 조회한다.

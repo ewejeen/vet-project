@@ -25,6 +25,14 @@
 			VALUES
 				(#{hpt_id}, #{hpt_rate}, #{rv_title}, #{rv_content}, #{rv_image}, #{pet_type}, #{visit_date}, #{visit_is_new})
 	</insert>
+	<!-- AJAX로 랜덤 후기 등록 -->
+	<insert id="insertReviewAjax" parameterType="ReviewVO">
+			INSERT INTO 
+				review(hpt_id, hpt_rate, rv_title, rv_content, rv_image, pet_type, visit_date, visit_is_new)
+			VALUES
+				(#{hpt_id}, #{hpt_rate}, #{rv_title}, #{rv_content}, #{rv_image}, #{pet_type}, #{visit_date}, #{visit_is_new})
+	</insert>
+	<!-- //AJAX로 랜덤 후기 등록 -->
 	
 	<!-- 후기 리스트 -->
 	<select id="reviewList" resultType="egovMap">

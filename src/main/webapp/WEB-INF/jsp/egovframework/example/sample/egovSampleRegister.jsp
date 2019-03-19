@@ -54,7 +54,7 @@
         	/* if(!validateSampleVO(frm)){
                 return;
             }else{ */
-            	frm.action = "<c:url value="${registerFlag == 'create' ? '/addNoticeAjax.do' : '/updateNotice.do'}"/>";
+            	frm.action = "<c:url value="${registerFlag == 'create' ? '/addNotice.do' : '/updateNotice.do'}"/>";
                 frm.submit();
             
         }

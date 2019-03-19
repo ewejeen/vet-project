@@ -48,6 +48,82 @@
             frm.submit();
         }
         
+        
+        /*
+    	 * 
+    	 * 랜덤 후기 데이터 ajax로 넣기
+    	 * (int)(Math.random() * 최대값 - 최소값 + 1) + 최소값;
+    	 */
+
+    	function getRandomIntInclusive(min, max) {
+    		return Math.floor((Math.random() * (max - min + 1)) + min);
+    	}
+    	 
+    	function getRandomDate() {
+            var maxDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+            
+            var minMonth = 1;
+            var maxMonth = 12;
+            
+            var randomMonth = getRandomIntInclusive(minMonth, maxMonth);
+            var randomDay = Math.floor((Math.random() * (maxDays[randomMonth-1] -2) + 1));
+            var randomYear = getRandomIntInclusive(2010,2019);
+            
+            var randomDate = randomYear+"-"+randomMonth+"-"+randomDay;
+            return randomDate;
+    	}
+    	 
+        
+        /* 후기 등록 AJAX function */
+        function fn_egov_save_ajax() {
+       		
+       		var hpt_id = getRandomIntInclusive(1, 4565);
+    		var rateArr = [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0];
+    		var hpt_rate = rateArr[getRandomIntInclusive(6,10)];
+    		var rv_titleArr = ['동물 병원에 다녀왔습니다.','다녀온 후기입니다.','방문 후기입니다.','병원 후기','동물 병원 후기','병원 방문 후기'];
+    		var rv_title = rv_titleArr[getRandomIntInclusive(0,5)];
+    		var rv_contentArr = ['친절하셔서 좋았습니다.','동물 병원에 다녀온 후기입니다.','이 병원에 다녀오고 다 나았어요.','넓고 깨끗해서 좋았어요.','후기가 좋아서 방문해 봤어요.','별로였어요'];
+    		var rv_content = rv_contentArr[getRandomIntInclusive(0,4)];
+    		var typeArr = ['.jpg', '.png'];
+    		var image_type = typeArr[getRandomIntInclusive(0,1)];
+    		var rv_image = 'image'+ getRandomIntInclusive(0,50) + image_type;
+    		var petArr = ['강아지','고양이','조류','소','말','돼지','기타'];
+    		var pet_type = petArr[getRandomIntInclusive(0,6)];
+    		var visit_date = getRandomDate();
+    		var visit_is_new = getRandomIntInclusive(0,1);
+    		
+    		$.ajax({
+    			url : '/vetproject_v2/review/addReviewAjax.do',
+    			method : 'POST',
+    			dataType : 'json',
+    			data : {
+    				"hpt_id" : hpt_id,
+    				"hpt_rate" : hpt_rate,
+    				"rv_title" : rv_title,
+    				"rv_content" : rv_content,
+    				"rv_image" : rv_image,
+    				"pet_type" : pet_type,
+    				"visit_date" : visit_date,
+    				"visit_is_new" : visit_is_new
+    			},
+    			success : function(data) {
+    				console.log('data: '+data.result);
+    			},
+    			error : function(xhr, status, msg) {
+    				console.debug('xhr:\n ' + xhr);
+    				console.debug('status:\n ' + status);
+    				console.debug('msg:\n ' + msg);
+    			}
+    		});
+       		
+        }
+        
+        function loop(){
+        	for(var i=0;i<20000;i++){
+        		fn_egov_save_ajax();
+        	}
+        }
+        
        
     </script>
 </head>
@@ -138,7 +214,8 @@
                 </li>
     			<li>
                     <span class="btn_blue_l">
-                        <a href="javascript:fn_egov_save();">
+                        <!-- <a href="javascript:fn_egov_save_ajax();"> -->
+                        <a href="javascript:loop();">
                             <spring:message code="button.create" />
                         </a>
                         <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/>

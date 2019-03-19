@@ -15,7 +15,9 @@
  */
 package egovframework.example.sample.web;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import egovframework.example.sample.service.EgovSampleService;
 import egovframework.example.sample.service.ReviewService;
@@ -175,6 +177,20 @@ public class ReviewController {
 		return "vetproject/success";
 	}
 	
+
+	@RequestMapping(value = "/addReviewAjax.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> addReviewAjax(ReviewVO reviewVO) throws Exception {
+		Map<String, Object> map = new HashMap<>();
+		int result = reviewService.insertReviewAjax(reviewVO);
+		if(result==1){
+			System.out.println("등록됨");
+		}
+		map.put("result", result);
+		return map;
+	}
+	
+	// 후기를 등록하고 Retrofit에 반환해 준다.
 	@RequestMapping(value = "/addAppReview.do", method = RequestMethod.POST)
 	public @ResponseBody String addAppReview(ReviewVO reviewVO,
 			Model model, SessionStatus status) throws Exception {
