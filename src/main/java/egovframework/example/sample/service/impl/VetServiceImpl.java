@@ -136,8 +136,4 @@ public class VetServiceImpl extends EgovAbstractServiceImpl implements VetServic
 		return vetDAO.vetHitUp(hpt_id);
 	}
 
-	@Override
-	public List<?> statisticsRate(String province, String city) throws Exception {
-		return vetDAO.statisticsRate(province, city);
-	}
 }

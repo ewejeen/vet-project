@@ -180,14 +180,4 @@ public class VetController {
 		return json;
 	}	
 	
-	// 평점 높은 병원
-	@RequestMapping(value = "/statisticsRate.do", produces = "application/json;charset=utf-8")
-	public @ResponseBody String statisticsRate (String province, String city) throws Exception {
-		ObjectMapper om = new ObjectMapper();
-		List<?> list = vetService.statisticsRate(province, city);
-		String json = om.writeValueAsString(list);
-		
-		return json;
-	}	
-	
 }

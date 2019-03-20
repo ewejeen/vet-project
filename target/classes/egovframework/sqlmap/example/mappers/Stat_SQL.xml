@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.example.sample.service.impl.StatMapper">
+
+	<resultMap id="vet" type="egovframework.example.sample.service.VetVO">
+		<result property="hpt_id" column="hpt_id"/>
+		<result property="hpt_name" column="hpt_name"/>
+		<result property="hpt_phone" column="hpt_phone"/>
+		<result property="hpt_open" column="hpt_open"/>
+		<result property="hpt_hit" column="hpt_hit"/>
+		<result property="adrs_old" column="adrs_old"/>
+		<result property="adrs_new" column="adrs_new"/>
+		<result property="province" column="province"/>
+		<result property="city" column="city"/>
+		<result property="x_axis" column="x_axis"/>
+		<result property="y_axis" column="y_axis"/>
+	</resultMap>
+
+	
+	<!-- 통계 -->
+	<!-- 해당 지역의 평점 높은 병원 -->
+	<select id="statisticsRate" resultType="egovMap">
+			SELECT
+				hos.hpt_id, hos.hpt_name,
+				IFNULL (NULLIF(geo.adrs_new,''), geo.adrs_old) address, <!-- 신주소 없으면 구주소 가져오기 -->
+				hos.hpt_phone, 
+				avg(rv.hpt_rate) rate_avg, count(rv.hpt_rate) review_cnt
+			FROM
+				hospital as hos INNER JOIN hospital_geo2 as geo
+				ON hos.hpt_id = geo.hpt_id
+				INNER JOIN review as rv on hos.hpt_id = rv.hpt_id
+			WHERE geo.province=#{province} AND geo.city=#{city}
+			GROUP BY hos.hpt_id
+			ORDER BY avg(rv.hpt_rate) DESC
+			LIMIT 0,5
+	</select>
+
+	<!-- 해당 지역의 (반려동물 타입 별) 재방문율 높은 병원 탑5-->
+	<!-- 재방문율 계산 방법 -->
+	<!--	
+		2번 이상 방문율: visit_is_new>=1인 방문자 수/총 방문자 수  * 100
+	-->
+	<select id="statisticsRetention" resultType="egovMap">
+			SELECT
+				hos.hpt_id AS id, hos.hpt_name,
+				IFNULL (NULLIF(geo.adrs_new,''), geo.adrs_old) address, <!-- 신주소 없으면 구주소 가져오기 -->
+				hos.hpt_phone,
+				<!-- 재방문율 쿼리 -->
+				((SELECT COUNT(*) FROM review WHERE hpt_id=id AND visit_is_new>0) / (SELECT COUNT(*) FROM review WHERE hpt_id=id) * 100) AS retention
+			FROM hospital AS hos
+			JOIN hospital_geo2 AS geo ON hos.hpt_id = geo.hpt_id
+			WHERE geo.province = #{province} AND geo.city = #{city}
+			GROUP BY retention
+			ORDER BY retention DESC
+			LIMIT 0,5
+	</select>
+</mapper>
