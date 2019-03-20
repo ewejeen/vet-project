@@ -276,6 +276,7 @@
     // 재방문 통계
     function statisticsRetention(){
     	var locArr = $('#sec2Region').text().split(' ');
+    	//var locArr = '경기도 성남시'.split(' ');
     	var province = locArr[0];
     	var city = locArr[1];
 		

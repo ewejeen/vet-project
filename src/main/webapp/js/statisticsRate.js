@@ -1,9 +1,8 @@
 function statisticsRate(){
-    	var locArr = $('#sec2Region').text().split(' ');
+		var locArr = $('#sec2Region').text().split(' ');
+		//var locArr = '경기도 성남시'.split(' ');
     	var province = locArr[0];
     	var city = locArr[1];
-    	console.log('평점 도: '+locArr[0]);
-    	console.log('평점 시: '+locArr[1]);
 		
     	$.ajax({
     		url : 'statisticsRate.do',
@@ -66,8 +65,9 @@ function statisticsRate(){
     	    	                        ticks: {
     	    	                            beginAtZero: true,
     	    	                            //suggestedMin: 2.0,
-    	    	                            suggestedMax: 5.0, 
+    	    	                            suggestedMax: 4.0, 
     	    	                            stepSize:0.5,
+    	    	                            min: 2.5,
     	    	                        },
     	    	                    },
     	    	                    {
