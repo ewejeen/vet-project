@@ -42,11 +42,12 @@
         
         /* 글 등록 화면 function */
         function fn_egov_addView() {
+        	document.listForm.selectedId.value='';
         	document.listForm.action = "<c:url value='/addNoticeView.do'/>";
            	document.listForm.submit();
         }
         
-        /* 글 목록 화면 function */
+        /* 글 목록 검색 화면 function */
         function fn_egov_selectList() {
         	document.listForm.action = "<c:url value='/noticeList.do'/>";
            	document.listForm.submit();
@@ -70,7 +71,7 @@
         <input type="hidden" name="selectedId" />
         <div id="content_pop">
         	<!-- 타이틀 -->
-        	<div id="title">
+        	<div id="title_div">
         		<ul>
         			<li><spring:message code="list.sample" /></li>
         		</ul>
@@ -91,7 +92,6 @@
         			<li>
         	            <span class="btn_blue_l">
         	                <a href="javascript:fn_egov_selectList();"><spring:message code="button.search" /></a>
-        	                <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/>
         	            </span>
         	        </li>
                 </ul>
@@ -115,11 +115,16 @@
         			<c:forEach var="result" items="${resultList}" varStatus="status">
             			<tr>
             				<td align="center" class="listtd id"><c:out value="${result.id}"/></td>
+            				<!-- 제목 클릭 시 조회 페이지로 -->
+            				<%-- <td align="center" class="listtd title" onclick="fn_egov_select(${result.id})" style=""><c:out value="${result.title}"/></td> --%>
             				<td align="center" class="listtd title" onclick="fn_egov_select(${result.id})" style=""><c:out value="${result.title}"/></td>
             				<td align="center" class="listtd writer"><c:out value="관리자"/></td>
             				<td align="center" class="listtd regdate"><fmt:formatDate value="${result.regDate}" pattern="yyyy-MM-dd" /> </td>
             			</tr>
         			</c:forEach>
+        			<tr>
+        				<td class="nopost" colspan="4"><c:if test="${totCnt ==0 }"><p>게시물이 없습니다.</p></c:if></td>
+        			</tr>
         		</table>
         	</div>
         	<!-- /List -->
@@ -127,16 +132,18 @@
         		<ui:pagination paginationInfo = "${paginationInfo}" type="image" jsFunction="fn_egov_link_page" />
         		<form:hidden path="pageIndex" />
         	</div>
-        	<div id="sysbtn">
-        	  <ul>
-        	      <li>
-        	          <span class="btn_blue_l">
-        	              <a href="javascript:fn_egov_addView();"><spring:message code="button.create" /></a>
-                          <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/>
-                      </span>
-                  </li>
-              </ul>
-        	</div>
+        	<c:if test="${sessionId == 'administrator' }">
+	        	<div id="sysbtn">
+	        	  <ul>
+	        	      <li>
+	        	          <span class="btn_blue_l">
+	        	              <a href="javascript:fn_egov_addView();">새 공지 <spring:message code="button.create" /></a>
+	                          <%-- <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/> --%>
+	                      </span>
+	                  </li>
+	              </ul>
+	        	</div>
+            </c:if>
         </div>
     </form:form>
 </body>

@@ -43,8 +43,9 @@
 }
 
 .header .gnb ul li.notice {
-	width: 20%;
+	width: 130px;
 	text-align: right;
+	float:right;
 	font-size: 20px;
 	line-height: 80px;
 	font-weight: bold;

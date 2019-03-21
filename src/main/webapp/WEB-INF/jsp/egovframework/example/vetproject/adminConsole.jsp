@@ -48,7 +48,7 @@
 				<p class="title">관리자 페이지</p>
 				<div class="boards">
 					<div class="notice">
-						<p>공지사항 등록</p>
+						<a href="<%=request.getContextPath() %>/addNoticeView.do">공지사항 등록</a>
 					</div>
 					<div class="review">
 						<p>후기 관리</p>

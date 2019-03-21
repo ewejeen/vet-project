@@ -21,17 +21,15 @@
 	<update id="updateSample">
 
 			UPDATE notice
-			SET title=#{title}
-				, content=#{content}
-				, image=#{image}
-				  WHERE ID=#{id}
+			SET title=#{title}, content=#{content}, image=#{image}
+			WHERE id=#{id}
 
 	</update>
 
 	<delete id="deleteSample">
 
 			DELETE FROM notice
-			WHERE ID=#{id}
+			WHERE id=#{id}
 
 	</delete>
 
@@ -52,10 +50,10 @@
 			WHERE 1=1
 			<if test="searchKeyword != null and searchKeyword != ''">
 		        <choose>
-		            <when test="searchCondition == 0">
+		            <when test="searchCondition == 1">
 						AND	title LIKE CONCAT('%', #{searchKeyword}, '%')
 					</when>
-		            <when test="searchCondition == 1">
+		            <when test="searchCondition == 0">
 						AND	content LIKE CONCAT('%', #{searchKeyword}, '%')
 					</when>
 				</choose>
@@ -71,10 +69,10 @@
 			WHERE 1=1
 			<if test="searchKeyword != null and searchKeyword != ''">
 		        <choose>
-		            <when test="searchCondition == 0">
+		            <when test="searchCondition == 1">
 						AND title LIKE CONCAT('%', #{searchKeyword}, '%')
 					</when>
-		            <when test="searchCondition == 1">
+		            <when test="searchCondition == 0">
 						AND	content LIKE CONCAT('%', #{searchKeyword}, '%')
 					</when>
 				</choose>

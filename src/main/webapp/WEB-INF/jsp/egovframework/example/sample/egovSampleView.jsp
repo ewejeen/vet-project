@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c"         uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt"         uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form"      uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="validator" uri="http://www.springmodules.org/tags/commons-validator" %>
 <%@ taglib prefix="spring"    uri="http://www.springframework.org/tags"%>
@@ -23,10 +24,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <!-- id 있으면 registerFlag가 modify, 없으면 create -->
-    <c:set var="registerFlag" value="${selectedId eq null ? 'create' : 'modify'}"/>
-    <title>Sample <c:if test="${registerFlag == 'create'}"><spring:message code="button.create" /></c:if>
-                  <c:if test="${registerFlag == 'modify'}"><spring:message code="button.modify" /></c:if>
+    
+    <title>FindVet :: 공지사항 조회
     </title>
     <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/sample.css'/>"/>
     
@@ -43,20 +42,20 @@
         }
         
         /* 글 삭제 function */
-        function fn_egov_delete() {
-           	document.detailForm.action = "<c:url value='/deleteNotice.do'/>";
-           	document.detailForm.submit();
+        function fn_egov_delete(id) {
+        	if(confirm('공지를 삭제하시겠습니까?')){
+	        	document.detailForm.id.value = id;
+	           	document.detailForm.action = "<c:url value='/deleteNotice.do'/>";
+	           	document.detailForm.submit();        		
+        	}
         }
         
-        /* 글 등록 function */
-        function fn_egov_save() {
-        	frm = document.detailForm;
-        	/* if(!validateSampleVO(frm)){
-                return;
-            }else{ */
-            	frm.action = "<c:url value="${registerFlag == 'create' ? '/addNotice.do' : '/updateNotice.do'}"/>";
-                frm.submit();
-            
+        /* 글 수정 화면 function */
+        function fn_egov_modify_view(id) {
+        	document.detailForm.selectedId.value = id;
+        	document.detailForm.id.value = id;
+        	document.detailForm.action = "<c:url value='/updateNoticeView.do'/>";
+           	document.detailForm.submit();
         }
         
        
@@ -65,13 +64,14 @@
 <body style="text-align:center; margin:0 auto; display:inline; padding-top:100px;">
 <jsp:include page="../vetproject/header.jsp" />
 <form:form commandName="sampleVO" id="detailForm" name="detailForm">
+	<input type="hidden" name="selectedId" />
+	<input type="hidden" name="id" value="${sampleVO.id }" />
     <div id="content_pop">
     	<!-- 타이틀 -->
-    	<div id="title">
+    	<div id="title_div">
     		<ul>
     			<li>
-                    <c:if test="${registerFlag == 'create'}"><spring:message code="button.create" /></c:if>
-                    <c:if test="${registerFlag == 'modify'}"><spring:message code="button.modify" /></c:if>
+                                   공지사항 조회
                 </li>
     		</ul>
     	</div>
@@ -82,47 +82,33 @@
     			<col width="150"/>
     			<col width="?"/>
     		</colgroup>
-    		<c:if test="${registerFlag == 'modify'}">
-        		<tr>
-        			<td class="tbtd_caption"><label for="id">ID</label></td>
-        			<td class="tbtd_content">
-        				<form:input path="id" cssClass="essentiality" maxlength="10" readonly="true" />
-        			</td>
-        		</tr>
-    		</c:if>
+    		
     		<tr>
-    			<td class="tbtd_caption"><label for="title">Title</label></td>
+    			<td class="tbtd_caption"><label for="title">제목</label></td>
     			<td class="tbtd_content">
-    				<c:if test="${registerFlag == 'modify'}">
-        				<form:input path="title" maxlength="10" cssClass="essentiality" readonly="true" />
-        				&nbsp;<form:errors path="title" /></td>
-                    </c:if>
-                    <c:if test="${registerFlag != 'modify'}">
-        				<form:input path="title" maxlength="10" cssClass="txt"  />
-        				&nbsp;<form:errors path="title" /></td>
-                    </c:if>
+       				<p>${sampleVO.title }</p>
     			</td>
     		</tr>
     		<tr>
-    			<td class="tbtd_caption"><label for="content">Content</label></td>
+    			<td class="tbtd_caption"><label for="reg_date">등록 시간</label></td>
     			<td class="tbtd_content">
-    				<form:textarea path="content" rows="5" cols="58" />&nbsp;<form:errors path="content" />
+    				<p><fmt:formatDate value="${sampleVO.reg_date }" pattern="yyyy-MM-dd HH:mm"/> </p>
+    			</td>
+    		</tr>
+    		<tr>
+    			<td class="tbtd_caption"><label for="content">내용</label></td>
+    			<td class="tbtd_content">
+    				<img class="content" src="#" alt="${sampleVO.image }" />	<!-- 이미지 받아야 함 -->
+    				<p class="content">${sampleVO.content }</p>
                 </td>
     		</tr>
     		<%-- <tr>
-    			<td class="tbtd_caption"><label for="reg_date">Reg_Date</label></td>
+    			<td class="tbtd_caption"><label for="image">이미지</label></td>
     			<td class="tbtd_content">
-    				<form:input path="reg_date" maxlength="30" cssClass="txt"/>
-    				&nbsp;<form:errors path="reg_date" />
-    			</td>
-    		</tr> --%>
-    		<tr>
-    			<td class="tbtd_caption"><label for="image">Image</label></td>
-    			<td class="tbtd_content">
-    				<form:input path="image" maxlength="30" cssClass="txt"/>
+    				<form:input path="image" maxlength="30" cssClass="txt"  readonly="true"/>
     				&nbsp;<form:errors path="image" />
     			</td>
-    		</tr>
+    		</tr> --%>
     	</table>
       </div>
     	<div id="sysbtn">
@@ -130,32 +116,22 @@
     			<li>
                     <span class="btn_blue_l">
                         <a href="javascript:fn_egov_selectList();"><spring:message code="button.list" /></a>
-                        <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/>
                     </span>
                 </li>
-    			<li>
-                    <span class="btn_blue_l">
-                        <a href="javascript:fn_egov_save();">
-                            <c:if test="${registerFlag == 'create'}"><spring:message code="button.create" /></c:if>
-                            <c:if test="${registerFlag == 'modify'}"><spring:message code="button.modify" /></c:if>
-                        </a>
-                        <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/>
-                    </span>
-                </li>
-    			<c:if test="${registerFlag == 'modify'}">
+    			<c:if test="${sessionId == 'administrator'}">
+	    			<li>
+	                    <span class="btn_blue_l">
+	                        <a href="javascript:fn_egov_modify_view(${sampleVO.id }, 'modify');">	<!-- modify 정체? -->
+	                            <spring:message code="button.modify" />
+	                        </a>
+	                    </span>
+	                </li>
                     <li>
                         <span class="btn_blue_l">
-                            <a href="javascript:fn_egov_delete();"><spring:message code="button.delete" /></a>
-                            <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/>
+                            <a href="javascript:fn_egov_delete(${sampleVO.id });"><spring:message code="button.delete" /></a>
                         </span>
                     </li>
     			</c:if>
-    			<li>
-                    <span class="btn_blue_l">
-                        <a href="javascript:document.detailForm.reset();"><spring:message code="button.reset" /></a>
-                        <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/>
-                    </span>
-                </li>
             </ul>
     	</div>
     </div>

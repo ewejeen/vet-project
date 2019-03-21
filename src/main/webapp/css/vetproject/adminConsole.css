@@ -69,7 +69,8 @@
 	text-decoration: underline;
 }
 
-.console .notice p {
+.console .notice a {
+	display:block;
 	text-align: center;
 	line-height: 400px;
 	font-size: 30px;

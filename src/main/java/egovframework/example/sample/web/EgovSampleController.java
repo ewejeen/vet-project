@@ -77,7 +77,7 @@ public class EgovSampleController {
 	 * @return "egovSampleList"
 	 * @exception Exception
 	 */
-	@RequestMapping(value = "/noticeList.do")
+	@RequestMapping(value = "/noticeList.do")	//ok
 	public String selectSampleList(@ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model)
 			throws Exception {
 
@@ -99,6 +99,7 @@ public class EgovSampleController {
 		model.addAttribute("resultList", sampleList);
 
 		int totCnt = sampleService.selectSampleListTotCnt(searchVO);
+		model.addAttribute("totCnt",totCnt);
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
 
@@ -114,8 +115,13 @@ public class EgovSampleController {
 	 * @return "egovSampleRegister"
 	 * @exception Exception
 	 */
-	@RequestMapping(value = "/addNoticeView.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/addNoticeView.do", method = RequestMethod.POST)	//ok
 	public String addNoticeView(@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
+		model.addAttribute("sampleVO", new SampleVO());
+		return "sample/egovSampleRegister";
+	}
+	@RequestMapping("/addNoticeView.do")	//ok
+	public String addNoticeView2(@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
 		model.addAttribute("sampleVO", new SampleVO());
 		return "sample/egovSampleRegister";
 	}
@@ -131,7 +137,7 @@ public class EgovSampleController {
 	 * @return "forward:/egovSampleList.do"
 	 * @exception Exception
 	 */
-	@RequestMapping(value = "/addNotice.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/addNotice.do", method = RequestMethod.POST)	//ok
 	public String addNotice(@ModelAttribute("searchVO") SampleDefaultVO searchVO, SampleVO sampleVO,
 			BindingResult bindingResult, Model model, SessionStatus status) throws Exception {
 
@@ -160,7 +166,7 @@ public class EgovSampleController {
 	 * @return "egovSampleRegister"
 	 * @exception Exception
 	 */
-	@RequestMapping("/updateNoticeView.do")
+	@RequestMapping("/updateNoticeView.do")	//ok
 	public String updateNoticeView(@RequestParam("id") String id,
 			@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
 		SampleVO sampleVO = new SampleVO();
@@ -180,13 +186,13 @@ public class EgovSampleController {
 	 * @return @ModelAttribute("sampleVO") - 조회한 정보
 	 * @exception Exception
 	 */
-	public SampleVO selectSample(@RequestParam("id") String id, @ModelAttribute("searchVO") SampleDefaultVO searchVO)
+	public SampleVO selectSample(@RequestParam("id") String id, @ModelAttribute("searchVO") SampleDefaultVO searchVO)	//ok
 			throws Exception {
 		return sampleService.selectSample(id);
 	}
 	
 	// 글 조회 화면
-	@RequestMapping("/selectNoticeView.do")
+	@RequestMapping("/selectNoticeView.do")	//ok
 	public String selectNoticeView(@RequestParam("id") String id,
 			@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
 		SampleVO sampleVO = new SampleVO();
@@ -206,10 +212,11 @@ public class EgovSampleController {
 	 * @return "forward:/egovSampleList.do"
 	 * @exception Exception
 	 */
-	@RequestMapping("/updateSample.do")
-	public String updateSample(@ModelAttribute("searchVO") SampleDefaultVO searchVO, SampleVO sampleVO,
+	@RequestMapping("/updateNotice.do")	//ok
+	public String updateNotice(@ModelAttribute("searchVO") SampleDefaultVO searchVO, SampleVO sampleVO,
 			BindingResult bindingResult, Model model, SessionStatus status) throws Exception {
 
+		// Server-Side Validation
 		beanValidator.validate(sampleVO, bindingResult);
 
 		if (bindingResult.hasErrors()) {
@@ -219,7 +226,8 @@ public class EgovSampleController {
 
 		sampleService.updateSample(sampleVO);
 		status.setComplete();
-		return "forward:/egovSampleList.do";
+		return "forward:/selectNoticeView.do?id="+sampleVO.getId();
+		
 	}
 
 	/**
@@ -233,12 +241,12 @@ public class EgovSampleController {
 	 * @return "forward:/egovSampleList.do"
 	 * @exception Exception
 	 */
-	@RequestMapping("/deleteSample.do")
+	@RequestMapping("/deleteNotice.do")	//ok
 	public String deleteSample(SampleVO sampleVO, @ModelAttribute("searchVO") SampleDefaultVO searchVO,
 			SessionStatus status) throws Exception {
 		sampleService.deleteSample(sampleVO);
 		status.setComplete();
-		return "forward:/egovSampleList.do";
+		return "forward:/noticeList.do";
 	}
 
 }

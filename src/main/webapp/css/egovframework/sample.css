@@ -2,7 +2,7 @@
 /*								                                                */
 /*  Design RIAN     			                                                */
 /*  Date : 2007-03-21		                                                  	*/
-/*      				         			                                    */
+/*  Edit YOOJIN    				         			                                    */
 /*									                                            */
 /********************************************************************************/
 
@@ -56,16 +56,18 @@ a:hover { font-size:11px; color:#339999; text-decoration:none;}
 #sub .sub_menu_en dt {padding-left:0px; padding-right:0px; padding-bottom:0px; padding-top:8px; margin:0px;}
 #content {float:left; text-align:left; /*overflow:hidden;*/width:680px; background-color:#FFFFFF; padding:10px 0px 10px 0px;}
 #content_pop {padding-top:50px; margin:0 auto; text-align:left; /*overflow:hidden;*/width:75%; background-color:#FFFFFF; margin-top:80px;}
-#title {float:left; text-align:left; margin:0 0 10 0; padding:0; height:50px; border-bottom:1px solid #e5e5e5; width:100%;}
-#title ul {float:left; margin:0; padding:0;}
-#title li {width:200px; padding:3px 0px 2px 0px; float:left; font-size:25px; font-weight:bold; color:#1f5f5f;}
-#title .location {float:right; height:20px; margin:0; padding:5 0 0 0; font-size:11px;}
+#title_div {float:left; text-align:left; margin:0 0 10 0; padding:0; height:50px; border-bottom:1px solid #e5e5e5; width:100%;}
+#title_div ul {float:left; margin:0; padding:0;}
+#title_div li {width:200px; padding:3px 0px 2px 0px; float:left; font-size:25px; font-weight:bold; color:#1f5f5f;}
+#title_div .location {float:right; height:20px; margin:0; padding:5 0 0 0; font-size:11px;}
+#title_div p{width:200px; padding:3px 0px 2px 0px; float:left; font-size:25px; font-weight:bold; color:#1f5f5f;}
 #foot {margin:0; padding:0 0 0 0; text-align:left; /*overflow:hidden;*/ height:40px; clear:both; background-color:#F7F7F7; border-top:1px solid #e5e5e5; font-family:Tahoma; font-size:11px; color:#999999;}
 #search {float:right; margin:0; padding:20px 0 10px 0; width:100%;}
 #search ul {margin:0; float:right;}
 #search li {float:left; margin:0 0 0 0; padding:0 0 0 3px;}
+
 #table {float:left; margin:0 0 50px 0; padding:0 0 0 0; width:100%;}
-#paging {padding:20px 0; text-align:center; width:100%;}
+#paging {padding:20px 0; text-align:center; width:100%; margin-bottom:50px;}
 #paging ul {display:inline;}
 #paging li {display:inline; padding:0 10px 0 10px; font-size:12px; color: #333333;}
 #paging li.pre10 {padding:0 2px 0 2px;}
@@ -86,13 +88,22 @@ a:hover { font-size:11px; color:#339999; text-decoration:none;}
 #idwrap ul {float:left; padding:0; margin:0;}
 #idwrap li {float:left; margin:0; padding-right:3px;}
 button {cursor:hand; border:0px solid #FFFFFF; padding:0px 0px 0px 0px; background-color:#FFFFFF; white-space:nowrap;}
-.btn_blue_l {float:left; background:url(../../images/egovframework/example/btn_bg_l.gif) 0 0 no-repeat; height:20px; padding:0px 0px 0px 10px; margin:0px 0px 0px 0px;}
-.btn_blue_r {float:left; background:url(../../images/egovframework/example/btn_bg_r.gif) 0 0 no-repeat; background-position:right; height:20px; font-family:"돋움"; font-size:11px; color:#000000; margin:0px 0px 0px 0px; padding-top:0px; _padding-top:0px; padding-left:10px; padding-right:10px; padding-bottom:0px; text-align:center;}
-input { height:20px; font-family:"돋움"; font-size:12px; color:#000000; padding:2px 2px 0px 2px; margin-top:0px; _margin-top:-1px;}
-select {font-size:12px; margin-top:0px; height:20px; padding-top:0px;}
+.btn_blue_l {float:left; line-height:30px; width:auto; height:30px; padding: 0 10px; text-align: center;border:1px solid #BCC8D8; box-sizing:border-box;}
+.btn_blue_l a{line-height:30px;}
+.btn_blue_r {float:left; background:url(../../images/egovframework/example/btn_bg_r.gif) 0 0 no-repeat; background-position:right; font-size:11px; color:#000000; margin:0px 0px 0px 0px; padding-top:0px; _padding-top:0px; padding-left:10px; padding-right:10px; padding-bottom:0px; text-align:center;}
+input { height:20px; font-size:12px; color:#000000; padding:2px 2px 0px 2px; margin-top:0px; _margin-top:-1px;}
+select {font-size:12px; margin-top:0px; width: 60px;height:30px; padding-top:0px;}
 .tbtd_caption {font-weight:bold; color:#003366; background-color:#E5EDF3; text-align:right; padding:10px 10px 9px 5px; margin:0;}
 .tbtd_content {background-color:#F5F8FA; padding:7px 10px 5px 10px; margin:0;}
 .tbtd_caption_re {font-weight:bold; color:#666633; background-color:#F6F5E5; text-align:right; padding:10px 10px 9px 5px; margin:0;}
 .tbtd_content_re {background-color:#F9F9F2; padding:7px 10px 5px 10px; margin:0;}
-input.txt               {height:18px; background-color:#FFF; border:1px solid #BCC8D8; padding-top:2px; color:#5e5e5e; cursor:text;}
+input.txt {height:30px; width:99%; background-color:#FFF; border:1px solid #BCC8D8;  padding:0 5px; color:#5e5e5e; cursor:text;box-sizing:border-box;}
+input#title.txt{height:30px; width:99%; padding:0 5px;box-sizing:border-box;}
 input.essentiality  {height:18px; background-color:#ebebeb; border:1px solid #BCC8D8; padding-top:2px; color:#000; cursor:text;}
+textarea#content{width:99%;height:400px;box-sizing:border-box;padding:5px;}
+#sysbtn .btn_blue_l {height:35px; line-height:35px;}
+#sysbtn .btn_blue_l a{font-size:14px;}
+.tbtd_content p.content{min-height:400px; }
+img.content{margin-bottom:20px;}
+tr td.nopost{text-align:center; padding-top:50px;}
+td.listtd.title:hover{font-weight:bold;cursor:pointer;}
