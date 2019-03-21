@@ -81,8 +81,30 @@ function statisticsRate(){
     	    	                            labelString: '후기 수'
     	    	                          } */
     	    	                    },
-    	    	                ]
+    	    	                ],
+    	    	                xAxes: [{	/* 굵기 조절 */
+      	    	                  categoryPercentage: 0.6,
+      	    	                  barPercentage: 1,
+      	    	                }, {
+      	    	                  id: 'B',
+      	    	                  type: 'category',
+      	    	                  display: false,
+      	    	                  categoryPercentage: 0.6,
+      	    	                  barPercentage: 1,
+      	    	                  barThickness: 20,
+      	    	                  gridLines: {
+      	    	                    offsetGridLines: true
+      	    	                  }
+      	    	                }],
+      	    	              legend: {
+      	    	                display: false
+      	    	              }
     	    	            },
+    	    	            
+    	    	          
+    	    	            
+    	    	            
+    	    	            
     	    	        }
     	    	        
     	    	        

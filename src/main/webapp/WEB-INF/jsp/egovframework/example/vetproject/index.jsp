@@ -199,7 +199,7 @@
 												</div>
 											</div>
 											<div class="chart2" >
-												<canvas id="myChart2"></canvas>
+												<canvas id="myChart2" ></canvas>
 												<div class="donutInner">
 												    <h5 id="di2"></h5>
 												</div>
