@@ -32,4 +32,9 @@ public interface ReviewService {
 	List<?> reviewListThree(int hpt_id) throws Exception;
 	// 후기 리스트 상세 보기
 	List<?> reviewDetail(int rv_id) throws Exception;
+	
+	// 후기 리스트 웹
+	List<?> reviewListForWeb(SampleDefaultVO searchVO) throws Exception;
+	// 후기 총 개수
+	int selectReviewListTotCnt(SampleDefaultVO searchVO);
 }

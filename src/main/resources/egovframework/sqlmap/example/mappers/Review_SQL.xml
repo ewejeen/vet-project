@@ -34,6 +34,58 @@
 	</insert>
 	<!-- //AJAX로 랜덤 후기 등록 -->
 	
+	<!-- 웹에서 후기 리스트 (병원별 X, 전체)-->
+	<select id="reviewListForWeb" parameterType="searchVO" resultType="egovMap">
+			SELECT
+				rv.rv_id, rv.hpt_id, rv.rv_title, rv.rv_content, rv.hpt_rate, rv.rv_reg_date, 
+				rv.rv_image, rv.pet_type, rv.visit_date, rv.visit_is_new,
+				hos.hpt_name, geo.adrs_old, geo.adrs_new
+			FROM review rv
+			JOIN hospital hos 
+			ON hos.hpt_id = rv.hpt_id
+			JOIN hospital_geo2 as geo ON rv.hpt_id = geo.hpt_id
+			WHERE 1=1
+			<if test="searchKeyword != null and searchKeyword != ''">
+		        <choose>
+		            <when test="searchCondition == 0">
+						AND rv.rv_title LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+		            <when test="searchCondition == 1">
+						AND	hos.hpt_name LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+		            <when test="searchCondition == 2">
+						AND	(geo.adrs_new LIKE CONCAT('%', #{searchKeyword}, '%') OR geo.adrs_old LIKE CONCAT('%', #{searchKeyword}, '%'))
+					</when>
+				</choose>
+			</if>
+			ORDER BY rv_id desc
+			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
+	</select>
+	
+	<!-- 웹 후기 리스트 카운트 -->
+	<select id="selectReviewListTotCnt" parameterType="searchVO" resultType="int">
+			SELECT COUNT(*) totcnt
+			FROM review rv
+			JOIN hospital hos 
+			ON hos.hpt_id = rv.hpt_id
+			JOIN hospital_geo2 as geo ON rv.hpt_id = geo.hpt_id
+			WHERE 1=1
+			<if test="searchKeyword != null and searchKeyword != ''">
+		        <choose>
+		            <when test="searchCondition == 0">
+						AND rv.rv_title LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+		            <when test="searchCondition == 1">
+						AND	hos.hpt_name LIKE CONCAT('%', #{searchKeyword}, '%')
+					</when>
+		            <when test="searchCondition == 2">
+						AND	(geo.adrs_new LIKE CONCAT('%', #{searchKeyword}, '%') OR geo.adrs_old LIKE CONCAT('%', #{searchKeyword}, '%'))
+					</when>
+				</choose>
+			</if>
+	</select>
+	
+	
 	<!-- 후기 리스트 -->
 	<select id="reviewList" resultType="egovMap">
 			SELECT

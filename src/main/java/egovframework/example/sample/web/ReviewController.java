@@ -73,25 +73,26 @@ public class ReviewController {
 	/** Validator */
 	@Resource(name = "beanValidator")
 	protected DefaultBeanValidator beanValidator;
-/*
-	*//**
-	 * 글 목록을 조회한다. (pageing)
+	
+	/**
+	 * 후기 목록을 조회한다. (pageing)
 	 * 
 	 * @param searchVO
 	 *            - 조회할 정보가 담긴 SampleDefaultVO
 	 * @param model
 	 * @return "egovSampleList"
 	 * @exception Exception
-	 *//*
-	@RequestMapping(value = "/egovSampleList.do")
-	public String selectSampleList(@ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model)
+	 */
+	
+	@RequestMapping(value = "/reviewList.web")
+	public String reviewListForWeb(@ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model)
 			throws Exception {
 
-		*//** EgovPropertyService.sample *//*
+		//** EgovPropertyService.sample *//
 		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
 		searchVO.setPageSize(propertiesService.getInt("pageSize"));
 
-		*//** pageing setting *//*
+		//** pageing setting *//
 		PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
@@ -101,15 +102,19 @@ public class ReviewController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		List<?> sampleList = sampleService.selectSampleList(searchVO);
-		model.addAttribute("resultList", sampleList);
+		List<?> reviewList = reviewService.reviewListForWeb(searchVO);
+		model.addAttribute("resultList", reviewList);
 
-		int totCnt = sampleService.selectSampleListTotCnt(searchVO);
+		int totCnt = reviewService.selectReviewListTotCnt(searchVO);
+		model.addAttribute("totCnt",totCnt);
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
 
-		return "sample/egovSampleList";
-	}*/
+		return "vetproject/reviewList";
+	}
+	
+	
+	
 	
 	// 후기 리스트
 	@RequestMapping(value = "/reviewList.do", produces = "application/json;charset=utf-8")

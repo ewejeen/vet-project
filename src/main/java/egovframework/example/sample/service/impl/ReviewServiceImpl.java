@@ -85,5 +85,16 @@ public class ReviewServiceImpl extends EgovAbstractServiceImpl implements Review
 	public List<?> reviewDetail(int rv_id) throws Exception {
 		return reviewDAO.reviewDetail(rv_id);
 	}
-		
+	
+	// 후기 리스트 웹
+	@Override
+	public List<?> reviewListForWeb(SampleDefaultVO searchVO) throws Exception {
+		return reviewDAO.reviewListForWeb(searchVO);
+	}
+	
+	// 후기 총 개수
+	@Override
+	public int selectReviewListTotCnt(SampleDefaultVO searchVO) {
+		return reviewDAO.selectReviewListTotCnt(searchVO);
+	}	
 }
