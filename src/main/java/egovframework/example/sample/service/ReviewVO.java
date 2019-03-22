@@ -12,22 +12,29 @@ public class ReviewVO {
 	private double hpt_rate;
 	private String rv_title;
 	private String rv_content;
-	//@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+	// @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
 	private Timestamp rv_reg_date;
-	//private String rv_reg_date = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(reg_date);	// JSON을 위한 String화 (DB에서 해줬으므로 안 해도 될 듯? JSON은 여기 안 거친다)
+	// private String rv_reg_date = new SimpleDateFormat("yyyy-MM-dd
+	// HH:mm").format(reg_date); // JSON을 위한 String화 (DB에서 해줬으므로 안 해도 될 듯? JSON은
+	// 여기 안 거친다)
 	private String rv_image;
 	private String pet_type;
 	private String visit_date;
 	private int visit_is_new;
-	
 
 	// review_comment 테이블
 	private int cmt_id;
 	private String cmt_content;
 	private Timestamp cmt_reg_date;
-	
-	
-	public ReviewVO () { }
+
+	// 관리자가 조회하기 위함
+	private String hpt_name;
+	private String adrs_new;
+	private String adrs_old;
+
+	public ReviewVO() {
+	}
+
 	public ReviewVO(int hpt_id, double hpt_rate, String rv_title, String rv_content, String rv_image, String pet_type,
 			String visit_date, int visit_is_new) {
 		super();
@@ -144,13 +151,29 @@ public class ReviewVO {
 	public void setCmt_reg_date(Timestamp cmt_reg_date) {
 		this.cmt_reg_date = cmt_reg_date;
 	}
-	@Override
-	public String toString() {
-		return "ReviewVO [rv_id=" + rv_id + ", hpt_id=" + hpt_id + ", hpt_rate=" + hpt_rate + ", rv_title=" + rv_title
-				+ ", rv_content=" + rv_content + ", rv_reg_date=" + rv_reg_date + ", rv_image=" + rv_image
-				+ ", pet_type=" + pet_type + ", visit_date=" + visit_date + ", visit_is_new=" + visit_is_new
-				+ ", cmt_id=" + cmt_id + ", cmt_content=" + cmt_content + ", cmt_reg_date=" + cmt_reg_date + "]";
+
+	public String getHpt_name() {
+		return hpt_name;
 	}
-	
-	
+
+	public void setHpt_name(String hpt_name) {
+		this.hpt_name = hpt_name;
+	}
+
+	public String getAdrs_new() {
+		return adrs_new;
+	}
+
+	public void setAdrs_new(String adrs_new) {
+		this.adrs_new = adrs_new;
+	}
+
+	public String getAdrs_old() {
+		return adrs_old;
+	}
+
+	public void setAdrs_old(String adrs_old) {
+		this.adrs_old = adrs_old;
+	}
+
 }

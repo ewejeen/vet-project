@@ -33,8 +33,37 @@ public interface ReviewService {
 	// 후기 리스트 상세 보기
 	List<?> reviewDetail(int rv_id) throws Exception;
 	
+	
+	
 	// 후기 리스트 웹
 	List<?> reviewListForWeb(SampleDefaultVO searchVO) throws Exception;
 	// 후기 총 개수
 	int selectReviewListTotCnt(SampleDefaultVO searchVO);
+	
+	/**
+	 * 글을 수정한다.
+	 * @param vo - 수정할 정보가 담긴 SampleVO
+	 * @return void형
+	 * @exception Exception
+	 */
+	void updateReview(ReviewVO vo) throws Exception;
+
+	/**
+	 * 글을 삭제한다.
+	 * @param vo - 삭제할 정보가 담긴 SampleVO
+	 * @return void형
+	 * @exception Exception
+	 */
+	void deleteReview(ReviewVO vo) throws Exception;
+
+	/**
+	 * 글을 조회한다.
+	 * @param vo - 조회할 정보가 담긴 SampleVO
+	 * @return 조회한 글
+	 * @exception Exception
+	 */
+	//SampleVO selectSample(SampleVO vo) throws Exception;
+	ReviewVO selectReview(String rvId) throws Exception;
+
+	
 }

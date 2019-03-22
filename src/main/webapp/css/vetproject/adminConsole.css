@@ -89,7 +89,8 @@
 	text-decoration: underline;
 }
 
-.console .review p {
+.console .review a {
+	display:block;
 	text-align: center;
 	line-height: 400px;
 	font-size: 30px;

@@ -120,7 +120,7 @@ public class EgovSampleController {
 		model.addAttribute("sampleVO", new SampleVO());
 		return "sample/egovSampleRegister";
 	}
-	@RequestMapping("/addNoticeView.do")	//ok
+	@RequestMapping("/addNoticeView.do")	// 관리자 페이지에서 들어갈 때...
 	public String addNoticeView2(@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
 		model.addAttribute("sampleVO", new SampleVO());
 		return "sample/egovSampleRegister";

@@ -97,4 +97,39 @@ public class ReviewServiceImpl extends EgovAbstractServiceImpl implements Review
 	public int selectReviewListTotCnt(SampleDefaultVO searchVO) {
 		return reviewDAO.selectReviewListTotCnt(searchVO);
 	}	
+	
+	/**
+	 * 글을 수정한다.
+	 * @param vo - 수정할 정보가 담긴 SampleVO
+	 * @return void형
+	 * @exception Exception
+	 */
+	@Override
+	public void updateReview(ReviewVO vo) throws Exception {
+		reviewDAO.updateReview(vo);
+		
+	}
+	
+	/**
+	* 글을 삭제한다.
+	* @param vo - 삭제할 정보가 담긴 SampleVO
+	* @return void형
+	* @exception Exception
+	*/
+	@Override
+	public void deleteReview(ReviewVO vo) throws Exception {
+		reviewDAO.deleteReview(vo);
+	}
+	
+	/**
+	 * 글을 조회한다.
+	 * @param vo - 조회할 정보가 담긴 SampleVO
+	 * @return 조회한 글
+	 * @exception Exception
+	 */
+	@Override
+	public ReviewVO selectReview(String rvId) throws Exception {
+		return reviewDAO.selectReview(rvId);
+	}
+
 }

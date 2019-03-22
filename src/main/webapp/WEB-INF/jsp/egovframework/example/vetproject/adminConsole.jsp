@@ -11,12 +11,15 @@
 <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700" rel="stylesheet">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <title>관리자 콘솔</title>
+
 <script>
-	/* if(${sessionId eq null }){
+	if(${sessionId != 'administrator' }){
 		alert('관리자만 접근 가능합니다.');
 		history.go(-1);	
-	} */
-	
+	}
+</script>
+
+<script>
 	function fn_logout_admin(){
 		if(confirm('로그아웃 하시겠습니까?')){
 			$.ajax({
@@ -51,7 +54,7 @@
 						<a href="<%=request.getContextPath() %>/addNoticeView.do">공지사항 등록</a>
 					</div>
 					<div class="review">
-						<p>후기 관리</p>
+						<a href="<%=request.getContextPath() %>/review/reviewList.web">후기 관리</a>
 					</div>
 				</div>
 			</div>

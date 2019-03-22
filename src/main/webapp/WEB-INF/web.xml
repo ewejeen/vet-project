@@ -17,6 +17,10 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>*.web</url-pattern>
+	</filter-mapping>
     
 	<filter>
 		<filter-name>HTMLTagFilter</filter-name>
@@ -25,6 +29,10 @@
 	<filter-mapping>
 		<filter-name>HTMLTagFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>HTMLTagFilter</filter-name>
+		<url-pattern>*.web</url-pattern>
 	</filter-mapping>
     
 	<context-param>

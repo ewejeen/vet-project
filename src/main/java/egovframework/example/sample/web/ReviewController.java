@@ -84,7 +84,7 @@ public class ReviewController {
 	 * @exception Exception
 	 */
 	
-	@RequestMapping(value = "/reviewList.web")
+	@RequestMapping(value = "/reviewList.web", produces="application/text; charset=utf8")	// ok
 	public String reviewListForWeb(@ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model)
 			throws Exception {
 
@@ -108,10 +108,61 @@ public class ReviewController {
 		int totCnt = reviewService.selectReviewListTotCnt(searchVO);
 		model.addAttribute("totCnt",totCnt);
 		paginationInfo.setTotalRecordCount(totCnt);
+		
 		model.addAttribute("paginationInfo", paginationInfo);
 
 		return "vetproject/reviewList";
 	}
+	
+	/**
+	 * 글을 조회한다.
+	 * 
+	 * @param sampleVO
+	 *            - 조회할 정보가 담긴 VO
+	 * @param searchVO
+	 *            - 목록 조회조건 정보가 담긴 VO
+	 * @param status
+	 * @return @ModelAttribute("sampleVO") - 조회한 정보
+	 * @exception Exception
+	 */
+	public ReviewVO selectReview(@RequestParam("rvId") String rvId, @ModelAttribute("searchVO") SampleDefaultVO searchVO)
+			throws Exception {
+		return reviewService.selectReview(rvId);
+	}
+	
+	// 글 조회 화면
+	@RequestMapping("/reviewDetail.web")
+	public String reviewDetailForWeb(@RequestParam("rvId") String rvId,
+			@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
+		model.addAttribute(selectReview(rvId, searchVO));
+		return "vetproject/reviewDetail";
+	}
+	
+	/**
+	 * 글을 삭제한다.
+	 * 
+	 * @param sampleVO
+	 *            - 삭제할 정보가 담긴 VO
+	 * @param searchVO
+	 *            - 목록 조회조건 정보가 담긴 VO
+	 * @param status
+	 * @return "forward:/egovSampleList.do"
+	 * @exception Exception
+	 */
+	@RequestMapping("/deleteReview.web")
+	public String deleteReview(ReviewVO reviewVO, @ModelAttribute("searchVO") SampleDefaultVO searchVO,
+			SessionStatus status) throws Exception {
+		reviewService.deleteReview(reviewVO);
+		return "forward:reviewList.web";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

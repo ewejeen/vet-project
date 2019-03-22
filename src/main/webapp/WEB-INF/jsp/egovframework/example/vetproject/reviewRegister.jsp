@@ -27,6 +27,12 @@
     </title>
     <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/sample.css'/>"/>
     
+	<script>
+	    if(${sessionId != 'administrator' }){
+			alert('관리자만 접근 가능합니다.');
+			history.go(-1);	
+		}
+    </script>
     <script type="text/javaScript" language="javascript" defer="defer">
         
         /* 후기 목록 화면 function */

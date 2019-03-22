@@ -84,6 +84,41 @@
 				</choose>
 			</if>
 	</select>
+
+	<!-- 앱 사용자 용  -->
+	<update id="updateReview">
+
+			UPDATE review
+			SET hpt_rate=#{hpt_rate}, rv_title=#{rv_title}, rv_content=#{rv_content}, rv_image=#{rv_image}, pet_type=#{pet_type}, visit_date=#{visit_date}, visit_is_new=#{visit_is_new}
+			WHERE rv_id=#{rv_id}
+
+	</update>
+
+	<delete id="deleteReview">
+
+			DELETE FROM review
+			WHERE rv_id=#{rv_id}
+
+	</delete>
+
+	<select id="selectReview" resultMap="review">
+
+			SELECT
+				rv.rv_id, rv.hpt_id, rv.rv_title, rv.rv_content, rv.hpt_rate, rv.rv_reg_date, 
+				rv.rv_image, rv.pet_type, rv.visit_date, rv.visit_is_new,
+				hos.hpt_name, geo.adrs_old, geo.adrs_new
+			FROM review rv
+			JOIN hospital hos 
+			ON hos.hpt_id = rv.hpt_id
+			JOIN hospital_geo2 as geo ON rv.hpt_id = geo.hpt_id
+			WHERE rv.rv_id = #{rv.rv_id}
+
+	</select>
+	
+	
+	
+	
+	
 	
 	
 	<!-- 후기 리스트 -->

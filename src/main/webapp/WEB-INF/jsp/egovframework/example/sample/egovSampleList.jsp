@@ -73,7 +73,7 @@
         	<!-- 타이틀 -->
         	<div id="title_div">
         		<ul>
-        			<li><spring:message code="list.sample" /></li>
+        			<li onclick="location.href='noticeList.do'"><spring:message code="list.sample" /></li>
         		</ul>
         	</div>
         	<!-- // 타이틀 -->
