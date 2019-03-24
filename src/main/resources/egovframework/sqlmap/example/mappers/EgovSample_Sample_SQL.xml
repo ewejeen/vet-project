@@ -78,5 +78,17 @@
 				</choose>
 			</if>
 	</select>
+	
+	<select id="noticeList" resultType="egovMap">
+
+			SELECT 
+				id, title, content, 
+				DATE_FORMAT(reg_date, '%Y-%m-%d') AS reg_date, 
+				image
+			FROM notice
+			ORDER BY
+				id DESC
+			
+	</select>
 
 </mapper>

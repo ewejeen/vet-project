@@ -80,6 +80,7 @@ public interface SampleMapper {
 	 * @exception Exception
 	 */
 	List<?> selectSampleList(SampleDefaultVO searchVO) throws Exception;
+	List<?> noticeList() throws Exception;
 
 	/**
 	 * 글 총 갯수를 조회한다.

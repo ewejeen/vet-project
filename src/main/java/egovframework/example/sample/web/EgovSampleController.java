@@ -26,6 +26,7 @@ import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 import javax.annotation.Resource;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -247,6 +248,16 @@ public class EgovSampleController {
 		sampleService.deleteSample(sampleVO);
 		status.setComplete();
 		return "forward:/noticeList.do";
+	}
+	
+	
+	@RequestMapping(value="/noticeListApp.do", produces = "application/json;charset=utf-8")
+	public @ResponseBody String noticeListApp() throws Exception {
+		ObjectMapper om = new ObjectMapper();
+		List<?> list = sampleService.noticeList();
+		String json = om.writeValueAsString(list);
+		
+		return json;
 	}
 
 }
