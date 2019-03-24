@@ -217,7 +217,13 @@ public class ReviewController {
 	}
 	
 	// 후기 수정
-	
+	@RequestMapping(value = "/updateReview.do", method = RequestMethod.POST)
+	public @ResponseBody String updateReview(ReviewVO reviewVO) throws Exception {
+		reviewService.updateReview(reviewVO);
+		System.out.println(reviewVO.getRv_id());
+
+		return String.format("%d", reviewVO.getRv_id());
+	}
 	
 
 	/**
