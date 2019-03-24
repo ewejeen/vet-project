@@ -19,7 +19,7 @@
 	</resultMap>
 
 	<!-- 후기 입력하기 -->
-	<insert id="insertReview" parameterType="ReviewVO">
+	<insert id="insertReview" parameterType="ReviewVO" useGeneratedKeys="true" keyProperty="rv_id">
 			INSERT INTO 
 				review(hpt_id, hpt_rate, rv_title, rv_content, rv_image, pet_type, visit_date, visit_is_new)
 			VALUES

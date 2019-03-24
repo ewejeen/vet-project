@@ -246,18 +246,17 @@ public class ReviewController {
 		return map;
 	}
 	
-	// 후기를 등록하고 Retrofit에 반환해 준다.
+	// 후기를 등록하고 그 후기의 ID를 Retrofit에 반환해 준다.
 	@RequestMapping(value = "/addAppReview.do", method = RequestMethod.POST)
-	public @ResponseBody String addAppReview(ReviewVO reviewVO,
-			Model model, SessionStatus status) throws Exception {
+	public @ResponseBody String addAppReview(ReviewVO reviewVO) throws Exception {
 		reviewService.insertReview(reviewVO);
-		status.setComplete();
+		System.out.println(reviewVO.getRv_id());
 
-		ObjectMapper om = new ObjectMapper();
+		/*ObjectMapper om = new ObjectMapper();
 		List<?> list = reviewService.reviewDetail(reviewVO.getRv_id());
 		String json = om.writeValueAsString(list);
-		
-		return json;
+		System.out.println(json);*/
+		return String.format("%d", reviewVO.getRv_id());
 	}
 /*
 	*//**

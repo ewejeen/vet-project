@@ -83,7 +83,9 @@ public class ReviewServiceImpl extends EgovAbstractServiceImpl implements Review
 	// 후기 리스트 상세 보기
 	@Override
 	public List<?> reviewDetail(int rv_id) throws Exception {
-		return reviewDAO.reviewDetail(rv_id);
+		List<?> list = reviewDAO.reviewDetail(rv_id);
+		System.out.println("\n\treviewDetail return ->\n\t" + list);
+		return list;
 	}
 	
 	// 후기 리스트 웹
