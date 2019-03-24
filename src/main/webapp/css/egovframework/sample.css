@@ -100,10 +100,10 @@ select {font-size:12px; margin-top:0px; width: 60px;height:30px; padding-top:0px
 input.txt {height:30px; width:99%; background-color:#FFF; border:1px solid #BCC8D8;  padding:0 5px; color:#5e5e5e; cursor:text;box-sizing:border-box;}
 input#title.txt{height:30px; width:99%; padding:0 5px;box-sizing:border-box;}
 input.essentiality  {height:18px; background-color:#ebebeb; border:1px solid #BCC8D8; padding-top:2px; color:#000; cursor:text;}
-textarea#content{width:99%;height:400px;box-sizing:border-box;padding:5px;}
+textarea#content{width:99%;height:100%;min-height:400px;box-sizing:border-box;padding:5px;}
 #sysbtn .btn_blue_l {height:35px; line-height:35px;}
 #sysbtn .btn_blue_l a{font-size:14px;}
-.tbtd_content p.content{min-height:400px; }
+.tbtd_content p.content{min-height:400px; height:100%;}
 img.content{margin-bottom:20px;}
 tr td.nopost{text-align:center; padding-top:50px;}
 td.listtd.title{text-align:left;padding:0 60px;}
