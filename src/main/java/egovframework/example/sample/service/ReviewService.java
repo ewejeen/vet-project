@@ -66,5 +66,7 @@ public interface ReviewService {
 	//SampleVO selectSample(SampleVO vo) throws Exception;
 	ReviewVO selectReview(String rvId) throws Exception;
 
+	// 후기의 댓글 목록
+	List<?> commentListForWeb(@Param("rv_id") int rv_id) throws Exception;
 	
 }

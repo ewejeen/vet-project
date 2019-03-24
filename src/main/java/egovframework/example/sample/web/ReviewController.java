@@ -274,97 +274,24 @@ public class ReviewController {
 		return map;
 	}
 	
-/*
-	*//**
-	 * 글 수정화면을 조회한다.
-	 * 
-	 * @param id
-	 *            - 수정할 글 id
-	 * @param searchVO
-	 *            - 목록 조회조건 정보가 담긴 VO
-	 * @param model
-	 * @return "egovSampleRegister"
-	 * @exception Exception
-	 *//*
-	@RequestMapping("/updateSampleView.do")
-	public String updateSampleView(@RequestParam("id") String id,
-			@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
-		SampleVO sampleVO = new SampleVO();
-		// 변수명 CoC 에 따라 sampleVO
-		model.addAttribute(selectSample(id, searchVO));
-		return "sample/egovSampleRegister";
-	}
+	/*// 후기 댓글 목록
+	@RequestMapping(value = "/commentList.do", produces="application/text; charset=utf8")
+	public @ResponseBody String commentListForWeb(int rv_id, ModelMap model) throws Exception {
+		List<?> list = reviewService.commentListForWeb(rv_id);
+		model.addAttribute("commentList", list);
 
-	*//**
-	 * 글을 조회한다.
-	 * 
-	 * @param sampleVO
-	 *            - 조회할 정보가 담긴 VO
-	 * @param searchVO
-	 *            - 목록 조회조건 정보가 담긴 VO
-	 * @param status
-	 * @return @ModelAttribute("sampleVO") - 조회한 정보
-	 * @exception Exception
-	 *//*
-	public SampleVO selectSample(@RequestParam("id") String id, @ModelAttribute("searchVO") SampleDefaultVO searchVO)
-			throws Exception {
-		return sampleService.selectSample(id);
-	}
-	
-	// 글 조회 화면
-	@RequestMapping("/selectSampleView.do")
-	public String selectSampleView(@RequestParam("id") String id,
-			@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
-		SampleVO sampleVO = new SampleVO();
-		// 변수명 CoC 에 따라 sampleVO
-		model.addAttribute(selectSample(id, searchVO));
-		return "sample/egovSampleView";
-	}
-
-	*//**
-	 * 글을 수정한다.
-	 * 
-	 * @param sampleVO
-	 *            - 수정할 정보가 담긴 VO
-	 * @param searchVO
-	 *            - 목록 조회조건 정보가 담긴 VO
-	 * @param status
-	 * @return "forward:/egovSampleList.do"
-	 * @exception Exception
-	 *//*
-	@RequestMapping("/updateSample.do")
-	public String updateSample(@ModelAttribute("searchVO") SampleDefaultVO searchVO, SampleVO sampleVO,
-			BindingResult bindingResult, Model model, SessionStatus status) throws Exception {
-
-		beanValidator.validate(sampleVO, bindingResult);
-
-		if (bindingResult.hasErrors()) {
-			model.addAttribute("sampleVO", sampleVO);
-			return "sample/egovSampleRegister";
-		}
-
-		sampleService.updateSample(sampleVO);
-		status.setComplete();
-		return "forward:/egovSampleList.do";
-	}
-
-	*//**
-	 * 글을 삭제한다.
-	 * 
-	 * @param sampleVO
-	 *            - 삭제할 정보가 담긴 VO
-	 * @param searchVO
-	 *            - 목록 조회조건 정보가 담긴 VO
-	 * @param status
-	 * @return "forward:/egovSampleList.do"
-	 * @exception Exception
-	 *//*
-	@RequestMapping("/deleteSample.do")
-	public String deleteSample(SampleVO sampleVO, @ModelAttribute("searchVO") SampleDefaultVO searchVO,
-			SessionStatus status) throws Exception {
-		sampleService.deleteSample(sampleVO);
-		status.setComplete();
-		return "forward:/egovSampleList.do";
+		return "vetproject/reviewDetail.do?rv_id="+rv_id;
 	}*/
+
+	// 후기 댓글 목록
+	@RequestMapping(value = "/commentList.do", produces = "application/json;charset=utf-8")
+	public @ResponseBody String commentList(int rv_id) throws Exception {
+		ObjectMapper om = new ObjectMapper();
+		List<?> list = reviewService.commentListForWeb(rv_id);
+		String json = om.writeValueAsString(list);
+		
+		return json;
+	}
+
 
 }

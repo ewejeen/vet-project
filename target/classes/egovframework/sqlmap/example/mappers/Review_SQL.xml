@@ -162,6 +162,14 @@
 				rv_id=#{rv_id}
 	</select>
 	
-	
-
+	<!-- 후기의 댓글 목록 -->
+	<select id="commentListForWeb" parameterType="int" resultType="egovMap">
+			SELECT 
+				cmt_id, cmt_content, 
+				DATE_FORMAT(cmt_reg_date, '%Y-%m-%d') AS cmt_reg_date
+			FROM
+				review_comment
+			WHERE
+				rv_id=#{rv_id}
+	</select>
 </mapper>
