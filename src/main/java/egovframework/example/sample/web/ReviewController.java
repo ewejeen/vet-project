@@ -150,7 +150,7 @@ public class ReviewController {
 	 * @exception Exception
 	 */
 	@RequestMapping("/deleteReview.web")
-	public String deleteReview(ReviewVO reviewVO, @ModelAttribute("searchVO") SampleDefaultVO searchVO,
+	public String deleteReviewForWeb(ReviewVO reviewVO, @ModelAttribute("searchVO") SampleDefaultVO searchVO,
 			SessionStatus status) throws Exception {
 		reviewService.deleteReview(reviewVO);
 		return "forward:reviewList.web";
@@ -197,6 +197,28 @@ public class ReviewController {
 		return json;
 	}
 	
+	// 후기 삭제
+	@RequestMapping(value = "/deleteReview.do", method = RequestMethod.POST)
+	public @ResponseBody String deleteReview(int rv_id) throws Exception {
+		if(reviewService.deleteReview(rv_id) == 1){
+			return "Deletion completed";			
+		}
+		return "Deletion failed";
+	}
+	
+
+	// 후기를 등록하고 그 후기의 ID를 Retrofit에 반환해 준다.
+	@RequestMapping(value = "/addAppReview.do", method = RequestMethod.POST)
+	public @ResponseBody String addReview(ReviewVO reviewVO) throws Exception {
+		reviewService.insertReview(reviewVO);
+		System.out.println(reviewVO.getRv_id());
+
+		return String.format("%d", reviewVO.getRv_id());
+	}
+	
+	// 후기 수정
+	
+	
 
 	/**
 	 * 후기 등록 화면을 조회한다.
@@ -226,7 +248,7 @@ public class ReviewController {
 	 * validator 없앰
 	 */
 	@RequestMapping(value = "/addReview.do", method = RequestMethod.POST)
-	public String addReview(ReviewVO reviewVO,
+	public String addReviewForWeb(ReviewVO reviewVO,
 			Model model, SessionStatus status) throws Exception {
 		reviewService.insertReview(reviewVO);
 		status.setComplete();
@@ -246,18 +268,6 @@ public class ReviewController {
 		return map;
 	}
 	
-	// 후기를 등록하고 그 후기의 ID를 Retrofit에 반환해 준다.
-	@RequestMapping(value = "/addAppReview.do", method = RequestMethod.POST)
-	public @ResponseBody String addAppReview(ReviewVO reviewVO) throws Exception {
-		reviewService.insertReview(reviewVO);
-		System.out.println(reviewVO.getRv_id());
-
-		/*ObjectMapper om = new ObjectMapper();
-		List<?> list = reviewService.reviewDetail(reviewVO.getRv_id());
-		String json = om.writeValueAsString(list);
-		System.out.println(json);*/
-		return String.format("%d", reviewVO.getRv_id());
-	}
 /*
 	*//**
 	 * 글 수정화면을 조회한다.

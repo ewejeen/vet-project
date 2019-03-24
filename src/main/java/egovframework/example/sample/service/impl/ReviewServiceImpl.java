@@ -122,6 +122,10 @@ public class ReviewServiceImpl extends EgovAbstractServiceImpl implements Review
 	public void deleteReview(ReviewVO vo) throws Exception {
 		reviewDAO.deleteReview(vo);
 	}
+	@Override
+	public int deleteReview(int rv_id) throws Exception {
+		return reviewDAO.deleteReview(rv_id);
+	}
 	
 	/**
 	 * 글을 조회한다.

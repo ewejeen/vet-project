@@ -55,6 +55,7 @@ public interface ReviewService {
 	 * @exception Exception
 	 */
 	void deleteReview(ReviewVO vo) throws Exception;
+	int deleteReview(int rv_id) throws Exception;
 
 	/**
 	 * 글을 조회한다.
