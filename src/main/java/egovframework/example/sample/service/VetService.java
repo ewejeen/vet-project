@@ -48,6 +48,10 @@ public interface VetService {
 	// 앱 내 병원 지역으로 검색
 	List<?> searchVetByRegion(@Param("province") String province, @Param("city") String city) throws Exception;
 	
+	// 좌표값 넣기
+	void changeAxis(@Param("hpt_id") int hpt_id, @Param("latitude") double latitude, @Param("longtitude") double longtitude);
+	String getAdrs(@Param("hpt_id") int hpt_id);
+	
 	/**
 	 * 동물병원 총 갯수를 조회한다.
 	 * @param searchVO - 조회할 정보가 담긴 VO

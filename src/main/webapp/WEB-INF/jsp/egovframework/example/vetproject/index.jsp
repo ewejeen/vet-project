@@ -16,8 +16,6 @@
     <script src="<%=request.getContextPath() %>/js/jquery.counterup.min.js"></script>
     <!-- 카카오 지도 API -->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=12e208177aac210838ca41d5bbf3716c&libraries=services,clusterer"></script>
-    <!-- D3.js (시각화 라이브러리) -->
-    <script src="https://d3js.org/d3.v5.min.js"></script>
     
     <!-- chart.js (차트 라이브러리) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>

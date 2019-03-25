@@ -135,5 +135,15 @@ public class VetServiceImpl extends EgovAbstractServiceImpl implements VetServic
 	public int vetHitUp(int hpt_id) throws Exception {
 		return vetDAO.vetHitUp(hpt_id);
 	}
+	
+	// 좌표값 넣기
+	@Override
+	public void changeAxis(int hpt_id, double latitude, double longtitude) {
+		vetDAO.changeAxis(hpt_id, latitude, longtitude);
+	}
+	@Override
+	public String getAdrs(int hpt_id) {
+		return vetDAO.getAdrs(hpt_id);
+	}
 
 }

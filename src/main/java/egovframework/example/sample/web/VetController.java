@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import egovframework.example.sample.service.ReviewVO;
 import egovframework.example.sample.service.SampleDefaultVO;
 import egovframework.example.sample.service.VetService;
 import egovframework.example.sample.service.VetVO;
@@ -34,11 +35,14 @@ import org.apache.commons.collections.ListUtils;
 import org.apache.ibatis.annotations.Param;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 
@@ -180,4 +184,23 @@ public class VetController {
 		return json;
 	}	
 	
+	@RequestMapping(value="/data.do")
+	public String data(){
+		return "vetproject/data";
+	}
+	
+	// 주소값 불러오기
+	@RequestMapping(value="/getAdrs.do", produces = "application/text;charset=utf8")
+	public @ResponseBody String getAxis(int hpt_id) throws Exception{
+		String result = vetService.getAdrs(hpt_id);
+
+		return result;
+	}
+	
+	// 좌표값 저장
+	@RequestMapping(value = "/changeAxis.do", method = RequestMethod.POST)
+	public String changeAxis(int hpt_id, double latitude, double longtitude, Model model) throws Exception {
+		vetService.changeAxis(hpt_id, latitude, longtitude);
+		return "vetproject/success";
+	}
 }

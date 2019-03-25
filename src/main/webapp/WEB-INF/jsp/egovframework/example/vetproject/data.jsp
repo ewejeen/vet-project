@@ -5,6 +5,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- 카카오 지도 API -->
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=12e208177aac210838ca41d5bbf3716c&libraries=services,clusterer"></script>
 
 <script>
 	
@@ -200,7 +202,7 @@
 <body>
 	<div class="reviewWrite">
 		<form id="reviewForm" method="POST">
-			병원ID <input type="text" name="hpt_id" id="hpt_id" /><br />
+			병원ID <input type="text" name="x_axis" id="x_axis" /><br />
 			평점 <input type="text" name="hpt_rate" id="hpt_rate" /><br />
 			후기 제목 <input type="text" name="rv_title" id="rv_title" /><br />
 			후기 내용 <input type="text" name="rv_content" id="rv_content" /><br />
@@ -219,100 +221,78 @@
 			<input type="radio" name="visit_is_new" value="0" checked/>첫 방문
 			<input type="radio" name="visit_is_new" value="1"/> 재방문
 			
-			<input type="button" value="작성하기" onclick="fn_insert2()"/>
+			<input type="button" value="작성하기" onclick="fn_update()"/>
 		</form>
 	</div>
 
 </body>
 
 <script>
-	
-/*
 
-	/*
-
-	 //min (포함) 과 max (포함) 사이의 임의 정수를 반환하는 함수.
-	 
-
-	 //setTimeout()은 지연시간을 발생시킨 후 특정 함수를 호출함.
-
-	 var showAlert = setTimeout(function() {
-	 clearInterval(getRandomNo);
-	 alert('Wow!!!');
-	 }, 10000);
-
-	 
-
-	//rvw 테이블에 AJAX로 id, cont 값을 입력 시키는 함수.
-	function saveRvw(id, cont) {
-		//  1 ~ 187사이의 난수를 발생 시켜서 rst_no값으로 준다.
-		let rst_no = getRandomIntInclusive(1, 187);
-		//  1 ~ 3 사이의 난수를 발생 시켜서 score값으로 준다.
-		let score = getRandomIntInclusive(1, 2);
-		param = JSON.stringify({
-			"rst_no" : rst_no,
-			"id" : id,
-			"cont" : cont,
-			"score" : score
-		})
-
-		setTimeout(function() {
-			$.ajax("/yummy/rvw/save", {
-				method : "POST",
-				data : param,
-				contentType : "application/json; charset=UTF-8",
-				dataType : "json",
-				success : function(data) {
-					console.log(data);
+	function fn_update(){
+			
+			$.ajax({
+				url : 'getAdrs.do',
+				type : 'POST',
+				data : {
+					'hpt_id' : 3,
 				},
-				error : function(xhr, status, msg) {
-					console.debug('xhr:\n ' + xhr);
-					console.debug('status:\n ' + status);
-					console.debug('msg:\n ' + msg);
+				success: function (data) {
+					console.log(data);
+					var geocoder = new daum.maps.services.Geocoder();
+
+					// 주소로 좌표를 검색합니다
+					geocoder.addressSearch(data, function(result, status) {
+
+					    // 정상적으로 검색이 완료됐으면 
+					     if (status === daum.maps.services.Status.OK) {
+					    	 var lat = result[0].y;
+						     var lng = result[0].x;
+
+					    	console.log(lat);
+					    	console.log(lng);
+					    	
+				    		$.ajax({
+					    		url : 'changeAxis.do',
+					    		type : 'POST',
+					    		data : {
+					    			'hpt_id' : 3,
+					    			'latitude' : lat,
+					    			'longtitude' : lng
+					    		},
+					    		success: function (data){
+					    			console.log(data);
+					    			console.log('성공');
+					    		},
+					    		error: function(xhr, status, msg){
+					    			console.log('xhr:\n ' + xhr);
+								    console.log('status:\n ' + status);
+								    console.log('msg:\n ' + msg);
+					    		}
+					    	});
+					    	
+					    } 
+					});
+						
+				},
+				error: function(xhr, status, msg) {
+					console.log('xhr:\n ' + xhr);
+				    console.log('status:\n ' + status);
+				    console.log('msg:\n ' + msg);
 				}
 			});
-		}, 500);
 	}
+		
+		
+</script>
 
-	function signUp(id, pwd, nick) {
-		let url = '/yummy/memb/signUp';
-		let param = {
-			id : id,
-			pwd : pwd,
-			nick : nick
-		}
-		try {
-			$.post(url, param).done(function(data) {
-				console.log(data);
-			});
-		} catch (err) {
-		}
-	}
+<script>
 
-	var cnt = 0;
-	function callbackInsert(cycle) {
-		if (cnt < cycle) {
-			setTimeout(function() {
-				cnt++;
-				let id = 'TestUser9-' + cnt;
-				let nick = 'TestUser9-' + cnt;
-				let pwd = 1111;
+// 주소를 좌표로 변환해 latitude, longtitude 값으로 바꿔 준다.
 
-				signUp(id, pwd, nick);
 
-				for (let j = 0; j <= 100; j++) {
-					setTimeout(function() {
-						let cont = cnt + '\n' + id + '의 Review Test - ' + j
-								+ '임';
-						saveRvw(id, cont);
-					}, 500);
-				}
-				callbackInsert(cycle);
-			}, 1000);
-		}
-	}
-	*/
-	
-	
+
+
+
 </script>
 </html>

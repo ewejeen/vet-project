@@ -108,6 +108,26 @@
 			hpt_id = #{hpt_id}
 	</update>
 	
+	<!-- hospital_geo 테이블의 주소 값 가져오기 (앱 내 거리순 검색 위함) -->
+	<select id="getAdrs" resultType="String">
+		SELECT
+			IFNULL (NULLIF(adrs_new,''), adrs_old) address 
+		FROM
+			hospital_geo
+		WHERE
+			hpt_id = #{hpt_id}
+	</select>
+
+	<!-- hospital_geo 테이블의 x좌표와 y좌표 값 수정하기 (앱 내 거리순 검색 위함) -->
+	<update id="changeAxis" parameterType="vetVO">
+		UPDATE
+			hospital_geo
+		SET
+			latitude=#{latitude}, longtitude=#{longtitude}
+		WHERE
+			hpt_id=#{hpt_id};
+	</update>
+	
 	
 	<!-- 웹***************************************************************************************** -->
 	<!-- 지도 마커 표시 위해 지역별로 병원 이름과 주소 얻기 -->
