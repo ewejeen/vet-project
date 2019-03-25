@@ -163,13 +163,31 @@
 	</select>
 	
 	<!-- 후기의 댓글 목록 -->
-	<select id="commentListForWeb" parameterType="int" resultType="egovMap">
+	<select id="commentList" parameterType="int" resultType="egovMap">
 			SELECT 
 				cmt_id, cmt_content, 
-				DATE_FORMAT(cmt_reg_date, '%Y-%m-%d') AS cmt_reg_date
+				DATE_FORMAT(cmt_reg_date, '%Y-%m-%d %H:%i') AS cmt_reg_date
 			FROM
 				review_comment
 			WHERE
 				rv_id=#{rv_id}
+			ORDER BY
+				cmt_id DESC
 	</select>
+	
+	<!-- 후기에 댓글 쓰기 -->
+	<insert id="insertComment" parameterType="ReviewVO">
+		INSERT INTO 
+			review_comment (cmt_content, rv_id)
+		VALUES 
+			(#{cmt_content}, #{rv_id})
+	</insert>
+	
+	<!-- 후기 댓글 삭제 -->
+	<delete id="deleteComment" parameterType="int">
+		DELETE FROM
+			review_comment
+		WHERE
+			cmt_id = #{cmt_id}
+	</delete>
 </mapper>

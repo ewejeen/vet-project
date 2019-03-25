@@ -287,7 +287,7 @@ public class ReviewController {
 	@RequestMapping(value = "/commentList.do", produces = "application/json;charset=utf-8")
 	public @ResponseBody String commentList(int rv_id) throws Exception {
 		ObjectMapper om = new ObjectMapper();
-		List<?> list = reviewService.commentListForWeb(rv_id);
+		List<?> list = reviewService.commentList(rv_id);
 		String json = om.writeValueAsString(list);
 		
 		return json;

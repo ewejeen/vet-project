@@ -111,6 +111,6 @@ td.listtd.title:hover{font-weight:bold;cursor:pointer;}
 td.listtd.delete a{background: #999; color:#fff; padding:5px 10px; border-radius:14px;}
 td.listtd.delete a:hover{font-weight:bold;font-size:14px; color:#fff;}
 #commentTable{width:100%; height:auto; float:left; margin-bottom:30px; padding:10px;}
-#commentTable ul li{float:left; font-size:15px;}
+#commentTable ul li{float:left; font-size:15px; margin-bottom:10px;}
 #commentTable ul li.cmtCon{width:84%;border-right:1px solid #999; margin-right:10px;}
 h2.cmt{color:#1f5f5f; border-bottom:2px solid #c2d0db; font-size:22px; margin-bottom:10px; padding-bottom:5px;}
