@@ -43,7 +43,7 @@
 			FROM review rv
 			JOIN hospital hos 
 			ON hos.hpt_id = rv.hpt_id
-			JOIN hospital_geo2 as geo ON rv.hpt_id = geo.hpt_id
+			JOIN hospital_geo as geo ON rv.hpt_id = geo.hpt_id
 			WHERE 1=1
 			<if test="searchKeyword != null and searchKeyword != ''">
 		        <choose>
@@ -68,7 +68,7 @@
 			FROM review rv
 			JOIN hospital hos 
 			ON hos.hpt_id = rv.hpt_id
-			JOIN hospital_geo2 as geo ON rv.hpt_id = geo.hpt_id
+			JOIN hospital_geo as geo ON rv.hpt_id = geo.hpt_id
 			WHERE 1=1
 			<if test="searchKeyword != null and searchKeyword != ''">
 		        <choose>
@@ -110,7 +110,7 @@
 			FROM review rv
 			JOIN hospital hos 
 			ON hos.hpt_id = rv.hpt_id
-			JOIN hospital_geo2 as geo ON rv.hpt_id = geo.hpt_id
+			JOIN hospital_geo as geo ON rv.hpt_id = geo.hpt_id
 			WHERE rv.rv_id = #{rv.rv_id}
 
 	</select>

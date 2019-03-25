@@ -26,7 +26,7 @@
 				hos.hpt_phone, 
 				avg(rv.hpt_rate) rate_avg, count(rv.hpt_rate) review_cnt
 			FROM
-				hospital as hos INNER JOIN hospital_geo2 as geo
+				hospital as hos INNER JOIN hospital_geo as geo
 				ON hos.hpt_id = geo.hpt_id
 				INNER JOIN review as rv on hos.hpt_id = rv.hpt_id
 			WHERE geo.province=#{province} AND geo.city=#{city}
@@ -48,7 +48,7 @@
 				<!-- 재방문율 쿼리 -->
 				((SELECT COUNT(*) FROM review WHERE hpt_id=id AND visit_is_new>0) / (SELECT COUNT(*) FROM review WHERE hpt_id=id) * 100) AS retention
 			FROM hospital AS hos
-			JOIN hospital_geo2 AS geo ON hos.hpt_id = geo.hpt_id
+			JOIN hospital_geo AS geo ON hos.hpt_id = geo.hpt_id
 			WHERE geo.province = #{province} AND geo.city = #{city}
 			GROUP BY retention
 			ORDER BY retention DESC
