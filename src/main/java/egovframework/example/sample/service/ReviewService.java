@@ -68,5 +68,11 @@ public interface ReviewService {
 
 	// 후기의 댓글 목록
 	List<?> commentList(@Param("rv_id") int rv_id) throws Exception;
+	// 후기 댓글 쓰기
+	void insertComment(ReviewVO vo) throws Exception;
+	// 후기 댓글 삭제
+	void deleteComment(int cmt_id) throws Exception;
+	// 후기 댓글 하나
+	List<?> commentDetail(int cmt_id) throws Exception;
 	
 }

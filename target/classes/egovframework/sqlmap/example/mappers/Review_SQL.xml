@@ -117,10 +117,6 @@
 	
 	
 	
-	
-	
-	
-	
 	<!-- 후기 리스트 -->
 	<select id="reviewList" resultType="egovMap">
 			SELECT
@@ -176,7 +172,7 @@
 	</select>
 	
 	<!-- 후기에 댓글 쓰기 -->
-	<insert id="insertComment" parameterType="ReviewVO">
+	<insert id="insertComment" parameterType="ReviewVO" useGeneratedKeys="true" keyProperty="cmt_id">
 		INSERT INTO 
 			review_comment (cmt_content, rv_id)
 		VALUES 
@@ -190,4 +186,14 @@
 		WHERE
 			cmt_id = #{cmt_id}
 	</delete>
+	
+	<!-- 댓글 하나 정보 -->
+	<select id="commentDetail" parameterType="int" resultType="egovMap">
+		SELECT
+			cmt_id, cmt_content, rv_id,
+			DATE_FORMAT(cmt_reg_date, '%Y-%m-%d %H:%i') AS cmt_reg_date
+		FROM
+			review_comment
+		WHERE cmt_id=#{cmt_id}
+	</select>
 </mapper>

@@ -149,11 +149,17 @@ public class ReviewController {
 	 * @return "forward:/egovSampleList.do"
 	 * @exception Exception
 	 */
-	@RequestMapping("/deleteReview.web")
-	public String deleteReviewForWeb(ReviewVO reviewVO, @ModelAttribute("searchVO") SampleDefaultVO searchVO,
-			SessionStatus status) throws Exception {
-		reviewService.deleteReview(reviewVO);
-		return "forward:reviewList.web";
+	@RequestMapping(value="/deleteReview.web", method=RequestMethod.POST)
+	@ResponseBody
+	public String deleteReviewForWeb(@RequestParam("checkArr") String list) throws Exception {
+		System.out.println("called");
+		String[] arr = list.split(",");
+		for(int i=0;i<arr.length;i++){
+			System.out.println(arr[i]);
+			reviewService.deleteReview(Integer.parseInt(arr[i]));
+		}
+		
+		return ""+arr.length;
 	}
 	
 	
@@ -293,5 +299,23 @@ public class ReviewController {
 		return json;
 	}
 
+	// 후기의 댓글을 등록하고 그 id값의 댓글 정보를 Retrofit에 반환해 준다.
+	@RequestMapping(value = "/insertComment.do", produces = "application/json;charset=utf-8")
+	public @ResponseBody String insertComment(ReviewVO reviewVO) throws Exception {
+		reviewService.insertComment(reviewVO);
+		
+		ObjectMapper om = new ObjectMapper();
+		List<?> list = reviewService.commentDetail(reviewVO.getCmt_id());
+		String json = om.writeValueAsString(list);
+		
+		return json;
+	}
+	
+	// 후기의 댓글을 삭제한다
+	@RequestMapping(value = "/deleteComment.do", method = RequestMethod.POST, produces = "application/text;charset=utf-8")
+	public @ResponseBody String deleteComment(int cmt_id) throws Exception {
+		reviewService.deleteComment(cmt_id);
+		return "Comment successfully deleted";
+	}
 
 }

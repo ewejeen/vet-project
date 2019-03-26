@@ -28,12 +28,12 @@
     <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/sample.css'/>"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-    <script>
+    <!-- <script>
 	    if(${sessionId != 'administrator' }){
 			alert('관리자만 접근 가능합니다.');
 			history.go(-1);	
 		}
-    </script>
+    </script> -->
     
     <script type="text/javaScript" language="javascript" defer="defer">
   
@@ -56,7 +56,7 @@
 	           		url : '/vetproject_v2/review/deleteReview.web',
 	           		type : 'POST',
 	           		data : {
-	           			'rv_id' : id
+	           			'checkArr' : id+','	/* 다중삭제 컨트롤러에 맞추기 위함 */
 	           		},
 	    			success : function(data) {
 	    				location.reload();
@@ -69,6 +69,50 @@
 	    		});
         	}
         }
+        
+        /* 글 다중 삭제 function */
+        $(document).ready(function(){
+        	$("#checkAll").click(function(){
+        		var chk = $("#checkAll").prop("checked");
+        		if(chk) {
+        			$(".deleteChkBox").prop("checked", true);
+        		} else {
+        			$(".deleteChkBox").prop("checked", false);
+        		}
+        	});
+        	
+        	$(".deleteChkBox").click(function(){
+        		$("#checkAll").prop("checked", false);
+        	});
+        	
+        	$('#deleteSelected').click(function(){
+        		if(confirm('선택하신 후기를 삭제하시겠습니까?')){
+        			var checkArr = '';
+        			$('input[name="deleteChkBox"]:checked').each(function(){
+        				checkArr+=$(this).attr('value')+",";
+        			});
+    				console.log(checkArr);
+        			$.ajax({
+    	    			url : '/vetproject_v2/review/deleteReview.web',
+    	    			type : 'POST',
+    	    			data : {
+    	    				'checkArr' : checkArr
+    	    			},
+    	    			success : function(data){
+    	    				alert(data+'개의 후기가 삭제되었습니다.');
+    	    				location.reload();
+    	    			},
+    	    			error : function(xhr, status, msg) {
+    	    				console.debug('xhr:\n ' + xhr);
+    	    				console.debug('status:\n ' + status);
+    	    				console.debug('msg:\n ' + msg);
+    	    			}
+    	    		});
+        		}
+        		return false;
+        	}); 
+        });
+        
         
         /* pagination 페이지 링크 function */
         function fn_review_link_page(pageNo){
@@ -119,31 +163,35 @@
         		<table width="100%" border="0" cellpadding="0" cellspacing="0" summary="공지글 ID, 제목, 등록자('관리자'), 등록일 표시하는 테이블">
         			<caption style="visibility:hidden">공지글 ID, 제목, 등록자("관리자"), 등록일 표시하는 테이블</caption>
         			<colgroup>
-        				<col width="190"/>
+        				<col width="70"/>
+        				<col width="120"/>
         				<col width="?"/>
         				<col width="220"/>
-        				<col width="190"/>
+        				<col width="170"/>
         			</colgroup>
         			<tr>
+        				<th align="center"><input type="checkbox" name="checkAll" id="checkAll" /></th>
         				<th align="center">ID</th>
         				<th align="center">제목 (병원명)</th>
-        				<th align="center">등록일</th>
+        				<th align="center">등록일</th>        			
         				<th align="center">삭제</th>
         			</tr>
         			<c:forEach var="result" items="${resultList}" varStatus="status">
             			<tr>
+            				<td align="center" class="listtd deleteChk"><input type="checkbox" name="deleteChkBox" class="deleteChkBox"  value="${result.rvId}"/></td>
             				<td align="center" class="listtd id"><c:out value="${result.rvId}"/></td>
             				<!-- 제목 클릭 시 조회 페이지로 -->
             				<%-- <td align="center" class="listtd title" onclick="fn_review_select(${result.id})" style=""><c:out value="${result.title}"/></td> --%>
             				<td align="center" class="listtd title" onclick="fn_review_select(${result.rvId})"><c:out value="${result.rvTitle}"/> (<c:out value="${result.hptName}" />)</td>
             				<td align="center" class="listtd regdate"><fmt:formatDate value="${result.rvRegDate}" pattern="yyyy-MM-dd" /> </td>
-            				<td align="center" class="listtd delete"><a onclick="fn_review_delete(${result.rvId})">삭제</button></td>
+            				<td align="center" class="listtd delete"><a onclick="fn_review_delete(${result.rvId})">삭제</a></td>
             			</tr>
         			</c:forEach>
         			<tr>
         				<td class="nopost" colspan="4"><c:if test="${totCnt ==0 }"><p>게시물이 없습니다.</p></c:if></td>
         			</tr>
         		</table>
+        		<button id="deleteSelected">선택 삭제</button>
         	</div>
         	<!-- /List -->
         	<div id="paging">
