@@ -8,6 +8,11 @@ $('#st1').click(function() {
 	 */
 	$('li#st1').css('font-weight', 'bold');
 	$('li#st2').css('font-weight', 'normal');
+	$('#backToChart2').css('display','none');
+	
+	$('.rateName').each(function(){
+		$(this).css('font-weight', 'normal');
+	});
 });
 
 $('#st2').click(function() {
@@ -19,35 +24,42 @@ $('#st2').click(function() {
 	 */
 	$('li#st1').css('font-weight', 'normal');
 	$('li#st2').css('font-weight', 'bold');
+	$('#backToChart1').css('display','none');
+	
 });
 
 $('#rateName1').click(function() {
 	$('#myChart').hide();
 	$('.mapDiv').show();
+	$('#backToChart1').css('display','block');
 	$('.rateName').css('font-weight', 'normal');
 	$('#rateName1').css('font-weight', 'bold');
 });
 $('#rateName2').click(function() {
 	$('#myChart').hide();
 	$('.mapDiv').show();
+	$('#backToChart1').css('display','block');
 	$('.rateName').css('font-weight', 'normal');
 	$('#rateName2').css('font-weight', 'bold');
 });
 $('#rateName3').click(function() {
 	$('#myChart').hide();
 	$('.mapDiv').show();
+	$('#backToChart1').css('display','block');
 	$('.rateName').css('font-weight', 'normal');
 	$('#rateName3').css('font-weight', 'bold');
 });
 $('#rateName4').click(function() {
 	$('#myChart').hide();
 	$('.mapDiv').show();
+	$('#backToChart1').css('display','block');
 	$('.rateName').css('font-weight', 'normal');
 	$('#rateName4').css('font-weight', 'bold');
 });
 $('#rateName5').click(function() {
 	$('#myChart').hide();
 	$('.mapDiv').show();
+	$('#backToChart1').css('display','block');
 	$('.rateName').css('font-weight', 'normal');
 	$('#rateName5').css('font-weight', 'bold');
 });
@@ -55,30 +67,49 @@ $('#rateName5').click(function() {
 $('#retName1').click(function() {
 	$('.chartLine').hide();
 	$('.mapDiv2').show();
+	$('#backToChart2').css('display','block');
 	$('.retName').css('font-weight', 'normal');
 	$('#retName1').css('font-weight', 'bold');
 });
 $('#retName2').click(function() {
 	$('.chartLine').hide();
 	$('.mapDiv2').show();
+	$('#backToChart2').css('display','block');
 	$('.retName').css('font-weight', 'normal');
 	$('#retName2').css('font-weight', 'bold');
 });
 $('#retName3').click(function() {
 	$('.chartLine').hide();
 	$('.mapDiv2').show();
+	$('#backToChart2').css('display','block');
 	$('.retName').css('font-weight', 'normal');
 	$('#retName3').css('font-weight', 'bold');
 });
 $('#retName4').click(function() {
 	$('.chartLine').hide();
 	$('.mapDiv2').show();
+	$('#backToChart2').css('display','block');
 	$('.retName').css('font-weight', 'normal');
 	$('#retName4').css('font-weight', 'bold');
 });
 $('#retName5').click(function() {
 	$('.chartLine').hide();
 	$('.mapDiv2').show();
+	$('#backToChart2').css('display','block');
 	$('.retName').css('font-weight', 'normal');
 	$('#retName5').css('font-weight', 'bold');
+});
+
+
+
+$('#backToChart1').click(function(){
+	$('.mapDiv').hide();
+	$('#backToChart1').hide();
+	$('#myChart').show();
+});
+
+$('#backToChart2').click(function(){
+	$('.mapDiv2').hide();
+	$('#backToChart2').hide();
+	$('.chartLine').show();
 });

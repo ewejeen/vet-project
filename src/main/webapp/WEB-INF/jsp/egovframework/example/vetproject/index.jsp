@@ -130,6 +130,8 @@
 											<span class="rateRate" id="rateRate5"></span>
 										</li>
 									</ul>
+									
+									<button id="backToChart1">차트 보기</button>
 								</div>
 								<div class="right">
 									<div class="chart">
@@ -186,6 +188,7 @@
 											<span class="retRet" id="retRet5"></span>
 										</li>
 									</ul>
+									<button id="backToChart2">차트 보기</button>
 								</div>
 								<div class="right">
 									<div class="chartLine">
