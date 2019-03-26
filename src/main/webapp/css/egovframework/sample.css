@@ -113,6 +113,9 @@ td.listtd.delete a:hover{font-weight:bold;font-size:14px; color:#fff;}
 #commentTable{width:100%; height:auto; float:left; margin-bottom:30px; padding:10px;}
 #commentTable ul li{float:left; font-size:15px; margin-bottom:10px;}
 #commentTable ul li.cmtCon{width:84%;border-right:1px solid #999; margin-right:10px;}
+#commentTable ul li.cmtDel{float:right; margin-right:20px;}
+#commentTable ul li.cmtDel button{width:45px; height:25px; background: #999; color:#fff; border-radius:14px;}
+#commentTable ul li.cmtDel button:hover{font-weight:bold;font-size:13px; cursor:pointer;}
 h2.cmt{color:#1f5f5f; border-bottom:2px solid #c2d0db; font-size:22px; margin-bottom:10px; padding-bottom:5px;}
 td.listtd.deleteChk{padding-top:30px;box-sizing:border-box;}
 th:nth-child(1){padding-top:10px;}

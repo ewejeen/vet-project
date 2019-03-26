@@ -214,9 +214,9 @@
 	                    html += "<ul>";
 	                    html += "<li class='cmtCon'>" + data[i].cmtContent + "</li>";
 	                    html += "<li class='cmtReg'>" + data[i].cmtRegDate + "</li>";
+	                    html += "<li class='cmtDel'><button onclick='deleteComment(" + data[i].cmtId + ")'>삭제</button></li>";
 	                    html += "</ul>";
 	                }
-	                
 	            } else {
 	                
 	                html += "<ul>";
@@ -236,6 +236,28 @@
     	});
     	
     	
+    </script>
+    <script>
+    	function deleteComment(cmtId){
+    		if(confirm('댓글을 삭제하시겠습니까?')){
+    			$.ajax({
+    				url : 'deleteComment.do',
+    				type : 'POST',
+    				data : {
+    					'cmt_id' : cmtId
+    				},
+    				success : function(data){
+    					console.log(data);
+    				},
+    				error : function(xhr, status, msg){
+    					console.log('xhr:\n' + xhr);
+    					console.log('status:\n' + status);
+    					console.log('msg:\n' + msg);
+    				}
+    			});
+    		}
+    		return false;
+    	}
     </script>
 </body>
 </html>
