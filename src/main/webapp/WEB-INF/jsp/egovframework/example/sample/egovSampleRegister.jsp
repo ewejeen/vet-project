@@ -55,13 +55,13 @@
         	frm = document.detailForm;
         	var title = document.getElementById('title');
         	var content = document.getElementById('content');
-        	if(${registerFlag == 'create'}){	// 수정의 경우에는 title input이 없으므로 등록의 경우만 되도록
-	        	if(title.value == null || title.value == ''){
-	        		alert('제목을 입력해 주세요.');
-	        		title.focus();
-	        		return false;
-	        	}        		
-        	}
+        	
+        	if(title.value == null || title.value == ''){
+        		alert('제목을 입력해 주세요.');
+        		title.focus();
+        		return false;
+        	}        		
+        	
         	if(content.value == null || content.value == ''){
         		alert('내용을 입력해 주세요.');
         		content.focus();
@@ -78,7 +78,7 @@
 </head>
 <body style="text-align:center; margin:0 auto; display:inline; padding-top:100px;">
 <jsp:include page="../vetproject/header.jsp" />
-<form:form commandName="sampleVO" id="detailForm" name="detailForm">
+<form:form commandName="sampleVO" id="detailForm" name="detailForm" enctype="multipart/form-data">
     <div id="content_pop">
     	<!-- 타이틀 -->
     	<div id="title_div">
@@ -100,7 +100,6 @@
     		<tr>
     			<td class="tbtd_caption"><label for="title">제목</label></td>
     			<td class="tbtd_content">
-    				<!-- 수정 flag인 경우 readonly, 수정 flag 없는 경우 입력 -->
     				<c:if test="${registerFlag == 'modify'}">
         				<form:input path="title" maxlength="10" cssClass="txt"  />
         				<form:hidden path="id" cssClass="essentiality" maxlength="10"  />
@@ -117,17 +116,10 @@
     				<form:textarea path="content" rows="5" cols="58" />&nbsp;<form:errors path="content" />
                 </td>
     		</tr>
-    		<%-- <tr>
-    			<td class="tbtd_caption"><label for="reg_date">Reg_Date</label></td>
-    			<td class="tbtd_content">
-    				<form:input path="reg_date" maxlength="30" cssClass="txt"/>
-    				&nbsp;<form:errors path="reg_date" />
-    			</td>
-    		</tr> --%>
     		<tr>
     			<td class="tbtd_caption"><label for="image">이미지</label></td>
     			<td class="tbtd_content">
-    				<form:input path="image" maxlength="30" cssClass="txt"/>
+    				<input type="file" name="imageFile" id="imageFile" value="${sampleVO.image }"/>
     				&nbsp;<form:errors path="image" />
     			</td>
     		</tr>

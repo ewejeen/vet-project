@@ -103,8 +103,8 @@ input.essentiality  {height:18px; background-color:#ebebeb; border:1px solid #BC
 textarea#content{width:99%;height:100%;min-height:400px;box-sizing:border-box;padding:5px;}
 #sysbtn .btn_blue_l {height:35px; line-height:35px;}
 #sysbtn .btn_blue_l a{font-size:14px;}
-.tbtd_content p.content{min-height:400px; height:100%;}
-img.content{margin-bottom:20px;}
+.tbtd_content p.content{min-height:400px; height:100%; margin-bottom:20px;}
+img.content{display:block; margin:20px auto 40px;}
 tr td.nopost{text-align:center; padding-top:50px;}
 td.listtd.title{text-align:left;padding:0 60px; }
 td.listtd.title:hover{font-weight:bold;cursor:pointer;}
@@ -121,3 +121,4 @@ td.listtd.deleteChk{padding-top:30px;box-sizing:border-box;}
 th:nth-child(1){padding-top:10px;}
 button#deleteSelected{border:1px solid; margin-top:-10px; width:100px; height:35px; line-height:35px;}
 button#deleteSelected:hover{font-weight:bold;cursor:pointer;}
+input[type=file]{width:90%; height:100%;}

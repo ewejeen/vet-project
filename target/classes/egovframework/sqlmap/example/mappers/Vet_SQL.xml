@@ -16,42 +16,6 @@
 		<result property="y_axis" column="y_axis"/>
 	</resultMap>
 
-	<!-- <select id="selectSample" resultMap="sample">
-
-			SELECT
-				ID, title, content, reg_date, image
-			FROM notice
-			WHERE ID=#{id}
-
-	</select>
-
-	<select id="selectSampleList" parameterType="searchVO" resultType="egovMap">
-
-			SELECT
-				ID, title, content, reg_date, image
-			FROM notice
-			WHERE 1=1
-			<if test="searchKeyword != null and searchKeyword != ''">
-		        <choose>
-		            <when test="searchCondition == 0">
-						AND	title LIKE '%' || #{searchKeyword} || '%'
-					</when>
-		            <when test="searchCondition == 1">
-						AND	content LIKE '%' || #{searchKeyword} || '%'
-					</when>
-				</choose>
-			</if>
-			ORDER BY ID desc
-			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
-	</select>
-	
-	<select id="selectVetJsonList" resultType="egovMap">
-			SELECT
-				ID, title, content, reg_date, image
-			FROM notice
-			ORDER BY ID desc
-	</select> -->
-
 	<!-- 앱***************************************************************************************** -->
 	<select id="selectVetJsonListShort" resultType="egovMap">
 			SELECT
@@ -98,6 +62,19 @@
 			ORDER BY hos.hpt_name ASC
 	</select>
 	
+	<!-- 병원 상세 보기 -->
+	<select id="vetDetail" resultType="egovMap">
+			SELECT
+				hos.hpt_id, hos.hpt_name, hos.hpt_hit, hos.hpt_phone, 
+				geo.adrs_new, geo.adrs_old,
+				avg(rv.hpt_rate) rate_avg, count(rv.hpt_rate) review_cnt
+			FROM
+				hospital as hos INNER JOIN hospital_geo as geo
+				ON hos.hpt_id = geo.hpt_id
+				INNER JOIN review as rv on hos.hpt_id = rv.hpt_id
+			WHERE hos.hpt_id = #{hpt_id}
+	</select>
+			
 	<!-- 병원 상세 보기 클릭 시 조회수 +1 -->
 	<update id="vetHitUp" parameterType="int">
 		UPDATE

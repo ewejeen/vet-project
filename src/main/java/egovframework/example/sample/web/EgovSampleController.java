@@ -15,6 +15,7 @@
  */
 package egovframework.example.sample.web;
 
+import java.io.File;
 import java.util.List;
 
 import egovframework.example.sample.service.EgovSampleService;
@@ -37,6 +38,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 /**
@@ -138,9 +140,12 @@ public class EgovSampleController {
 	 * @return "forward:/egovSampleList.do"
 	 * @exception Exception
 	 */
-	@RequestMapping(value = "/addNotice.do", method = RequestMethod.POST)	//ok
-	public String addNotice(@ModelAttribute("searchVO") SampleDefaultVO searchVO, SampleVO sampleVO,
-			BindingResult bindingResult, Model model, SessionStatus status) throws Exception {
+	
+	@Resource(name = "uploadPath")
+	private String uploadPath;
+	
+	@RequestMapping(value = "/addNotice.do", method = RequestMethod.POST)
+	public String addNotice(@RequestParam("imageFile") MultipartFile image, SampleVO sampleVO, BindingResult bindingResult, Model model) throws Exception {
 
 		// Server-Side Validation
 		beanValidator.validate(sampleVO, bindingResult);
@@ -149,9 +154,17 @@ public class EgovSampleController {
 			model.addAttribute("sampleVO", sampleVO);
 			return "sample/egovSampleRegister";
 		}
-
+		if(image!=null){
+			System.out.println(image);
+			System.out.println(image.getContentType());
+			System.out.println(image.getName());
+			System.out.println(image.getOriginalFilename());
+			File file = new File(uploadPath+image.getOriginalFilename());
+			image.transferTo(file);
+			
+			sampleVO.setImage(image.getOriginalFilename());			
+		}
 		sampleService.insertSample(sampleVO);
-		status.setComplete();
 		return "forward:/noticeList.do";
 	}
 	
@@ -214,8 +227,8 @@ public class EgovSampleController {
 	 * @exception Exception
 	 */
 	@RequestMapping("/updateNotice.do")	//ok
-	public String updateNotice(@ModelAttribute("searchVO") SampleDefaultVO searchVO, SampleVO sampleVO,
-			BindingResult bindingResult, Model model, SessionStatus status) throws Exception {
+	public String updateNotice(@RequestParam("imageFile") MultipartFile image, @ModelAttribute("searchVO") SampleDefaultVO searchVO, SampleVO sampleVO,
+			BindingResult bindingResult, Model model) throws Exception {
 
 		// Server-Side Validation
 		beanValidator.validate(sampleVO, bindingResult);
@@ -224,12 +237,21 @@ public class EgovSampleController {
 			model.addAttribute("sampleVO", sampleVO);
 			return "sample/egovSampleRegister";
 		}
-
+		if(image!=null){
+			System.out.println(image);
+			System.out.println(image.getContentType());
+			System.out.println(image.getName());
+			System.out.println(image.getOriginalFilename());
+			File file = new File(uploadPath+image.getOriginalFilename());
+			image.transferTo(file);
+			
+			sampleVO.setImage(image.getOriginalFilename());			
+		}
 		sampleService.updateSample(sampleVO);
-		status.setComplete();
 		return "forward:/selectNoticeView.do?id="+sampleVO.getId();
 		
 	}
+	
 
 	/**
 	 * 글을 삭제한다.

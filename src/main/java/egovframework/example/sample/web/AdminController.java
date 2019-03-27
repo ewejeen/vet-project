@@ -236,7 +236,7 @@ public class AdminController {
 	    if(adminId.equals("administrator") && adminPw.equals("drowssapnimda79#$")){
 			result = 1;
 			session.setAttribute("sessionId", adminId);
-			session.setMaxInactiveInterval(60*3);
+			session.setMaxInactiveInterval(60*30);
 	    }
 	    map.put("result", result);
 	     

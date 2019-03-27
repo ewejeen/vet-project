@@ -98,7 +98,7 @@
     		<tr>
     			<td class="tbtd_caption"><label for="content">내용</label></td>
     			<td class="tbtd_content">
-    				<img class="content" src="#" alt="${sampleVO.image }" />	<!-- 이미지 받아야 함 -->
+    				<img class="content" src="${pageContext.request.contextPath}/images/upload/${sampleVO.image }" alt="${sampleVO.image }" />	<!-- 이미지 받아야 함 -->
     				<p class="content">${sampleVO.content }</p>
                 </td>
     		</tr>

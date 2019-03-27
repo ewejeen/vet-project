@@ -144,6 +144,15 @@ public class VetController {
 		return String.valueOf(result);
 	}
 	
+	// 상세 조회
+	@RequestMapping(value = "/vetDetail.do", produces = "application/json;charset=utf-8")
+	public @ResponseBody String vetDetail(int hpt_id) throws Exception {
+		ObjectMapper om = new ObjectMapper();
+		List<?> list = vetService.vetDetail(hpt_id);
+		String json = om.writeValueAsString(list);
+		
+		return json;
+	}
 	
 	
 	

@@ -60,6 +60,19 @@
 	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver"
 		p:order="1" p:viewClass="org.springframework.web.servlet.view.JstlView"
 		p:prefix="/WEB-INF/jsp/egovframework/example/" p:suffix=".jsp" />
+		
+		
+	<!-- 들어오는 데이터를 처리해주는 multipartResolver 빈을 생성해주는 부분입니다 -->    
+    <bean id="multipartResolver"
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="31457280" /> <!--약 10mb 제한 -->
+        <property name="defaultEncoding" value="utf-8" />    <!-- 인코딩 -->
+    </bean>
+	<bean id = "uploadPath" class="java.lang.String">
+		<constructor-arg value="C:\dev\egov\eGovFrameDev-3.7.0-64bit\workspace\vetproject_v2\src\main\webapp\images\upload\">
+		</constructor-arg>
+	</bean>
+	
 
 	<!-- For Pagination Tag -->
 	<bean id="imageRenderer"

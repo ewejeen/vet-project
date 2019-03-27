@@ -52,6 +52,8 @@ public interface VetMapper {
 	List<?> searchVetByName(@Param("hpt_name") String hpt_name) throws Exception;
 	// 지역으로 검색
 	List<?> searchVetByRegion(@Param("province") String province, @Param("city") String city) throws Exception;
+	// 상세 보기
+	List<?> vetDetail(@Param("hpt_id") int hpt_id) throws Exception;
 	
 	// 좌표값 넣기
 	void changeAxis(@Param("hpt_id") int hpt_id, @Param("latitude") double latitude, @Param("longtitude") double longtitude);
