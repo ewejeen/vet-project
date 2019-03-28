@@ -15,6 +15,7 @@
  */
 package egovframework.example.sample.web;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
 /**
@@ -73,6 +75,9 @@ public class ReviewController {
 	/** Validator */
 	@Resource(name = "beanValidator")
 	protected DefaultBeanValidator beanValidator;
+	
+	@Resource(name = "uploadPath")
+	private String uploadPath;
 	
 	/**
 	 * 후기 목록을 조회한다. (pageing)
@@ -215,7 +220,17 @@ public class ReviewController {
 
 	// 후기를 등록하고 그 후기의 ID를 Retrofit에 반환해 준다.
 	@RequestMapping(value = "/addAppReview.do", method = RequestMethod.POST)
-	public @ResponseBody String addReview(ReviewVO reviewVO) throws Exception {
+	public @ResponseBody String addReview(@RequestParam("imageFile") MultipartFile image, ReviewVO reviewVO) throws Exception {
+		if(image!=null){
+			String filePath = uploadPath+image.getOriginalFilename();
+			File dir = new File(filePath); //파일 저장 경로 확인, 없으면 만든다.
+		    if (!dir.exists()) {
+		        dir.mkdirs();
+		    }
+			image.transferTo(dir);
+			
+			reviewVO.setRv_image(image.getOriginalFilename());			
+		}
 		reviewService.insertReview(reviewVO);
 		System.out.println(reviewVO.getRv_id());
 
@@ -224,7 +239,17 @@ public class ReviewController {
 	
 	// 후기 수정
 	@RequestMapping(value = "/updateReview.do", method = RequestMethod.POST)
-	public @ResponseBody String updateReview(ReviewVO reviewVO) throws Exception {
+	public @ResponseBody String updateReview(@RequestParam("imageFile") MultipartFile image, ReviewVO reviewVO) throws Exception {
+		if(image!=null){
+			String filePath = uploadPath+image.getOriginalFilename();
+			File dir = new File(filePath); //파일 저장 경로 확인, 없으면 만든다.
+		    if (!dir.exists()) {
+		        dir.mkdirs();
+		    }
+			image.transferTo(dir);
+			reviewVO.setRv_image(image.getOriginalFilename());
+		}
+		
 		reviewService.updateReview(reviewVO);
 		System.out.println(reviewVO.getRv_id());
 

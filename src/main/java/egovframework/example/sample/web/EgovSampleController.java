@@ -70,6 +70,10 @@ public class EgovSampleController {
 	/** Validator */
 	@Resource(name = "beanValidator")
 	protected DefaultBeanValidator beanValidator;
+	
+	@Resource(name = "uploadPath")
+	private String uploadPath;
+	
 
 	/**
 	 * 글 목록을 조회한다. (pageing)
@@ -141,26 +145,18 @@ public class EgovSampleController {
 	 * @exception Exception
 	 */
 	
-	@Resource(name = "uploadPath")
-	private String uploadPath;
-	
-	@RequestMapping(value = "/addNotice.do", method = RequestMethod.POST)
-	public String addNotice(@RequestParam("imageFile") MultipartFile image, SampleVO sampleVO, BindingResult bindingResult, Model model) throws Exception {
-
-		// Server-Side Validation
-		beanValidator.validate(sampleVO, bindingResult);
-
-		if (bindingResult.hasErrors()) {
-			model.addAttribute("sampleVO", sampleVO);
-			return "sample/egovSampleRegister";
-		}
+	@RequestMapping(value = "/addNotice.do", consumes="multipart/form-data", method = RequestMethod.POST)
+	public String addNotice(@RequestParam("imageFile") MultipartFile image, @RequestParam("title") String title, @RequestParam("content") String content, Model model) throws Exception {
+		SampleVO sampleVO = new SampleVO();
+		sampleVO.setTitle(title);
+		sampleVO.setContent(content);
 		if(image!=null){
-			System.out.println(image);
-			System.out.println(image.getContentType());
-			System.out.println(image.getName());
-			System.out.println(image.getOriginalFilename());
-			File file = new File(uploadPath+image.getOriginalFilename());
-			image.transferTo(file);
+			String filePath = uploadPath+image.getOriginalFilename();
+			File dir = new File(filePath); //파일 저장 경로 확인, 없으면 만든다.
+		    if (!dir.exists()) {
+		        dir.mkdirs();
+		    }
+			image.transferTo(dir);
 			
 			sampleVO.setImage(image.getOriginalFilename());			
 		}
@@ -238,12 +234,12 @@ public class EgovSampleController {
 			return "sample/egovSampleRegister";
 		}
 		if(image!=null){
-			System.out.println(image);
-			System.out.println(image.getContentType());
-			System.out.println(image.getName());
-			System.out.println(image.getOriginalFilename());
-			File file = new File(uploadPath+image.getOriginalFilename());
-			image.transferTo(file);
+			String filePath = uploadPath+image.getOriginalFilename();
+			File dir = new File(filePath); //파일 저장 경로 확인, 없으면 만든다.
+		    if (!dir.exists()) {
+		        dir.mkdirs();
+		    }
+			image.transferTo(dir);
 			
 			sampleVO.setImage(image.getOriginalFilename());			
 		}

@@ -34,7 +34,8 @@
     <script type="text/javascript" src="<c:url value='/cmmn/validator.do'/>"></script>
     <validator:javascript formName="detailForm" staticJavascript="false" xhtml="true" cdata="false"/> --%>
     
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    
     <script>
     	if(${sessionId != 'administrator'}){
     		alert('관리자만 접근 가능합니다.');
@@ -50,28 +51,6 @@
         }
         
         
-        /* 글 등록 function */
-        function fn_egov_save() {
-        	frm = document.detailForm;
-        	var title = document.getElementById('title');
-        	var content = document.getElementById('content');
-        	
-        	if(title.value == null || title.value == ''){
-        		alert('제목을 입력해 주세요.');
-        		title.focus();
-        		return false;
-        	}        		
-        	
-        	if(content.value == null || content.value == ''){
-        		alert('내용을 입력해 주세요.');
-        		content.focus();
-        		return false;
-        	}
-        	
-        	frm.action = "<c:url value="${registerFlag == 'create' ? '/addNotice.do' : '/updateNotice.do'}"/>";
-            frm.submit();
-            
-        }
         
        
     </script>
@@ -119,11 +98,14 @@
     		<tr>
     			<td class="tbtd_caption"><label for="image">이미지</label></td>
     			<td class="tbtd_content">
-    				<input type="file" name="imageFile" id="imageFile" value="${sampleVO.image }"/>
+    				<input type="file" name="imageFile" id="imageFile" value="${sampleVO.image }" accept="image/*"/>
+    				<img src="#" alt="preview" id="preview" width="700" />
     				&nbsp;<form:errors path="image" />
     			</td>
     		</tr>
     	</table>
+    	
+    	
       </div>
     	<div id="sysbtn">
     		<ul>
@@ -153,5 +135,96 @@
     <input type="hidden" name="searchKeyword" value="<c:out value='${searchVO.searchKeyword}'/>"/>
     <input type="hidden" name="pageIndex" value="<c:out value='${searchVO.pageIndex}'/>"/>
 </form:form>
+	<script src="<c:url value='/js/jquery.form.min.js' />"></script>
+	<script>
+		var file = document.querySelector('#imageFile');
+		var dataurl;
+		file.onchange = onchangeFn;
+		function onchangeFn() { 
+		    var canvas, ctx;
+		    var fileList = file.files ;
+		    var img = document.querySelector('#preview');
+		    // 읽기
+		    var reader = new FileReader();
+		    reader.readAsDataURL(fileList [0]);
+
+		    //로드 한 후
+		    reader.onload = onloadFn; 
+		    
+		    function onloadFn() {	
+		        img.src = reader.result ;
+			    canvas = document.createElement('canvas');
+			    ctx = canvas.getContext('2d');
+			    ctx.drawImage(img, 0, 0);
+			    dataurl = canvas.toDataURL("image/png");
+			    
+			    return dataurl;
+		    }
+		    console.log('데이터유알엘'+onloadFn());
+		    return dataurl;
+		}
+		
+		
+		function saveImage(){
+			console.log('호출');
+			var url = onchangeFn();
+			console.log(url);
+        	var fd = new FormData($('#detailForm')[0]);
+        	fd.append('imageFile',url);
+        	fd.append('title', $('#title').val());
+        	fd.append('content', $('#content').val());
+        	console.log(fd.get('imageFile'));
+        	console.log(fd.get('title'));
+        	console.log(fd.get('content'));
+        	
+        	/* $('#detailForm').ajaxForm({
+        		url : '/vetproject_v2/addNotice.do',
+        		enctype : 'multipart/form-data',
+        		data : fd,
+        		success: function(url){
+        			console.log('성공');
+        		}
+        	});
+        	$('#detailForm').submit(); */
+        	
+        	$.ajax({
+        		data : {
+        			fd
+        		},
+        		type : 'POST',
+        		url : '/vetproject_v2/addNotice.do',
+        		contentType: false,
+        		enctype : "multipart/form-data",
+        		processData : false,
+        		success: function(url){
+        			console.log('성공');
+        		}
+        	});
+		}
+		
+		/* 글 등록 function */
+        function fn_egov_save() {
+        	frm = document.detailForm;
+        	var title = document.getElementById('title');
+        	var content = document.getElementById('content');
+        	
+        	/* if(title.value == null || title.value == ''){
+        		alert('제목을 입력해 주세요.');
+        		title.focus();
+        		return false;
+        	}        		
+        	
+        	if(content.value == null || content.value == ''){
+        		alert('내용을 입력해 주세요.');
+        		content.focus();
+        		return false;
+        	} */
+        	
+        	//saveImage();
+        	frm.action = "<c:url value="${registerFlag == 'create' ? '/addNotice.do' : '/updateNotice.do'}"/>";
+            frm.submit();
+            
+        }
+ 	</script>
 </body>
 </html>

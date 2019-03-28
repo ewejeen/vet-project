@@ -32,9 +32,8 @@
 	<!-- 상호명으로 검색 결과 리스트 -->
 	<select id="searchVetByName" resultType="egovMap">
 			SELECT
-				hos.hpt_id, hos.hpt_name, 
+				hos.hpt_id, hos.hpt_name, hos.hpt_hit, hos.hpt_phone,
 				IFNULL (NULLIF(geo.adrs_new,''), geo.adrs_old) address, <!-- 신주소 없으면 구주소 가져오기 -->
-				geo.adrs_new, geo.adrs_old, hos.hpt_phone, hos.hpt_hit,
 				avg(rv.hpt_rate) rate_avg, count(rv.rv_id) review_cnt
 			FROM
 				hospital as hos INNER JOIN hospital_geo as geo
@@ -49,9 +48,8 @@
 	<!-- 지역명으로 검색 결과 리스트 -->
 	<select id="searchVetByRegion" resultType="egovMap">
 			SELECT
-				hos.hpt_id, hos.hpt_name,
+				hos.hpt_id, hos.hpt_name, hos.hpt_hit, hos.hpt_phone,
 				IFNULL (NULLIF(geo.adrs_new,''), geo.adrs_old) address, <!-- 신주소 없으면 구주소 가져오기 -->
-				geo.adrs_new, geo.adrs_old, hos.hpt_phone, hos.hpt_hit,
 				avg(rv.hpt_rate) rate_avg, count(rv.hpt_rate) review_cnt
 			FROM
 				hospital as hos INNER JOIN hospital_geo as geo
