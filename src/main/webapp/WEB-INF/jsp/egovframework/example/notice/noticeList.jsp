@@ -5,56 +5,45 @@
 <%@ taglib prefix="ui"     uri="http://egovframework.gov/ctl/ui"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%
-  /**
-  * @Class Name : egovSampleList.jsp
-  * @Description : Sample List 화면
-  * @Modification Information
-  *
-  *   수정일         수정자                   수정내용
-  *  -------    --------    ---------------------------
-  *  2009.02.01            최초 생성
-  *
-  * author 실행환경 개발팀
-  * since 2009.02.01
-  *
-  * Copyright (C) 2009 by MOPAS  All right reserved.
-  */
+/*
+ *	공지사항 목록 페이지 
+ */
 %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>공지사항</title>
-    <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/sample.css'/>"/>
+    <link type="text/css" rel="stylesheet" href="<c:url value='/css/notice.css'/>"/>
     <script type="text/javaScript" language="javascript" defer="defer">
         
         /* 글 수정 화면 function */
-        function fn_egov_update(id) {
+        function fn_notice_update(id) {
            	document.listForm.action = "<c:url value='/updateNoticeView.do?id="+id+"'/>";
            	document.listForm.submit();
         }
 
         /* 글 보기 화면 function */
-        function fn_egov_select(id) {
+        function fn_notice_select(id) {
            	document.listForm.action = "<c:url value='/selectNoticeView.do?id="+id+"'/>";
            	document.listForm.submit();
         }
         
         /* 글 등록 화면 function */
-        function fn_egov_addView() {
+        function fn_notice_addView() {
         	document.listForm.selectedId.value='';
         	document.listForm.action = "<c:url value='/addNoticeView.do'/>";
            	document.listForm.submit();
         }
         
         /* 글 목록 검색 화면 function */
-        function fn_egov_selectList() {
+        function fn_notice_selectList() {
         	document.listForm.action = "<c:url value='/noticeList.do'/>";
            	document.listForm.submit();
         }
         
         /* pagination 페이지 링크 function */
-        function fn_egov_link_page(pageNo){
+        function fn_notice_link_page(pageNo){
         	document.listForm.pageIndex.value = pageNo;
         	document.listForm.action = "<c:url value='/noticeList.do'/>";
            	document.listForm.submit();
@@ -91,7 +80,7 @@
                     </li>
         			<li>
         	            <span class="btn_blue_l">
-        	                <a href="javascript:fn_egov_selectList();"><spring:message code="button.search" /></a>
+        	                <a href="javascript:fn_notice_selectList();"><spring:message code="button.search" /></a>
         	            </span>
         	        </li>
                 </ul>
@@ -116,29 +105,28 @@
             			<tr>
             				<td align="center" class="listtd id"><c:out value="${result.id}"/></td>
             				<!-- 제목 클릭 시 조회 페이지로 -->
-            				<%-- <td align="center" class="listtd title" onclick="fn_egov_select(${result.id})" style=""><c:out value="${result.title}"/></td> --%>
-            				<td align="center" class="listtd title" onclick="fn_egov_select(${result.id})" style=""><c:out value="${result.title}"/></td>
+            				<td align="center" class="listtd title" onclick="fn_notice_select(${result.id})" style=""><c:out value="${result.title}"/></td>
             				<td align="center" class="listtd writer"><c:out value="관리자"/></td>
             				<td align="center" class="listtd regdate"><fmt:formatDate value="${result.regDate}" pattern="yyyy-MM-dd" /> </td>
             			</tr>
         			</c:forEach>
         			<tr>
-        				<td class="nopost" colspan="4"><c:if test="${totCnt ==0 }"><p>게시물이 없습니다.</p></c:if></td>
+        				<td class="nopost" colspan="4"><c:if test="${totCnt == 0 }"><p>게시물이 없습니다.</p></c:if></td>
         			</tr>
         		</table>
         	</div>
         	<!-- /List -->
         	<div id="paging">
-        		<ui:pagination paginationInfo = "${paginationInfo}" type="image" jsFunction="fn_egov_link_page" />
+        		<ui:pagination paginationInfo = "${paginationInfo}" type="image" jsFunction="fn_notice_link_page" />
         		<form:hidden path="pageIndex" />
         	</div>
+        	<!-- 관리자만 볼 수 있음 -->
         	<c:if test="${sessionId == 'administrator' }">
 	        	<div id="sysbtn">
 	        	  <ul>
 	        	      <li>
 	        	          <span class="btn_blue_l">
-	        	              <a href="javascript:fn_egov_addView();">새 공지 <spring:message code="button.create" /></a>
-	                          <%-- <img src="<c:url value='/images/egovframework/example/btn_bg_r.gif'/>" style="margin-left:6px;" alt=""/> --%>
+	        	              <a href="javascript:fn_notice_addView();">새 공지 <spring:message code="button.create" /></a>
 	                      </span>
 	                  </li>
 	              </ul>

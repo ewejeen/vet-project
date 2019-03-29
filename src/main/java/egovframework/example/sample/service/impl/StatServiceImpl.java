@@ -48,9 +48,9 @@ import org.springframework.stereotype.Service;
  */
 
 @Service("statService")
-public class StatServiceImpl2 extends EgovAbstractServiceImpl implements StatService {
+public class StatServiceImpl extends EgovAbstractServiceImpl implements StatService {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(StatServiceImpl2.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(StatServiceImpl.class);
 
 	/** SampleDAO */
 	// TODO ibatis 사용

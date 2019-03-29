@@ -21,7 +21,7 @@ import java.util.Map;
 
 import egovframework.example.sample.service.NoticeService;
 import egovframework.example.sample.service.SampleDefaultVO;
-import egovframework.example.sample.service.SampleVO;
+import egovframework.example.sample.service.NoticeVO;
 import egovframework.example.sample.service.VetVO;
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;

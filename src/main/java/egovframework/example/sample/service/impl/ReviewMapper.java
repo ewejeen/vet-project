@@ -21,7 +21,7 @@ import org.apache.ibatis.annotations.Param;
 
 import egovframework.example.sample.service.ReviewVO;
 import egovframework.example.sample.service.SampleDefaultVO;
-import egovframework.example.sample.service.SampleVO;
+import egovframework.example.sample.service.NoticeVO;
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
 @Mapper("reviewMapper")

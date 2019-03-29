@@ -32,7 +32,7 @@ import java.text.SimpleDateFormat;
  *
  * 		Copyright (C) by MOPAS All right reserved.
  */
-public class SampleVO extends SampleDefaultVO {
+public class NoticeVO extends SampleDefaultVO {
 
 	private static final long serialVersionUID = 1L;
 

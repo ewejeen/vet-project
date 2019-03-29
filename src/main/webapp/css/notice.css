@@ -122,3 +122,4 @@ th:nth-child(1){padding-top:10px;}
 button#deleteSelected{border:1px solid; margin-top:-10px; width:100px; height:35px; line-height:35px;}
 button#deleteSelected:hover{font-weight:bold;cursor:pointer;}
 input[type=file]{width:90%; height:100%;}
+img#preview{display:block; margin-top:10px;}

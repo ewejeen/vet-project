@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="egovframework.example.sample.service.impl.SampleMapper">
+<mapper namespace="egovframework.example.sample.service.impl.NoticeMapper">
 
-	<resultMap id="sample" type="egovframework.example.sample.service.SampleVO">
+	<resultMap id="notice" type="egovframework.example.sample.service.NoticeVO">
 		<result property="id" column="id"/>
 		<result property="title" column="title"/>
 		<result property="content" column="content"/>
@@ -10,7 +10,7 @@
 		<result property="image" column="image"/>
 	</resultMap>
 
-	<insert id="insertSample" parameterType="SampleVO">
+	<insert id="insertNotice" parameterType="NoticeVO">
 
 			INSERT INTO notice
 				( title, content, image )
@@ -18,7 +18,7 @@
 
 	</insert>
 
-	<update id="updateSample">
+	<update id="updateNotice">
 
 			UPDATE notice
 			SET title=#{title}, content=#{content}, image=#{image}
@@ -26,14 +26,14 @@
 
 	</update>
 
-	<delete id="deleteSample">
+	<delete id="deleteNotice">
 
 			DELETE FROM notice
 			WHERE id=#{id}
 
 	</delete>
 
-	<select id="selectSample" resultMap="sample">
+	<select id="selectNotice" resultMap="notice">
 
 			SELECT
 				id, title, content, reg_date, image
@@ -42,7 +42,7 @@
 
 	</select>
 
-	<select id="selectSampleList" parameterType="searchVO" resultType="egovMap">
+	<select id="selectNoticeList" parameterType="searchVO" resultType="egovMap">
 
 			SELECT
 				id, title, content, reg_date, image
@@ -62,7 +62,7 @@
 			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
 	</select>
 
-	<select id="selectSampleListTotCnt" parameterType="searchVO" resultType="int">
+	<select id="selectNoticeListTotCnt" parameterType="searchVO" resultType="int">
 
 			SELECT COUNT(*) totcnt
 			FROM notice

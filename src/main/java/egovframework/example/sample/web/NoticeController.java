@@ -20,7 +20,7 @@ import java.util.List;
 
 import egovframework.example.sample.service.NoticeService;
 import egovframework.example.sample.service.SampleDefaultVO;
-import egovframework.example.sample.service.SampleVO;
+import egovframework.example.sample.service.NoticeVO;
 
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
@@ -41,29 +41,25 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springmodules.validation.commons.DefaultBeanValidator;
 
+
 /**
- * @Class Name : EgovSampleController.java
- * @Description : EgovSample Controller Class
- * @Modification Information
- * @ @ 수정일 수정자 수정내용 @ --------- --------- ------------------------------- @
- *   2009.03.16 최초생성
- *
- * @author 개발프레임웍크 실행환경 개발팀
- * @since 2009. 03.16
- * @version 1.0
- * @see
- *
- * 		Copyright (C) by MOPAS All right reserved.
+ * 
+ * 		NoticeController.java
+ *		공지사항에 관련된 것들을 처리해 주는 컨트롤러
+ *		(주로 웹)
+ *	
  */
 
-@Controller
-public class EgovSampleController {
 
-	/** EgovSampleService */
-	@Resource(name = "sampleService")
-	private NoticeService sampleService;
+@Controller
+public class NoticeController {
+
+	/** noticeService */
+	@Resource(name = "noticeService")
+	private NoticeService noticeService;
 
 	/** EgovPropertyService */
+	/** 페이징 처리 등 관련 */
 	@Resource(name = "propertiesService")
 	protected EgovPropertyService propertiesService;
 
@@ -76,23 +72,18 @@ public class EgovSampleController {
 	
 
 	/**
-	 * 글 목록을 조회한다. (pageing)
 	 * 
-	 * @param searchVO
-	 *            - 조회할 정보가 담긴 SampleDefaultVO
-	 * @param model
-	 * @return "egovSampleList"
-	 * @exception Exception
+	 *	공지 목록을 조회한다. (페이징 처리 포함)
+	 *
 	 */
-	@RequestMapping(value = "/noticeList.do")	//ok
-	public String selectSampleList(@ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model)
-			throws Exception {
+	@RequestMapping(value = "/noticeList.do")
+	public String selectNoticeList(@ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model) throws Exception {
 
 		/** EgovPropertyService.sample */
 		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
 		searchVO.setPageSize(propertiesService.getInt("pageSize"));
 
-		/** pageing setting */
+		/** 페이징 처리 */
 		PaginationInfo paginationInfo = new PaginationInfo();
 		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
 		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
@@ -102,55 +93,47 @@ public class EgovSampleController {
 		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
 		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
 
-		List<?> sampleList = sampleService.selectSampleList(searchVO);
-		model.addAttribute("resultList", sampleList);
+		List<?> noticeList = noticeService.selectNoticeList(searchVO);
+		model.addAttribute("resultList", noticeList);
 
-		int totCnt = sampleService.selectSampleListTotCnt(searchVO);
+		int totCnt = noticeService.selectNoticeListTotCnt(searchVO);
 		model.addAttribute("totCnt",totCnt);
 		paginationInfo.setTotalRecordCount(totCnt);
 		model.addAttribute("paginationInfo", paginationInfo);
 
-		return "sample/egovSampleList";
+		return "notice/noticeList";
 	}
 
+	
 	/**
-	 * 글 등록 화면을 조회한다.
 	 * 
-	 * @param searchVO
-	 *            - 목록 조회조건 정보가 담긴 VO
-	 * @param model
-	 * @return "egovSampleRegister"
-	 * @exception Exception
+	 *	공지 등록 화면을 조회한다.
+	 *	- 목록에서 접근할 때는 searchVO의 정보들을 submit해서 POST 방식으로 접근한다. (수정 화면과 같은 jsp 파일을 쓰기 위함)
+	 *	- 관리자 콘솔에서 접근할 때는 수정 화면은 고려하지 않고 등록 화면으로 바로 접근하므로 GET 방식으로 접근한다.
+	 *	- 따라서 두 가지를 각각 다른 메소드에 정의한다.
+	 *
 	 */
-	@RequestMapping(value = "/addNoticeView.do", method = RequestMethod.POST)	//ok
+	@RequestMapping(value = "/addNoticeView.do", method = RequestMethod.POST)
 	public String addNoticeView(@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
-		model.addAttribute("sampleVO", new SampleVO());
-		return "sample/egovSampleRegister";
+		model.addAttribute("noticeVO", new NoticeVO());
+		return "notice/noticeRegister";
 	}
 	@RequestMapping("/addNoticeView.do")	// 관리자 페이지에서 들어갈 때...
 	public String addNoticeView2(@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
-		model.addAttribute("sampleVO", new SampleVO());
-		return "sample/egovSampleRegister";
+		model.addAttribute("noticeVO", new NoticeVO());
+		return "notice/noticeRegister";
 	}
 
-	/**
-	 * 글을 등록한다.
-	 * 
-	 * @param sampleVO
-	 *            - 등록할 정보가 담긴 VO
-	 * @param searchVO
-	 *            - 목록 조회조건 정보가 담긴 VO
-	 * @param status
-	 * @return "forward:/egovSampleList.do"
-	 * @exception Exception
-	 */
 	
+	/**
+	 * 
+	 *	공지를 등록한다.
+	 *	- 이미지가 있을 때, 없을 때로 나눈다.
+	 *
+	 */
 	@RequestMapping(value = "/addNotice.do", consumes="multipart/form-data", method = RequestMethod.POST)
-	public String addNotice(@RequestParam("imageFile") MultipartFile image, @RequestParam("title") String title, @RequestParam("content") String content, Model model) throws Exception {
-		SampleVO sampleVO = new SampleVO();
-		sampleVO.setTitle(title);
-		sampleVO.setContent(content);
-		if(image!=null){
+	public String addNotice(@RequestParam("imageFile") MultipartFile image, NoticeVO noticeVO, Model model) throws Exception {
+		if(!image.isEmpty()){
 			String filePath = uploadPath+image.getOriginalFilename();
 			File dir = new File(filePath); //파일 저장 경로 확인, 없으면 만든다.
 		    if (!dir.exists()) {
@@ -158,124 +141,101 @@ public class EgovSampleController {
 		    }
 			image.transferTo(dir);
 			
-			sampleVO.setImage(image.getOriginalFilename());			
+			noticeVO.setImage(image.getOriginalFilename());			
 		}
-		sampleService.insertSample(sampleVO);
+		noticeService.insertNotice(noticeVO);
 		return "forward:/noticeList.do";
 	}
 	
 
 	/**
-	 * 글 수정화면을 조회한다.
 	 * 
-	 * @param id
-	 *            - 수정할 글 id
-	 * @param searchVO
-	 *            - 목록 조회조건 정보가 담긴 VO
-	 * @param model
-	 * @return "egovSampleRegister"
-	 * @exception Exception
+	 *	공지 수정 화면을 조회한다.
+	 *	- id 값을 넘겨 registerFlag가 'modify'가 되도록 한다.
+	 *	- registerFlag가 modify일 때 공지 등록 화면은 수정 화면이 된다.
+	 *
 	 */
-	@RequestMapping("/updateNoticeView.do")	//ok
-	public String updateNoticeView(@RequestParam("id") String id,
-			@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
-		SampleVO sampleVO = new SampleVO();
-		// 변수명 CoC 에 따라 sampleVO
-		model.addAttribute(selectSample(id, searchVO));
-		return "sample/egovSampleRegister";
+	@RequestMapping("/updateNoticeView.do")
+	public String updateNoticeView(@RequestParam("id") String id, @ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
+		model.addAttribute(selectNotice(id, searchVO));
+		return "notice/noticeRegister";
 	}
 
+	
 	/**
-	 * 글을 조회한다.
 	 * 
-	 * @param sampleVO
-	 *            - 조회할 정보가 담긴 VO
-	 * @param searchVO
-	 *            - 목록 조회조건 정보가 담긴 VO
-	 * @param status
-	 * @return @ModelAttribute("sampleVO") - 조회한 정보
-	 * @exception Exception
+	 *	공지 글 관련 정보를 넘겨 준다.
+	 *
 	 */
-	public SampleVO selectSample(@RequestParam("id") String id, @ModelAttribute("searchVO") SampleDefaultVO searchVO)	//ok
-			throws Exception {
-		return sampleService.selectSample(id);
+	public NoticeVO selectNotice(@RequestParam("id") String id, @ModelAttribute("searchVO") SampleDefaultVO searchVO) throws Exception {
+		return noticeService.selectNotice(id);
 	}
 	
-	// 글 조회 화면
-	@RequestMapping("/selectNoticeView.do")	//ok
-	public String selectNoticeView(@RequestParam("id") String id,
-			@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
-		SampleVO sampleVO = new SampleVO();
-		// 변수명 CoC 에 따라 sampleVO
-		model.addAttribute(selectSample(id, searchVO));
-		return "sample/egovSampleView";
+	
+	/**
+	 * 
+	 *	공지 글을 조회한다.
+	 *
+	 */
+	@RequestMapping("/selectNoticeView.do")
+	public String selectNoticeView(@RequestParam("id") String id, @ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
+		model.addAttribute(selectNotice(id, searchVO));
+		return "notice/noticeView";
 	}
 
+	
 	/**
-	 * 글을 수정한다.
 	 * 
-	 * @param sampleVO
-	 *            - 수정할 정보가 담긴 VO
-	 * @param searchVO
-	 *            - 목록 조회조건 정보가 담긴 VO
-	 * @param status
-	 * @return "forward:/egovSampleList.do"
-	 * @exception Exception
+	 *	공지 글을 수정한다.
+	 *	- 이미지가 있을 때, 없을 때로 나눈다.
+	 *	- input:file의 특성 상 value 값을 받을 수 없으므로, 글 수정 페이지로 갈 때 글의 이미지 정보는 초기화된다.
+	 *	- 이미지가 있던 글도 수정 시 이미지를 고르지 않으면 이미지가 없는 글이 된다. (개선 필요)
+	 *
 	 */
-	@RequestMapping("/updateNotice.do")	//ok
-	public String updateNotice(@RequestParam("imageFile") MultipartFile image, @ModelAttribute("searchVO") SampleDefaultVO searchVO, SampleVO sampleVO,
-			BindingResult bindingResult, Model model) throws Exception {
-
-		// Server-Side Validation
-		beanValidator.validate(sampleVO, bindingResult);
-
-		if (bindingResult.hasErrors()) {
-			model.addAttribute("sampleVO", sampleVO);
-			return "sample/egovSampleRegister";
-		}
-		if(image!=null){
+	@RequestMapping("/updateNotice.do")
+	public String updateNotice(@RequestParam("imageFile") MultipartFile image, NoticeVO noticeVO) throws Exception {		
+		if(!image.isEmpty()){
 			String filePath = uploadPath+image.getOriginalFilename();
 			File dir = new File(filePath); //파일 저장 경로 확인, 없으면 만든다.
 		    if (!dir.exists()) {
 		        dir.mkdirs();
 		    }
 			image.transferTo(dir);
-			
-			sampleVO.setImage(image.getOriginalFilename());			
-		}
-		sampleService.updateSample(sampleVO);
-		return "forward:/selectNoticeView.do?id="+sampleVO.getId();
 		
+			noticeVO.setImage(image.getOriginalFilename());			
+		}
+		noticeVO.setImage(null);
+		noticeService.updateNotice(noticeVO);
+		return "forward:/selectNoticeView.do?id="+noticeVO.getId();
 	}
 	
 
 	/**
-	 * 글을 삭제한다.
 	 * 
-	 * @param sampleVO
-	 *            - 삭제할 정보가 담긴 VO
-	 * @param searchVO
-	 *            - 목록 조회조건 정보가 담긴 VO
-	 * @param status
-	 * @return "forward:/egovSampleList.do"
-	 * @exception Exception
+	 *	공지 글을 삭제한다.
+	 *
 	 */
-	@RequestMapping("/deleteNotice.do")	//ok
-	public String deleteSample(SampleVO sampleVO, @ModelAttribute("searchVO") SampleDefaultVO searchVO,
-			SessionStatus status) throws Exception {
-		sampleService.deleteSample(sampleVO);
-		status.setComplete();
+	@RequestMapping("/deleteNotice.do")
+	public String deleteNotice(NoticeVO noticeVO) throws Exception {
+		noticeService.deleteNotice(noticeVO);
 		return "forward:/noticeList.do";
 	}
 	
 	
+	
+	/*************앱***************/
+	
+	/**
+	 * 
+	 *	JSON 형태로 공지사항의 목록을 조회한다.
+	 *
+	 */
 	@RequestMapping(value="/noticeListApp.do", produces = "application/json;charset=utf-8")
 	public @ResponseBody String noticeListApp() throws Exception {
 		ObjectMapper om = new ObjectMapper();
-		List<?> list = sampleService.noticeList();
+		List<?> list = noticeService.noticeList();
 		String json = om.writeValueAsString(list);
 		
 		return json;
 	}
-
 }

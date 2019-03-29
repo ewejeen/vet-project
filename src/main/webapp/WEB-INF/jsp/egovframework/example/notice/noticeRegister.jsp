@@ -4,67 +4,70 @@
 <%@ taglib prefix="validator" uri="http://www.springmodules.org/tags/commons-validator" %>
 <%@ taglib prefix="spring"    uri="http://www.springframework.org/tags"%>
 <%
-  /**
-  * @Class Name : egovSampleRegister.jsp
-  * @Description : Sample Register 화면
-  * @Modification Information
-  *
-  *   수정일         수정자                   수정내용
-  *  -------    --------    ---------------------------
-  *  2009.02.01            최초 생성
-  *
-  * author 실행환경 개발팀
-  * since 2009.02.01
-  *
-  * Copyright (C) 2009 by MOPAS  All right reserved.
-  */
+/*
+ *	공지사항 등록 페이지 (관리자 전용) 
+ */
 %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <!-- id 있거나 0이면 registerFlag가 modify, 없으면 create -->
-    <c:set var="registerFlag" value="${selectedId eq null && (sampleVO.id eq null || sampleVO.id eq 0) ? 'create' : 'modify'}"/>
-    <title>FindVet :: 공지사항 <c:if test="${registerFlag == 'create'}"><spring:message code="button.create" /></c:if>
-                  <c:if test="${registerFlag == 'modify'}"><spring:message code="button.modify" /></c:if>
+    <c:set var="registerFlag" value="${selectedId eq null && (noticeVO.id eq null || noticeVO.id eq 0) ? 'create' : 'modify'}"/>
+    <title>FindVet :: 공지사항 
+    	<c:if test="${registerFlag == 'create'}"><spring:message code="button.create" /></c:if>
+        <c:if test="${registerFlag == 'modify'}"><spring:message code="button.modify" /></c:if>
     </title>
-    <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/sample.css'/>"/>
-    
-    <%-- <!--For Commons Validator Client Side-->
-    <script type="text/javascript" src="<c:url value='/cmmn/validator.do'/>"></script>
-    <validator:javascript formName="detailForm" staticJavascript="false" xhtml="true" cdata="false"/> --%>
-    
-    
+    <link type="text/css" rel="stylesheet" href="<c:url value='/css/notice.css'/>"/>
     
     <script>
     	if(${sessionId != 'administrator'}){
     		alert('관리자만 접근 가능합니다.');
     		history.go(-1);
     	}
-    </script>
-    <script type="text/javaScript" language="javascript" defer="defer">
-        
-        /* 글 목록 화면 function */
-        function fn_egov_selectList() {
+    	
+    	/* 글 등록 function */
+        function fn_notice_save() {
+        	frm = document.detailForm;
+        	var title = document.getElementById('title');
+        	var content = document.getElementById('content');
+        	
+        	if(title.value == null || title.value == ''){
+        		alert('제목을 입력해 주세요.');
+        		title.focus();
+        		return false;
+        	}        		
+        	
+        	if(content.value == null || content.value == ''){
+        		alert('내용을 입력해 주세요.');
+        		content.focus();
+        		return false;
+        	}
+        	
+        	//saveImage();
+        	frm.action = "<c:url value="${registerFlag == 'create' ? '/addNotice.do' : '/updateNotice.do'}"/>";	/* 플래그가 create면 등록, 아니면 수정 */
+            frm.submit();
+        }
+    	
+    	/* 글 목록 화면 function */
+        function fn_notice_selectList() {
            	document.detailForm.action = "<c:url value='/noticeList.do'/>";
            	document.detailForm.submit();
         }
-        
-        
-        
-       
     </script>
+    
 </head>
 <body style="text-align:center; margin:0 auto; display:inline; padding-top:100px;">
 <jsp:include page="../vetproject/header.jsp" />
-<form:form commandName="sampleVO" id="detailForm" name="detailForm" enctype="multipart/form-data">
+<form:form commandName="noticeVO" id="detailForm" name="detailForm" enctype="multipart/form-data">
     <div id="content_pop">
     	<!-- 타이틀 -->
     	<div id="title_div">
     		<ul>
     			<li>
-                                   공지사항 <c:if test="${registerFlag == 'create'}"><spring:message code="button.create" /></c:if>
-                    <c:if test="${registerFlag == 'modify'}"><spring:message code="button.modify" /></c:if>
+                                   공지사항 
+                    <c:if test="${registerFlag == 'create'}"><spring:message code="button.create" /></c:if>	<!-- 등록 -->
+                    <c:if test="${registerFlag == 'modify'}"><spring:message code="button.modify" /></c:if> <!-- 수정 -->
                 </li>
     		</ul>
     	</div>
@@ -82,6 +85,7 @@
     				<c:if test="${registerFlag == 'modify'}">
         				<form:input path="title" maxlength="10" cssClass="txt"  />
         				<form:hidden path="id" cssClass="essentiality" maxlength="10"  />
+        				&nbsp;<form:errors path="title" /></td>
                     </c:if>
                     <c:if test="${registerFlag != 'modify'}">
         				<form:input path="title" maxlength="10" cssClass="txt"  />
@@ -92,14 +96,15 @@
     		<tr>
     			<td class="tbtd_caption"><label for="content">내용</label></td>
     			<td class="tbtd_content">
-    				<form:textarea path="content" rows="5" cols="58" />&nbsp;<form:errors path="content" />
+    				<form:textarea path="content" rows="5" cols="58" />
+    				&nbsp;<form:errors path="content" />
                 </td>
     		</tr>
     		<tr>
     			<td class="tbtd_caption"><label for="image">이미지</label></td>
     			<td class="tbtd_content">
-    				<input type="file" name="imageFile" id="imageFile" value="${sampleVO.image }" accept="image/*"/>
-    				<img src="#" alt="preview" id="preview" width="700" />
+    				<input type="file" name="imageFile" id="imageFile" accept="image/*"/>
+    				<img src="#" alt="preview" id="preview" width="300"/>
     				&nbsp;<form:errors path="image" />
     			</td>
     		</tr>
@@ -111,12 +116,12 @@
     		<ul>
     			<li>
                     <span class="btn_blue_l">
-                        <a href="javascript:fn_egov_selectList();"><spring:message code="button.list" /></a>
+                        <a href="javascript:fn_notice_selectList();"><spring:message code="button.list" /></a>
                     </span>
                 </li>
     			<li>
                     <span class="btn_blue_l">
-                        <a href="javascript:fn_egov_save();">
+                        <a href="javascript:fn_notice_save();">
                             <c:if test="${registerFlag == 'create'}"><spring:message code="button.create" /></c:if>
                             <c:if test="${registerFlag == 'modify'}"><spring:message code="button.modify" /></c:if>
                         </a>
@@ -135,7 +140,9 @@
     <input type="hidden" name="searchKeyword" value="<c:out value='${searchVO.searchKeyword}'/>"/>
     <input type="hidden" name="pageIndex" value="<c:out value='${searchVO.pageIndex}'/>"/>
 </form:form>
-	<script src="<c:url value='/js/jquery.form.min.js' />"></script>
+
+	<%-- <script src="<c:url value='/js/jquery.form.min.js' />"></script> --%>
+	<!-- HTML5 File Upload API로 이미지 썸네일 보기 (추후 업로드와 연동) -->
 	<script>
 		var file = document.querySelector('#imageFile');
 		var dataurl;
@@ -160,11 +167,11 @@
 			    
 			    return dataurl;
 		    }
-		    console.log('데이터유알엘'+onloadFn());
 		    return dataurl;
 		}
-		
-		
+		 
+		/* 
+		// HTML5 File API
 		function saveImage(){
 			console.log('호출');
 			var url = onchangeFn();
@@ -177,7 +184,7 @@
         	console.log(fd.get('title'));
         	console.log(fd.get('content'));
         	
-        	/* $('#detailForm').ajaxForm({
+        	$('#detailForm').ajaxForm({
         		url : '/vetproject_v2/addNotice.do',
         		enctype : 'multipart/form-data',
         		data : fd,
@@ -185,7 +192,7 @@
         			console.log('성공');
         		}
         	});
-        	$('#detailForm').submit(); */
+        	$('#detailForm').submit();
         	
         	$.ajax({
         		data : {
@@ -200,31 +207,8 @@
         			console.log('성공');
         		}
         	});
-		}
+		} */
 		
-		/* 글 등록 function */
-        function fn_egov_save() {
-        	frm = document.detailForm;
-        	var title = document.getElementById('title');
-        	var content = document.getElementById('content');
-        	
-        	/* if(title.value == null || title.value == ''){
-        		alert('제목을 입력해 주세요.');
-        		title.focus();
-        		return false;
-        	}        		
-        	
-        	if(content.value == null || content.value == ''){
-        		alert('내용을 입력해 주세요.');
-        		content.focus();
-        		return false;
-        	} */
-        	
-        	//saveImage();
-        	frm.action = "<c:url value="${registerFlag == 'create' ? '/addNotice.do' : '/updateNotice.do'}"/>";
-            frm.submit();
-            
-        }
  	</script>
 </body>
 </html>

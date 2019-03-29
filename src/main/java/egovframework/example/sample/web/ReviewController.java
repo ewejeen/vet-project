@@ -24,7 +24,7 @@ import egovframework.example.sample.service.NoticeService;
 import egovframework.example.sample.service.ReviewService;
 import egovframework.example.sample.service.ReviewVO;
 import egovframework.example.sample.service.SampleDefaultVO;
-import egovframework.example.sample.service.SampleVO;
+import egovframework.example.sample.service.NoticeVO;
 
 import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
