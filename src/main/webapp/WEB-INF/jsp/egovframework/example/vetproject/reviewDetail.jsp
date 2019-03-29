@@ -48,9 +48,21 @@
         /* 글 삭제 function */
         function fn_egov_delete(id) {
         	if(confirm('후기를 삭제하시겠습니까?')){
-	        	document.detailForm.rv_id.value = id;
-	           	document.detailForm.action = "<c:url value='/review/deleteReview.web'/>";
-	           	document.detailForm.submit();        		
+        		$.ajax({
+	           		url : '/vetproject_v2/review/deleteReview.web',
+	           		type : 'POST',
+	           		data : {
+	           			'checkArr' : id+','	/* 다중삭제 컨트롤러에 맞추기 위함 */
+	           		},
+	    			success : function(data) {
+	    				location.href='reviewList.web';
+	    			},
+	    			error : function(xhr, status, msg) {
+	    				console.debug('xhr:\n ' + xhr);
+	    				console.debug('status:\n ' + status);
+	    				console.debug('msg:\n ' + msg);
+	    			}
+	    		});      		
         	}
         }
        
@@ -153,9 +165,10 @@
 					</tr>
 					<tr>
 						<td class="tbtd_caption"><label for="content">내용</label></td>
-						<td class="tbtd_content"><img class="content" src="#"
-							alt="${reviewVO.rv_image }" /> <!-- 이미지 받아야 함 -->
-							<p class="content">${reviewVO.rv_content }</p></td>
+						<td class="tbtd_content">
+							<img class="content" src="${pageContext.request.contextPath}/images/upload/${reviewVO.rv_image }" alt="${reviewVO.rv_image }" />
+							<p class="content">${reviewVO.rv_content }</p>
+						</td>
 					</tr>
 					<%-- <tr>
     			<td class="tbtd_caption"><label for="image">이미지</label></td>
