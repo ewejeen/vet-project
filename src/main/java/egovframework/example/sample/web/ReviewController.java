@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import egovframework.example.sample.service.EgovSampleService;
+import egovframework.example.sample.service.NoticeService;
 import egovframework.example.sample.service.ReviewService;
 import egovframework.example.sample.service.ReviewVO;
 import egovframework.example.sample.service.SampleDefaultVO;

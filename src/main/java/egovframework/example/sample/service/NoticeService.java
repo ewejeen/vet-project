@@ -33,7 +33,7 @@ import java.util.List;
  *
  *  Copyright (C) by MOPAS All right reserved.
  */
-public interface EgovSampleService {
+public interface NoticeService {
 
 	/**
 	 * 글을 등록한다.

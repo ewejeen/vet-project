@@ -18,7 +18,7 @@ package egovframework.example.sample.web;
 import java.io.File;
 import java.util.List;
 
-import egovframework.example.sample.service.EgovSampleService;
+import egovframework.example.sample.service.NoticeService;
 import egovframework.example.sample.service.SampleDefaultVO;
 import egovframework.example.sample.service.SampleVO;
 
@@ -61,7 +61,7 @@ public class EgovSampleController {
 
 	/** EgovSampleService */
 	@Resource(name = "sampleService")
-	private EgovSampleService sampleService;
+	private NoticeService sampleService;
 
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")

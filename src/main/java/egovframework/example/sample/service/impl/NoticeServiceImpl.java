@@ -17,7 +17,7 @@ package egovframework.example.sample.service.impl;
 
 import java.util.List;
 
-import egovframework.example.sample.service.EgovSampleService;
+import egovframework.example.sample.service.NoticeService;
 import egovframework.example.sample.service.SampleDefaultVO;
 import egovframework.example.sample.service.SampleVO;
 
@@ -48,7 +48,7 @@ import org.springframework.stereotype.Service;
  */
 
 @Service("sampleService")
-public class EgovSampleServiceImpl extends EgovAbstractServiceImpl implements EgovSampleService {
+public class EgovSampleServiceImpl extends EgovAbstractServiceImpl implements NoticeService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(EgovSampleServiceImpl.class);
 
