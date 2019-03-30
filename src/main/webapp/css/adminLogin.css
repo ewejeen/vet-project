@@ -27,10 +27,6 @@
 	margin-bottom: 30px;
 }
 
-.signIn ul li.top {
-	width: 100%;
-}
-
 .signIn ul li.top img {
 	width: 150px;
 	display: block;
@@ -39,11 +35,6 @@
 
 .signIn ul li.top h1 {
 	text-align: center;
-	font-size: 30px;
-}
-
-.signIn ul li span {
-	font-size: 15px;
 }
 
 .signIn ul li input {

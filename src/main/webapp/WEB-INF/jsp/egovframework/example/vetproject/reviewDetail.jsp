@@ -6,20 +6,10 @@
 	uri="http://www.springmodules.org/tags/commons-validator"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%
-	/**
-	* @Class Name : egovSampleRegister.jsp
-	* @Description : Sample Register 화면
-	* @Modification Information
-	*
-	*   수정일         수정자                   수정내용
-	*  -------    --------    ---------------------------
-	*  2009.02.01            최초 생성
-	*
-	* author 실행환경 개발팀
-	* since 2009.02.01
-	*
-	* Copyright (C) 2009 by MOPAS  All right reserved.
-	*/
+/*
+*		후기 상세 보기 페이지 (관리자 전용)
+*		ReviewController -> /review/reviewDetail.web
+*/		
 %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
@@ -27,26 +17,23 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 <title>FindVet :: 후기 조회</title>
-<link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/sample.css'/>" />
+<link type="text/css" rel="stylesheet" href="<c:url value='/css/notice.css'/>" />
 
-	<!-- <script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script>
 	    if(${sessionId != 'administrator' }){
 			alert('관리자만 접근 가능합니다.');
 			history.go(-1);	
 		}
-    </script> -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-	<script type="text/javaScript" language="javascript" defer="defer">
         
-        /* 글 목록 화면 function */
-        function fn_egov_selectList() {
+        /* 후기 목록 function */
+        function fn_review_list() {
            	document.detailForm.action = "<c:url value='/review/reviewList.web'/>";
            	document.detailForm.submit();
         }
         
-        /* 글 삭제 function */
-        function fn_egov_delete(id) {
+        /* 후기 삭제 function */
+        function fn_review_delete(id) {
         	if(confirm('후기를 삭제하시겠습니까?')){
         		$.ajax({
 	           		url : '/vetproject_v2/review/deleteReview.web',
@@ -67,11 +54,8 @@
         }
        
     </script>
-    
-    
 </head>
-<body
-	style="text-align: center; margin: 0 auto; display: inline; padding-top: 100px;">
+<body style="text-align: center; margin: 0 auto; display: inline; padding-top: 100px;">
 	<jsp:include page="header.jsp" />
 	<form:form commandName="reviewVO" id="detailForm" name="detailForm">
 		<input type="hidden" name="selectedId" />
@@ -102,8 +86,7 @@
 						<td class="tbtd_caption"><label for="reg_date">등록 시간</label></td>
 						<td class="tbtd_content">
 							<p>
-								<fmt:formatDate value="${reviewVO.rv_reg_date }"
-									pattern="yyyy-MM-dd HH:mm" />
+								<fmt:formatDate value="${reviewVO.rv_reg_date }" pattern="yyyy-MM-dd HH:mm" />
 							</p>
 						</td>
 					</tr>
@@ -114,8 +97,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="tbtd_caption"><label for="reg_date">병원 주소
-								(도로명)</label></td>
+						<td class="tbtd_caption"><label for="reg_date">병원 주소 (도로명)</label></td>
 						<td class="tbtd_content">
 							<p>
 								<c:if test="${reviewVO.adrs_new != null}">${reviewVO.adrs_new} </c:if>
@@ -124,8 +106,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="tbtd_caption"><label for="reg_date">병원 주소
-								(지번)</label></td>
+						<td class="tbtd_caption"><label for="reg_date">병원 주소 (지번)</label></td>
 						<td class="tbtd_content">
 							<p>
 								<c:if test="${reviewVO.adrs_old != null}">${reviewVO.adrs_old} </c:if>
@@ -141,12 +122,11 @@
 					</tr>
 					<tr>
 						<td class="tbtd_caption"><label for="visit_date">방문일</label></td>
-						<td class="tbtd_content"><fmt:parseDate
-								value="${reviewVO.visit_date}" var="visitDate"
-								pattern="yyyy-M-d" />
+						<td class="tbtd_content"><fmt:parseDate value="${reviewVO.visit_date}" var="visitDate" pattern="yyyy-M-d" />
 							<p>
 								<fmt:formatDate value="${visitDate}" pattern="yyyy-MM-dd" />
-							</p></td>
+							</p>
+						</td>
 					</tr>
 					<tr>
 						<td class="tbtd_caption"><label for="reg_date">반려동물</label></td>
@@ -170,13 +150,6 @@
 							<p class="content">${reviewVO.rv_content }</p>
 						</td>
 					</tr>
-					<%-- <tr>
-    			<td class="tbtd_caption"><label for="image">이미지</label></td>
-    			<td class="tbtd_content">
-    				<form:input path="image" maxlength="30" cssClass="txt"  readonly="true"/>
-    				&nbsp;<form:errors path="image" />
-    			</td>
-    		</tr> --%>
 				</table>
 			</div>
 			
@@ -190,14 +163,16 @@
 			</div>
 			<div id="sysbtn">
 				<ul>
-					<li><span class="btn_blue_l"> <a
-							href="javascript:fn_egov_selectList();"><spring:message
-									code="button.list" /></a>
-					</span></li>
-					<li><span class="btn_blue_l"> <a
-							href="javascript:fn_egov_delete(${reviewVO.rv_id });"><spring:message
-									code="button.delete" /></a>
-					</span></li>
+					<li>
+						<span class="btn_blue_l">
+							<a href="javascript:fn_review_list();"><spring:message code="button.list" /></a>
+						</span>
+					</li>
+					<li>
+						<span class="btn_blue_l">
+							<a href="javascript:fn_review_delete(${reviewVO.rv_id });"><spring:message code="button.delete" /></a>
+						</span>
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -208,8 +183,9 @@
 		<input type="hidden" name="pageIndex" value="<c:out value='${searchVO.pageIndex}'/>" />
 	</form:form>
 	
-	<script>
 	
+	<script>
+		/* AJAX로 댓글 목록을 불러 와서 html로 뿌려 준다 */
     	$.ajax({
     		url : 'commentList.do',
     		type : 'get',
@@ -231,11 +207,9 @@
 	                    html += "</ul>";
 	                }
 	            } else {
-	                
 	                html += "<ul>";
 	                html += "<li style='text-align: center; width:100%;'>등록된 댓글이 없습니다.</li>";
 	                html += "</ul>";
-	                
 	            }
 	            
 	            $("#commentTable").html(html); 
@@ -248,9 +222,7 @@
 			}
     	});
     	
-    	
-    </script>
-    <script>
+    	/* 댓글을 삭제한다 */
     	function deleteComment(cmtId){
     		if(confirm('댓글을 삭제하시겠습니까?')){
     			$.ajax({

@@ -6,9 +6,9 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8" />
-	<title>VET_PROJECT</title>
+	<title>FindVet</title>
 	<link rel="shortcut icon" href="">
-	<link rel="stylesheet" href="<%=request.getContextPath() %>/css/vetproject/index.css" media="all" />
+	<link rel="stylesheet" href="<%=request.getContextPath() %>/css/index.css" media="all" />
 	<!-- jQuery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<!-- CountUp -->
@@ -19,8 +19,6 @@
     
     <!-- chart.js (차트 라이브러리) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
-    <%-- <script src="<%=request.getContextPath() %>/js/Chart.bundle.min.js"></script>
-    <script src="<%=request.getContextPath() %>/js/Chart.min.js"></script> --%>
     
     <!-- 동물병원 총 숫자 countup 애니메이션  -->
     <script src="<%=request.getContextPath() %>/js/vetTotalCountUp.js"></script>
@@ -28,9 +26,6 @@
     <script src="<%=request.getContextPath() %>/js/vetGeoLocation.js"></script>
     <!-- 지역별 동물병원 개수 delay 줘서 불러옴 (지도보다 늦게 가져와야 하는 값이므로) -->
     <script src="<%=request.getContextPath() %>/js/vetCountByCity.js"></script>
-
-	
-
 
 </head>
 <body>

@@ -28,79 +28,26 @@ $('#st2').click(function() {
 	
 });
 
-$('#rateName1').click(function() {
-	$('#myChart').hide();
-	$('.mapDiv').show();
-	$('#backToChart1').css('display','block');
-	$('.rateName').css('font-weight', 'normal');
-	$('#rateName1').css('font-weight', 'bold');
-});
-$('#rateName2').click(function() {
-	$('#myChart').hide();
-	$('.mapDiv').show();
-	$('#backToChart1').css('display','block');
-	$('.rateName').css('font-weight', 'normal');
-	$('#rateName2').css('font-weight', 'bold');
-});
-$('#rateName3').click(function() {
-	$('#myChart').hide();
-	$('.mapDiv').show();
-	$('#backToChart1').css('display','block');
-	$('.rateName').css('font-weight', 'normal');
-	$('#rateName3').css('font-weight', 'bold');
-});
-$('#rateName4').click(function() {
-	$('#myChart').hide();
-	$('.mapDiv').show();
-	$('#backToChart1').css('display','block');
-	$('.rateName').css('font-weight', 'normal');
-	$('#rateName4').css('font-weight', 'bold');
-});
-$('#rateName5').click(function() {
-	$('#myChart').hide();
-	$('.mapDiv').show();
-	$('#backToChart1').css('display','block');
-	$('.rateName').css('font-weight', 'normal');
-	$('#rateName5').css('font-weight', 'bold');
-});
-
-$('#retName1').click(function() {
-	$('.chartLine').hide();
-	$('.mapDiv2').show();
-	$('#backToChart2').css('display','block');
-	$('.retName').css('font-weight', 'normal');
-	$('#retName1').css('font-weight', 'bold');
-});
-$('#retName2').click(function() {
-	$('.chartLine').hide();
-	$('.mapDiv2').show();
-	$('#backToChart2').css('display','block');
-	$('.retName').css('font-weight', 'normal');
-	$('#retName2').css('font-weight', 'bold');
-});
-$('#retName3').click(function() {
-	$('.chartLine').hide();
-	$('.mapDiv2').show();
-	$('#backToChart2').css('display','block');
-	$('.retName').css('font-weight', 'normal');
-	$('#retName3').css('font-weight', 'bold');
-});
-$('#retName4').click(function() {
-	$('.chartLine').hide();
-	$('.mapDiv2').show();
-	$('#backToChart2').css('display','block');
-	$('.retName').css('font-weight', 'normal');
-	$('#retName4').css('font-weight', 'bold');
-});
-$('#retName5').click(function() {
-	$('.chartLine').hide();
-	$('.mapDiv2').show();
-	$('#backToChart2').css('display','block');
-	$('.retName').css('font-weight', 'normal');
-	$('#retName5').css('font-weight', 'bold');
-});
-
-
+// 반복문 클로저
+for(var i=1;i<=5;i++){
+	(function(j){
+		$('#rateName'+j).click(function() {
+			$('#myChart').hide();
+			$('.mapDiv').show();
+			$('#backToChart1').css('display','block');
+			$('.rateName').css('font-weight', 'normal');
+			$('#rateName'+j).css('font-weight', 'bold');
+		});	
+		
+		$('#retName'+j).click(function() {
+			$('.chartLine').hide();
+			$('.mapDiv2').show();
+			$('#backToChart2').css('display','block');
+			$('.retName').css('font-weight', 'normal');
+			$('#retName'+j).css('font-weight', 'bold');
+		});	
+	})(i);
+}
 
 $('#backToChart1').click(function(){
 	$('.mapDiv').hide();

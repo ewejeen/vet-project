@@ -1,262 +1,101 @@
-/*
- * Copyright 2008-2009 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package egovframework.example.sample.web;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import egovframework.example.sample.service.NoticeService;
-import egovframework.example.sample.service.SampleDefaultVO;
-import egovframework.example.sample.service.NoticeVO;
-import egovframework.example.sample.service.VetVO;
-import egovframework.rte.fdl.property.EgovPropertyService;
-import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
-
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
-import org.springmodules.validation.commons.DefaultBeanValidator;
 
 /**
- * @Class Name : EgovSampleController.java
- * @Description : EgovSample Controller Class
- * @Modification Information
- * @
- * @  수정일      수정자              수정내용
- * @ ---------   ---------   -------------------------------
- * @ 2009.03.16           최초생성
- *
- * @author 개발프레임웍크 실행환경 개발팀
- * @since 2009. 03.16
- * @version 1.0
- * @see
- *
- *  Copyright (C) by MOPAS All right reserved.
+ * 
+ * 		AdminController.java
+ *		관리자 페이지에 관련된 것들을 처리해 주는 컨트롤러
+ *		(웹)
+ *	
  */
 
+@RequestMapping("/notrespassing")
 @Controller
 public class AdminController {
-/*
-	*//** EgovSampleService *//*
-	@Resource(name = "sampleService")
-	private EgovSampleService sampleService;
-
-	*//** EgovPropertyService *//*
-	@Resource(name = "propertiesService")
-	protected EgovPropertyService propertiesService;
-
-	*//** Validator *//*
-	@Resource(name = "beanValidator")
-	protected DefaultBeanValidator beanValidator;
-
-	*//**
-	 * 글 목록을 조회한다. (pageing)
-	 * @param searchVO - 조회할 정보가 담긴 SampleDefaultVO
-	 * @param model
-	 * @return "egovSampleList"
-	 * @exception Exception
-	 *//*
-	@RequestMapping(value = "/egovSampleList.do")
-	public String selectSampleList(@ModelAttribute("searchVO") SampleDefaultVO searchVO, ModelMap model) throws Exception {
-
-		*//** EgovPropertyService.sample *//*
-		searchVO.setPageUnit(propertiesService.getInt("pageUnit"));
-		searchVO.setPageSize(propertiesService.getInt("pageSize"));
-
-		*//** pageing setting *//*
-		PaginationInfo paginationInfo = new PaginationInfo();
-		paginationInfo.setCurrentPageNo(searchVO.getPageIndex());
-		paginationInfo.setRecordCountPerPage(searchVO.getPageUnit());
-		paginationInfo.setPageSize(searchVO.getPageSize());
-
-		searchVO.setFirstIndex(paginationInfo.getFirstRecordIndex());
-		searchVO.setLastIndex(paginationInfo.getLastRecordIndex());
-		searchVO.setRecordCountPerPage(paginationInfo.getRecordCountPerPage());
-
-		List<?> sampleList = sampleService.selectSampleList(searchVO);
-		model.addAttribute("resultList", sampleList);
-
-		int totCnt = sampleService.selectSampleListTotCnt(searchVO);
-		paginationInfo.setTotalRecordCount(totCnt);
-		model.addAttribute("paginationInfo", paginationInfo);
-
-		return "sample/egovSampleList";
-	}
-
-	*//**
-	 * 글 등록 화면을 조회한다.
-	 * @param searchVO - 목록 조회조건 정보가 담긴 VO
-	 * @param model
-	 * @return "egovSampleRegister"
-	 * @exception Exception
-	 *//*
-	@RequestMapping(value = "/addSampleView.do", method = RequestMethod.GET)
-	public String addSampleView(@ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
-		model.addAttribute("sampleVO", new SampleVO());
-		return "sample/egovSampleRegister";
-	}
-
-	*//**
-	 * 글을 등록한다.
-	 * @param sampleVO - 등록할 정보가 담긴 VO
-	 * @param searchVO - 목록 조회조건 정보가 담긴 VO
-	 * @param status
-	 * @return "forward:/egovSampleList.do"
-	 * @exception Exception
-	 *//*
-	@RequestMapping(value = "/addSample.do", method = RequestMethod.POST)
-	public String addSample(@ModelAttribute("searchVO") SampleDefaultVO searchVO, SampleVO sampleVO, BindingResult bindingResult, Model model, SessionStatus status)
-			throws Exception {
-
-		// Server-Side Validation
-		beanValidator.validate(sampleVO, bindingResult);
-
-		if (bindingResult.hasErrors()) {
-			model.addAttribute("sampleVO", sampleVO);
-			return "sample/egovSampleRegister";
-		}
-
-		sampleService.insertSample(sampleVO);
-		status.setComplete();
-		return "forward:/egovSampleList.do";
-	}
-
-	*//**
-	 * 글 수정화면을 조회한다.
-	 * @param id - 수정할 글 id
-	 * @param searchVO - 목록 조회조건 정보가 담긴 VO
-	 * @param model
-	 * @return "egovSampleRegister"
-	 * @exception Exception
-	 *//*
-	@RequestMapping("/updateSampleView.do")
-	public String updateSampleView(@RequestParam("selectedId") String id, @ModelAttribute("searchVO") SampleDefaultVO searchVO, Model model) throws Exception {
-		SampleVO sampleVO = new SampleVO();
-		// 변수명 CoC 에 따라 sampleVO
-		model.addAttribute(selectSample(sampleVO, searchVO));
-		return "sample/egovSampleRegister";
-	}
-
-	*//**
-	 * 글을 조회한다.
-	 * @param sampleVO - 조회할 정보가 담긴 VO
-	 * @param searchVO - 목록 조회조건 정보가 담긴 VO
-	 * @param status
-	 * @return @ModelAttribute("sampleVO") - 조회한 정보
-	 * @exception Exception
-	 *//*
-	public SampleVO selectSample(SampleVO sampleVO, @ModelAttribute("searchVO") SampleDefaultVO searchVO) throws Exception {
-		return sampleService.selectSample(sampleVO);
-	}
-
-	*//**
-	 * 글을 수정한다.
-	 * @param sampleVO - 수정할 정보가 담긴 VO
-	 * @param searchVO - 목록 조회조건 정보가 담긴 VO
-	 * @param status
-	 * @return "forward:/egovSampleList.do"
-	 * @exception Exception
-	 *//*
-	@RequestMapping("/updateSample.do")
-	public String updateSample(@ModelAttribute("searchVO") SampleDefaultVO searchVO, SampleVO sampleVO, BindingResult bindingResult, Model model, SessionStatus status)
-			throws Exception {
-
-		beanValidator.validate(sampleVO, bindingResult);
-
-		if (bindingResult.hasErrors()) {
-			model.addAttribute("sampleVO", sampleVO);
-			return "sample/egovSampleRegister";
-		}
-
-		sampleService.updateSample(sampleVO);
-		status.setComplete();
-		return "forward:/egovSampleList.do";
-	}
-
-	*//**
-	 * 글을 삭제한다.
-	 * @param sampleVO - 삭제할 정보가 담긴 VO
-	 * @param searchVO - 목록 조회조건 정보가 담긴 VO
-	 * @param status
-	 * @return "forward:/egovSampleList.do"
-	 * @exception Exception
-	 *//*
-	@RequestMapping("/deleteSample.do")
-	public String deleteSample(SampleVO sampleVO, @ModelAttribute("searchVO") SampleDefaultVO searchVO, SessionStatus status) throws Exception {
-		sampleService.deleteSample(sampleVO);
-		status.setComplete();
-		return "forward:/egovSampleList.do";
-	}*/
 	
-	@RequestMapping("/notrespassing/signinview.do")
+	/**
+	 * 
+	 *	관리자 로그인 페이지를 조회한다.
+	 *
+	 */
+	@RequestMapping("/signinview.do")
 	public String adminLoginView(){
 		return "vetproject/adminLogin";
 	}
+	
+	/**
+	 * 
+	 *	관리자 로그인을 한다.
+	 *  
+	 *  오류 없이 AJAX 로그인 로직 처리하기
+	 *  1. jackson-databind dependency를 추가
+	 *  2. controller에서 result를 담은 map을 return하는 방식 -> result를 담은 map을 modelandview에 add해서 modelandview를 return하는 방식
+	 *  3. jquery ajax에서 받을 때 dataType : 'json' 추가
+	 *
+	 */
+	@RequestMapping(value="/signin.do", method=RequestMethod.POST)
+	public ModelAndView adminLogin(ModelAndView modelAndView, HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<>();
+		HttpSession session = request.getSession();
+		String adminId = request.getParameter("adminId");
+		String adminPw = request.getParameter("adminPw");
+		
+		int result = 0;
+		// 로그인 정보가 맞으면 result값으로 1 반환 + 세션 아이디(30분) 설정
+		if(adminId.equals("administrator") && adminPw.equals("drowssapnimda79#$")){
+			result = 1;
+			session.setAttribute("sessionId", adminId);
+			session.setMaxInactiveInterval(60*30);
+		}
+		map.put("result", result);
+		
+		// modelandview에 map 추가
+		modelAndView.addAllObjects(map);
+		
+		/* 
+		 * setViewName에 들어갈 String 파라미터는 JsonView bean에 설정해줬던 id와 같아야 한다.
+		 * (dispatcher-servlet.xml -> MappingJackson2JsonView -> jsonView)
+		 * 
+		 */
+		modelAndView.setViewName("jsonView");
+		
+		return modelAndView;
+	}
+	
 
-	@RequestMapping("/notrespassing/adminconsole.do")
+	/**
+	 * 
+	 *	관리자 콘솔 페이지를 조회한다.
+	 *
+	 */
+	@RequestMapping("/adminconsole.do")
 	public String adminConsole(){
 		return "vetproject/adminConsole";
 	}
 
-	@RequestMapping(value="/notrespassing/signin.do", method=RequestMethod.POST)
-	public ModelAndView adminLogin(ModelAndView modelAndView, HttpServletRequest request) {
-	    Map<String, Object> map = new HashMap<>();
-	    HttpSession session = request.getSession();
-	    String adminId = request.getParameter("adminId");
-	    String adminPw = request.getParameter("adminPw");
-	    
-	    int result = 0;
-	    if(adminId.equals("administrator") && adminPw.equals("drowssapnimda79#$")){
-			result = 1;
-			session.setAttribute("sessionId", adminId);
-			session.setMaxInactiveInterval(60*30);
-	    }
-	    map.put("result", result);
-	     
-	    modelAndView.addAllObjects(map);
-	 
-	    // setViewName에 들어갈 String 파라미터는 JsonView bean 설정해줬던 id와 같아야 한다.
-	    modelAndView.setViewName("jsonView");
-	     
-	    return modelAndView;
-	}
-	/* 1. jackson-databind dependency를 추가
-     * 2. controller에서 result를 담은 map을 return하는 방식 -> result를 담은 map을 modelandview에 add해서 modelandview를 return하는 방식
-	 * 3. jquery ajax에서 받을 때 dataType : 'json' 추가
+	/**
+	 * 
+	 * 관리자 로그아웃을 한다.
+	 * : 로그인과 같은 방식으로 modelAndView를 이용한다.
+	 *
 	 */
-	
-	@RequestMapping(value="/notrespassing/signout.do", method=RequestMethod.POST)
+	@RequestMapping(value="/signout.do", method=RequestMethod.POST)
 	public ModelAndView adminLogout(ModelAndView modelAndView, HttpServletRequest request){
 		Map<String, Object> map = new HashMap<>();
 		HttpSession session = request.getSession();
 		int result = 0;
+		
+		// 세션이 존재하면 invalidate 시키고 result로 1을 반환한다.
 		if(session!=null){
 			session.invalidate();
 			result = 1;
@@ -268,5 +107,4 @@ public class AdminController {
 		modelAndView.setViewName("jsonView");
 		return modelAndView;
 	}
-	
 }

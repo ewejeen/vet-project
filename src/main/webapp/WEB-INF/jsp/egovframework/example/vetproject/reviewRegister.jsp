@@ -3,57 +3,32 @@
 <%@ taglib prefix="form"      uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring"    uri="http://www.springframework.org/tags"%>
 <%
-  /**
-  * @Class Name : egovSampleRegister.jsp
-  * @Description : Sample Register 화면
-  * @Modification Information
-  *
-  *   수정일         수정자                   수정내용
-  *  -------    --------    ---------------------------
-  *  2009.02.01            최초 생성
-  *
-  * author 실행환경 개발팀
-  * since 2009.02.01
-  *
-  * Copyright (C) 2009 by MOPAS  All right reserved.
-  */
+/*
+*		후기 등록 - 랜덤 데이터 생성 목적, 실제 웹에서는 없는 페이지 (관리자 전용)
+*		ReviewController -> /review/addReviewView.do
+*/		
 %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ko" xml:lang="ko">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>후기 <spring:message code="button.create" />
+    <title>FindVet :: 후기 <spring:message code="button.create" />
     </title>
-    <link type="text/css" rel="stylesheet" href="<c:url value='/css/egovframework/sample.css'/>"/>
+    <link type="text/css" rel="stylesheet" href="<c:url value='/css/notice.css'/>"/>
     
 	<script>
 	    if(${sessionId != 'administrator' }){
 			alert('관리자만 접근 가능합니다.');
 			history.go(-1);	
 		}
-    </script>
-    <script type="text/javaScript" language="javascript" defer="defer">
-        
-        /* 후기 목록 화면 function */
-        function fn_egov_selectList() {
-           	document.detailForm.action = "<c:url value='/egovSampleList.do'/>";
-           	document.detailForm.submit();
-        }
-        
-        /* 후기 삭제 function */
-        function fn_egov_delete() {
-           	document.detailForm.action = "<c:url value='/deleteSample.do'/>";
-           	document.detailForm.submit();
-        }
         
         /* 후기 등록 function */
-        function fn_egov_save() {
+        function fn_review_save() {
         	var frm = document.reviewForm;
         	frm.action = "<c:url value='addReview.do'/>";
             frm.submit();
         }
-        
         
         /*
     	 * 
@@ -128,42 +103,35 @@
     				console.debug('msg:\n ' + msg);
     			}
     		});
-       		
         }
         
-        
-        
-        
-        
-        
-       
-    </script>
-    <script>
-    function hitUp(){
-    	$.ajax({
-    		url : '/vetproject_v2/vetHitUp.do',
-    		method : 'POST',
-    		data : {
-    			'hpt_id' : getRandomIntInclusive(0, 4565)
-    		},
-    		success : function(data) {
-				console.log('data: '+data);
-			},
-			error : function(xhr, status, msg) {
-				
-			}
-    	});
-    }
-    
-    function loop(){
-    	for(var i=0;i<10000;i++){
-    		fn_egov_save_ajax();
-    	}
-    }
+	        
+	    /* 조회수 데이터 랜덤 생성 function */
+	    function hitUp(){
+	    	$.ajax({
+	    		url : '/vetproject_v2/vetHitUp.do',
+	    		method : 'POST',
+	    		data : {
+	    			'hpt_id' : getRandomIntInclusive(0, 4565)
+	    		},
+	    		success : function(data) {
+					console.log('data: '+data);
+				},
+				error : function(xhr, status, msg) {
+					
+				}
+	    	});
+	    }
+	    
+	    /* 반복문으로 데이터 생성 function */
+	    function loop(){
+	    	for(var i=0;i<10000;i++){
+	    		fn_egov_save_ajax();
+	    	}
+	    }
     </script>
 </head>
 <body style="text-align:center; margin:0 auto; display:inline; padding-top:100px;">
-<jsp:include page="../vetproject/header.jsp" />
 <form:form commandName="reviewVO" id="reviewForm" name="reviewForm">
     <div id="content_pop">
     	<!-- 타이틀 -->
@@ -272,10 +240,6 @@
             </ul>
     	</div>
     </div>
-    <!-- 검색조건 유지 -->
-    <input type="hidden" name="searchCondition" value="<c:out value='${searchVO.searchCondition}'/>"/>
-    <input type="hidden" name="searchKeyword" value="<c:out value='${searchVO.searchKeyword}'/>"/>
-    <input type="hidden" name="pageIndex" value="<c:out value='${searchVO.pageIndex}'/>"/>
 </form:form>
 </body>
 </html>
