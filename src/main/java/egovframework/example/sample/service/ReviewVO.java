@@ -1,9 +1,6 @@
 package egovframework.example.sample.service;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class ReviewVO {
 	// review 테이블
