@@ -186,5 +186,6 @@
         	</div>
         </div>
     </form:form>
+    <jsp:include page="../vetproject/footer.jsp" />
 </body>
 </html>

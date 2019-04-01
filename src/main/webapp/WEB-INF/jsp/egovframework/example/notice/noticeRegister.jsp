@@ -140,6 +140,7 @@
     <input type="hidden" name="searchKeyword" value="<c:out value='${searchVO.searchKeyword}'/>"/>
     <input type="hidden" name="pageIndex" value="<c:out value='${searchVO.pageIndex}'/>"/>
 </form:form>
+<jsp:include page="../vetproject/footer.jsp" />
 
 	<%-- <script src="<c:url value='/js/jquery.form.min.js' />"></script> --%>
 	<!-- HTML5 File Upload API로 이미지 썸네일 보기 (추후 업로드와 연동) -->

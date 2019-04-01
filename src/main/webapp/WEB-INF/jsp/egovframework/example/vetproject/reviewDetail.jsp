@@ -182,7 +182,7 @@
 		<input type="hidden" name="searchKeyword" value="<c:out value='${searchVO.searchKeyword}'/>" />
 		<input type="hidden" name="pageIndex" value="<c:out value='${searchVO.pageIndex}'/>" />
 	</form:form>
-	
+	<jsp:include page="../vetproject/footer.jsp" />
 	
 	<script>
 		/* AJAX로 댓글 목록을 불러 와서 html로 뿌려 준다 */

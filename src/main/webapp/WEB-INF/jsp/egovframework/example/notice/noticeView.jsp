@@ -118,5 +118,6 @@
     <input type="hidden" name="searchKeyword" value="<c:out value='${searchVO.searchKeyword}'/>"/>
     <input type="hidden" name="pageIndex" value="<c:out value='${searchVO.pageIndex}'/>"/>
 </form:form>
+<jsp:include page="../vetproject/footer.jsp" />
 </body>
 </html>

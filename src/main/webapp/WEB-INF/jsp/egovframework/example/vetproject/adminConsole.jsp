@@ -62,5 +62,6 @@
 			</div>
 		</div>
 	</div>
+	<jsp:include page="../vetproject/footer.jsp" />
 </body>
 </html>
