@@ -86,9 +86,17 @@
 	</update>
 	
 	<!-- hospital_geo 테이블의 주소 값 가져오기 (앱 내 거리순 검색 위함) -->
-	<select id="getAdrs" resultType="String">
+	<!-- <select id="getAdrs" resultType="String">
 		SELECT
 			IFNULL (NULLIF(adrs_new,''), adrs_old) address 
+		FROM
+			hospital_geo
+		WHERE
+			hpt_id = #{hpt_id}
+	</select> -->
+	<select id="getAdrs" resultType="String">
+		SELECT
+			adrs_old
 		FROM
 			hospital_geo
 		WHERE
@@ -100,7 +108,7 @@
 		UPDATE
 			hospital_geo
 		SET
-			latitude=#{latitude}, longtitude=#{longtitude}
+			latitude=#{latitude}, longitude=#{longitude}
 		WHERE
 			hpt_id=#{hpt_id};
 	</update>

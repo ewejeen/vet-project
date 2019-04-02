@@ -41,7 +41,7 @@ public interface VetMapper {
 	List<?> vetDetail(@Param("hpt_id") int hpt_id) throws Exception;
 	
 	// 좌표값 넣기
-	void changeAxis(@Param("hpt_id") int hpt_id, @Param("latitude") double latitude, @Param("longtitude") double longtitude);
+	void changeAxis(@Param("hpt_id") int hpt_id, @Param("latitude") double latitude, @Param("longitude") double longitude);
 	String getAdrs(@Param("hpt_id") int hpt_id);
 
 	

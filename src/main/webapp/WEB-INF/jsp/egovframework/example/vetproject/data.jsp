@@ -235,12 +235,66 @@
 <script>
 
 	function fn_update(){
-			
-			$.ajax({
+			for(var i=2435;i<=2435;i++){
+				(function(j){
+					console.log(j);
+					$.ajax({
+						url : 'getAdrs.do',
+						type : 'POST',
+						data : {
+							'hpt_id' : j,
+						},
+						success: function (data) {
+							console.log(data);
+							var geocoder = new daum.maps.services.Geocoder();
+
+							// 주소로 좌표를 검색합니다
+							geocoder.addressSearch(data, function(result, status) {
+
+							    // 정상적으로 검색이 완료됐으면 
+							     if (status === daum.maps.services.Status.OK) {
+							    	 var lat = result[0].y;
+								     var lng = result[0].x;
+
+							    	console.log(lat);
+							    	console.log(lng);
+							    	
+						    		$.ajax({
+							    		url : 'changeAxis.do',
+							    		type : 'POST',
+							    		data : {
+							    			'hpt_id' : j,
+							    			'latitude' : lat,
+							    			'longitude' : lng
+							    		},
+							    		success: function (data){
+							    			console.log(data);
+							    			console.log('성공');
+							    		},
+							    		error: function(xhr, status, msg){
+							    			console.log('xhr:\n ' + xhr);
+										    console.log('status:\n ' + status);
+										    console.log('msg:\n ' + msg);
+							    		}
+							    	});
+							    	
+							    } 
+							});
+								
+						},
+						error: function(xhr, status, msg) {
+							console.log('xhr:\n ' + xhr);
+						    console.log('status:\n ' + status);
+						    console.log('msg:\n ' + msg);
+						}
+					});
+				})(i);
+			}
+			/* $.ajax({
 				url : 'getAdrs.do',
 				type : 'POST',
 				data : {
-					'hpt_id' : 3,
+					'hpt_id' : 1,
 				},
 				success: function (data) {
 					console.log(data);
@@ -261,7 +315,7 @@
 					    		url : 'changeAxis.do',
 					    		type : 'POST',
 					    		data : {
-					    			'hpt_id' : 3,
+					    			'hpt_id' : 1,
 					    			'latitude' : lat,
 					    			'longtitude' : lng
 					    		},
@@ -285,7 +339,7 @@
 				    console.log('status:\n ' + status);
 				    console.log('msg:\n ' + msg);
 				}
-			});
+			}); */
 	}
 		
 		

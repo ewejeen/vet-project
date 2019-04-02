@@ -107,8 +107,8 @@ public class VetServiceImpl extends EgovAbstractServiceImpl implements VetServic
 	
 	// 좌표값 넣기
 	@Override
-	public void changeAxis(int hpt_id, double latitude, double longtitude) {
-		vetDAO.changeAxis(hpt_id, latitude, longtitude);
+	public void changeAxis(int hpt_id, double latitude, double longitude) {
+		vetDAO.changeAxis(hpt_id, latitude, longitude);
 	}
 	@Override
 	public String getAdrs(int hpt_id) {

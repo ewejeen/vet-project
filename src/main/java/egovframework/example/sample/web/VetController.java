@@ -199,8 +199,8 @@ public class VetController {
 	
 	// 좌표값 저장
 	@RequestMapping(value = "/changeAxis.do", method = RequestMethod.POST)
-	public String changeAxis(int hpt_id, double latitude, double longtitude, Model model) throws Exception {
-		vetService.changeAxis(hpt_id, latitude, longtitude);
+	public String changeAxis(int hpt_id, double latitude, double longitude, Model model) throws Exception {
+		vetService.changeAxis(hpt_id, latitude, longitude);
 		return "vetproject/success";
 	}
 }
