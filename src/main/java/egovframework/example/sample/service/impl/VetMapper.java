@@ -20,6 +20,9 @@ public interface VetMapper {
 	// 지역명(시/도 + 시/군/구)을 이용해 동물 병원의 목록을 검색한다.
 	List<?> searchVetByRegion(@Param("province") String province, @Param("city") String city) throws Exception;
 	
+	// 현재 나의 좌표를 기준으로 직선 거리가 가장 가까운 30개의 병원의 목록을 검색한다.
+	List<?> searchNearest(@Param("myLatitude") Double latitude, @Param("myLongitude") Double longitude) throws Exception;
+	
 	// 동물 병원 상세 정보 페이지로 넘어갈 때 해당 병원의 조회수를 1 올려 준다.
 	int vetHitUp(@Param("hpt_id") int hpt_id) throws Exception;
 	

@@ -36,6 +36,12 @@ public class VetServiceImpl extends EgovAbstractServiceImpl implements VetServic
 	public List<?> searchVetByRegion(String province, String city) throws Exception {
 		return vetDAO.searchVetByRegion(province, city);
 	}
+
+	// 현재 나의 좌표를 기준으로 직선 거리가 가장 가까운 30개의 병원의 목록을 검색한다.
+	@Override
+	public List<?> searchNearest(Double latitude, Double longitude) throws Exception {
+		return vetDAO.searchNearest(latitude, longitude);
+	}
 	
 	// 동물 병원 상세 정보 페이지로 넘어갈 때 해당 병원의 조회수를 1 올려 준다.
 	@Override

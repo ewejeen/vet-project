@@ -17,19 +17,7 @@
 	</resultMap>
 
 	<!-- 앱***************************************************************************************** -->
-	<select id="selectVetJsonListShort" resultType="egovMap">
-			SELECT
-				hos.hpt_name,
-			    geo.adrs_new
-			FROM
-				hospital AS hos
-			INNER JOIN hospital_geo AS geo
-			ON hos.hpt_id = geo.hpt_id
-			LIMIT 0,30
-	</select>
-	
-	
-	<!-- 상호명으로 검색 결과 리스트 -->
+	<!-- 상호명을 이용해 동물 병원의 목록을 검색한다. -->
 	<select id="searchVetByName" resultType="egovMap">
 			SELECT
 				hos.hpt_id, hos.hpt_name, hos.hpt_hit, hos.hpt_phone,
@@ -45,8 +33,8 @@
 			LIKE CONCAT('%',#{hpt_name},'%')
 			ORDER BY hos.hpt_name ASC		
 	</select>
-
-	<!-- 지역명으로 검색 결과 리스트 -->
+	
+	<!-- 지역명(시/도 + 시/군/구)을 이용해 동물 병원의 목록을 검색한다. -->
 	<select id="searchVetByRegion" resultType="egovMap">
 			SELECT
 				hos.hpt_id, hos.hpt_name, hos.hpt_hit, hos.hpt_phone,
@@ -62,7 +50,35 @@
 			ORDER BY hos.hpt_name ASC
 	</select>
 	
-	<!-- 병원 상세 보기 -->
+	<!-- 현재 나의 좌표를 기준으로 직선 거리가 가장 가까운 30개의 병원의 목록을 검색한다. -->
+	<select id="searchNearest" resultType="egovMap">
+			SELECT 
+				hos.hpt_id, hos.hpt_name, hos.hpt_hit, hos.hpt_phone,
+				geo.adrs_new, geo.adrs_old,		<!-- 결과 내 검색을 할 때 필요한 데이터 -->
+				IFNULL (NULLIF(geo.adrs_new,''), geo.adrs_old) address, <!-- 신주소 없으면 구주소 가져오기 -->
+				avg(rv.hpt_rate) rate_avg, count(rv.hpt_rate) review_cnt,
+				( 6371 * acos( cos( radians(#{myLatitude}) ) * cos( radians( geo.latitude ) ) * cos( radians( geo.longitude ) - radians(#{myLongitude}) ) 
+					+ sin( radians(#{myLatitude}) ) * sin( radians( geo.latitude ) ) ) ) AS distance 
+			FROM 
+				hospital as hos INNER JOIN hospital_geo as geo
+				ON hos.hpt_id = geo.hpt_id
+				INNER JOIN review as rv on hos.hpt_id = rv.hpt_id
+			GROUP BY hos.hpt_id
+			ORDER BY distance ASC
+			LIMIT 0, 30;
+	</select>
+
+	<!-- 동물 병원 상세 정보 페이지로 넘어갈 때 해당 병원의 조회수를 1 올려 준다. -->
+	<update id="vetHitUp" parameterType="int">
+		UPDATE
+			hospital
+		SET
+			hpt_hit = hpt_hit + 1
+		WHERE 
+			hpt_id = #{hpt_id}
+	</update>
+	
+	<!-- 동물 병원 상세 정보 페이지를 JSON 형태로 조회한다. -->
 	<select id="vetDetail" resultType="egovMap">
 			SELECT
 				hos.hpt_id, hos.hpt_name, hos.hpt_hit, hos.hpt_phone, 
@@ -74,18 +90,31 @@
 				INNER JOIN review as rv on hos.hpt_id = rv.hpt_id
 			WHERE hos.hpt_id = #{hpt_id}
 	</select>
-			
-	<!-- 병원 상세 보기 클릭 시 조회수 +1 -->
-	<update id="vetHitUp" parameterType="int">
-		UPDATE
-			hospital
-		SET
-			hpt_hit = hpt_hit + 1
-		WHERE 
-			hpt_id = #{hpt_id}
-	</update>
 	
-	<!-- hospital_geo 테이블의 주소 값 가져오기 (앱 내 거리순 검색 위함) -->
+			
+	
+	<!-- 웹***************************************************************************************** -->
+	<!-- 전국 동물병원의 총 개수를 조회한다. -->
+	<select id="selectVetListTotCnt" parameterType="searchVO" resultType="int">
+			SELECT COUNT(*) FROM hospital
+	</select>
+	
+	<!-- 사용자 현 위치 동물병원의 총 개수를 조회한다. -->
+	<select id="selectVetListCntByPos" resultType="int">
+			SELECT COUNT(*) FROM hospital_geo WHERE city=#{city}
+	</select>
+	
+	<!-- 좌표 정보를 얻기 위해 주소 값 목록을 상호명과 함께 조회한다. -->
+	<select id="selectNameAndAdrs" resultType="egovMap">
+			SELECT
+				hos.hpt_name, 
+				IFNULL (NULLIF(geo.adrs_new,''), geo.adrs_old) address 
+			FROM hospital as hos INNER JOIN hospital_geo as geo
+			ON hos.hpt_id = geo.hpt_id
+			WHERE province=#{province} AND city=#{city}
+	</select>
+	
+	<!-- DB에 있는 좌표값을 수정하기 위해 해당 병원 ID의 주소 데이터를 불러온다. -->
 	<!-- <select id="getAdrs" resultType="String">
 		SELECT
 			IFNULL (NULLIF(adrs_new,''), adrs_old) address 
@@ -103,7 +132,7 @@
 			hpt_id = #{hpt_id}
 	</select>
 
-	<!-- hospital_geo 테이블의 x좌표와 y좌표 값 수정하기 (앱 내 거리순 검색 위함) -->
+	<!-- DB에 있는 좌표값을 수정한다. -->
 	<update id="changeAxis" parameterType="vetVO">
 		UPDATE
 			hospital_geo
@@ -113,26 +142,19 @@
 			hpt_id=#{hpt_id};
 	</update>
 	
-	
-	<!-- 웹***************************************************************************************** -->
-	<!-- 지도 마커 표시 위해 지역별로 병원 이름과 주소 얻기 -->
-	<select id="selectNameAndAdrs" resultType="egovMap">
-			SELECT
-				hos.hpt_name, 
-				IFNULL (NULLIF(geo.adrs_new,''), geo.adrs_old) address 
-			FROM hospital as hos INNER JOIN hospital_geo as geo
-			ON hos.hpt_id = geo.hpt_id
-			WHERE province=#{province} AND city=#{city}
-	</select>
-	
-	<!-- 전국 동물병원 총 개수 -->
-	<select id="selectVetListTotCnt" parameterType="searchVO" resultType="int">
-			SELECT COUNT(*) FROM hospital
-	</select>
 
-	<!-- 지역 병 동물병원 총 개수 -->
-	<select id="selectVetListCntByPos" resultType="int">
-			SELECT COUNT(*) FROM hospital_geo WHERE city=#{city}
+		
+	<!-- For Sample Data***************************************************************************************** -->
+	<!-- JSON 형태로 동물 병원의 목록을 일부 조회한다. -->
+	<select id="selectVetJsonListShort" resultType="egovMap">
+			SELECT
+				hos.hpt_name,
+			    geo.adrs_new
+			FROM
+				hospital AS hos
+			INNER JOIN hospital_geo AS geo
+			ON hos.hpt_id = geo.hpt_id
+			LIMIT 0,30
 	</select>
 	
 </mapper>

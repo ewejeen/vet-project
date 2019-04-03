@@ -9,6 +9,7 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.ibatis.annotations.Param;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -79,6 +80,20 @@ public class VetController {
 	public @ResponseBody String vetSearchByRegion(String province, String city) throws Exception {
 		ObjectMapper om = new ObjectMapper();
 		List<?> list = vetService.searchVetByRegion(province, city);
+		String json = om.writeValueAsString(list);
+		
+		return json;
+	}
+	
+	/**
+	 * 
+	 *	GPS로 받아 온 내 위치의 위도, 경도 기준으로 직선 거리가 가장 가까운 30개 동물 병원의 목록을 검색해서 JSON 형태로 조회한다.
+	 *
+	 */
+	@RequestMapping(value="searchNearest", produces="application/json;charset=utf8")
+	public @ResponseBody String searchNearest(Double latitude, Double longitude) throws Exception{
+		ObjectMapper om = new ObjectMapper();
+		List<?> list = vetService.searchNearest(latitude, longitude);
 		String json = om.writeValueAsString(list);
 		
 		return json;
