@@ -235,7 +235,7 @@
 <script>
 
 	function fn_update(){
-			for(var i=2435;i<=2435;i++){
+			for(var i=4321;i<=4565;i++){
 				(function(j){
 					console.log(j);
 					$.ajax({

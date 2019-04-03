@@ -96,7 +96,7 @@
 	</select> -->
 	<select id="getAdrs" resultType="String">
 		SELECT
-			adrs_old
+			adrs_new
 		FROM
 			hospital_geo
 		WHERE

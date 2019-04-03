@@ -2,56 +2,45 @@ package egovframework.example.sample.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 public interface VetService {
-
-	/**
-	 * 동물병원 정보를 조회한다.
-	 * @param vo - 조회할 정보가 담긴 VetVO
-	 * @return 조회한 병원
-	 * @exception Exception
-	 */
-	VetVO selectVet(VetVO vo) throws Exception;
-
-	/**
-	 * 동물병원 목록을 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 글 목록
-	 * @exception Exception
-	 */
-	List<?> selectVetList(SampleDefaultVO searchVO) throws Exception;
-
-	// JSON 객체를 얻기 위한 목록 조회 샘플
-	List<?> selectVetJsonListShort() throws Exception;
 	
-	// 앱 내 병원 상호명으로 검색
-	//List<?> searchVetList(SampleDefaultVO searchVO) throws Exception;
-	List<?> searchVetByName(@Param("hpt_name") String hpt_name) throws Exception;
+	/*************앱***************/
+	
+	// 상호명을 이용해 동물 병원의 목록을 검색한다.
+	List<?> searchVetByName(String hpt_name) throws Exception;
 
-	// 앱 내 병원 지역으로 검색
-	List<?> searchVetByRegion(@Param("province") String province, @Param("city") String city) throws Exception;
-	// 상세 보기
-	List<?> vetDetail(@Param("hpt_id") int hpt_id) throws Exception;
+	// 지역명(시/도 + 시/군/구)을 이용해 동물 병원의 목록을 검색한다.
+	List<?> searchVetByRegion(String province, String city) throws Exception;
 	
-	// 좌표값 넣기
-	void changeAxis(@Param("hpt_id") int hpt_id, @Param("latitude") double latitude, @Param("longitude") double longitude);
-	String getAdrs(@Param("hpt_id") int hpt_id);
+	// 동물 병원 상세 정보 페이지로 넘어갈 때 해당 병원의 조회수를 1 올려 준다.
+	int vetHitUp(int hpt_id) throws Exception;
 	
-	/**
-	 * 동물병원 총 갯수를 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 글 총 갯수
-	 * @exception
-	 */
+	// 동물 병원 상세 정보 페이지를 JSON 형태로 조회한다.
+	List<?> vetDetail(int hpt_id) throws Exception;
+	
+	
+	
+	/*************웹***************/
+	
+	// 전국 동물병원의 총 개수를 조회한다.
 	int selectVetListTotCnt(SampleDefaultVO searchVO);
 
+	// 사용자 현 위치 동물병원의 총 개수를 조회한다.
 	int selectVetListCntByPos(String city);
+
+	// 좌표 정보를 얻기 위해 주소 값 목록을 상호명과 함께 조회한다.
+	List<?> selectNameAndAdrs(String province, String city) throws Exception;
 	
-	// 마커 표시 위해 이름, 주소 조회
-	List<?> selectNameAndAdrs(@Param("province") String province, @Param("city") String city) throws Exception;
+	// DB에 있는 좌표값을 수정하기 위해 해당 병원 ID의 주소 데이터를 불러온다.
+	String getAdrs(int hpt_id);
 	
-	// 동물병원 조회수 +1
-	int vetHitUp(@Param("hpt_id") int hpt_id) throws Exception;
+	// DB에 있는 좌표값을 수정한다.
+	void changeAxis(int hpt_id, double latitude, double longitude);
 	
+	
+	
+	/*************For Sample Data***************/
+	
+	// JSON 형태로 동물 병원의 목록을 일부 조회한다.
+	List<?> selectVetJsonListShort() throws Exception;
 }

@@ -20,99 +20,77 @@ public class VetServiceImpl extends EgovAbstractServiceImpl implements VetServic
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(VetServiceImpl.class);
 
-	@Resource(name="mapperVet")
+	@Resource(name="vetMapper")
 	private VetMapper vetDAO;
-
-	/**
-	 * 동물병원을 조회한다.
-	 * @param vo - 조회할 정보가 담긴 VetVO
-	 * @return 조회한 글
-	 * @exception Exception
-	 */
-	@Override
-	public VetVO selectVet(VetVO vo) throws Exception {
-		VetVO resultVO = vetDAO.selectVet(vo);
-		if(resultVO==null)
-			throw processException("info.nodata.msg");
-		return resultVO;
-	}
-
-	/**
-	 * 동물병원 목록을 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 글 목록
-	 * @exception Exception
-	 */
-	@Override
-	public List<?> selectVetList(SampleDefaultVO searchVO) throws Exception {
-		return vetDAO.selectVetList(searchVO);
-	}
-
-	/**
-	 * 글 총 갯수를 조회한다.
-	 * @param searchVO - 조회할 정보가 담긴 VO
-	 * @return 글 총 갯수
-	 * @exception
-	 */
-	@Override
-	public int selectVetListTotCnt(SampleDefaultVO searchVO) {
-		return vetDAO.selectVetListTotCnt(searchVO);
-	}
 	
-	// JSON 리스트 받아오기short 샘플
-	@Override
-	public List<?> selectVetJsonListShort() throws Exception {
-		return vetDAO.selectVetJsonListShort();
-	}
+	/*************앱***************/
 	
-	/*@Override
-	public List<?> searchVetList(SampleDefaultVO searchVO) throws Exception {
-		return vetDAO.searchVetList(searchVO);
-	}*/
-	
-	// 상호명으로 검색
+	// 상호명을 이용해 동물 병원의 목록을 검색한다.
 	@Override
 	public List<?> searchVetByName(String hpt_name) throws Exception {
 		return vetDAO.searchVetByName(hpt_name);
 	}
-	
-	// 지역으로 검색
+
+	// 지역명(시/도 + 시/군/구)을 이용해 동물 병원의 목록을 검색한다.
 	@Override
 	public List<?> searchVetByRegion(String province, String city) throws Exception {
 		return vetDAO.searchVetByRegion(province, city);
 	}
 	
+	// 동물 병원 상세 정보 페이지로 넘어갈 때 해당 병원의 조회수를 1 올려 준다.
 	@Override
-	public int selectVetListCntByPos(String city) {
-		return vetDAO.selectVetListCntByPos(city);
+	public int vetHitUp(int hpt_id) throws Exception {
+		return vetDAO.vetHitUp(hpt_id);
 	}
 	
+	// 동물 병원 상세 정보 페이지를 JSON 형태로 조회한다.
 	@Override
 	public List<?> vetDetail(int hpt_id) throws Exception {
 		return vetDAO.vetDetail(hpt_id);
 	}
 	
 	
-	// 마커 표시 위해 이름, 주소 조회
+	
+	/*************웹***************/
+	
+	// 전국 동물병원의 총 개수를 조회한다.
+	@Override
+	public int selectVetListTotCnt(SampleDefaultVO searchVO) {
+		return vetDAO.selectVetListTotCnt(searchVO);
+	}
+
+	// 사용자 현 위치 동물병원의 총 개수를 조회한다.
+	@Override
+	public int selectVetListCntByPos(String city) {
+		return vetDAO.selectVetListCntByPos(city);
+	}
+
+	// 좌표 정보를 얻기 위해 주소 값 목록을 상호명과 함께 조회한다.
 	@Override
 	public List<?> selectNameAndAdrs(String province, String city) throws Exception {
 		return vetDAO.selectNameAndAdrs(province, city);
 	}
 	
-	// 동물병원 조회수 +1
+	// DB에 있는 좌표값을 수정하기 위해 해당 병원 ID의 주소 데이터를 불러온다.
 	@Override
-	public int vetHitUp(int hpt_id) throws Exception {
-		return vetDAO.vetHitUp(hpt_id);
+	public String getAdrs(int hpt_id) {
+		return vetDAO.getAdrs(hpt_id);
 	}
 	
-	// 좌표값 넣기
+	// DB에 있는 좌표값을 수정한다.
 	@Override
 	public void changeAxis(int hpt_id, double latitude, double longitude) {
 		vetDAO.changeAxis(hpt_id, latitude, longitude);
 	}
+	
+	
+	
+	/*************For Sample Data***************/
+	
+	// JSON 형태로 동물 병원의 목록을 일부 조회한다.
 	@Override
-	public String getAdrs(int hpt_id) {
-		return vetDAO.getAdrs(hpt_id);
+	public List<?> selectVetJsonListShort() throws Exception {
+		return vetDAO.selectVetJsonListShort();
 	}
 
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface ReviewService {
 
-	/*웹*/
+	/*************웹***************/
 	
 	// 후기 리스트 웹
 	List<?> reviewListForWeb(SampleDefaultVO searchVO) throws Exception;
@@ -20,7 +20,7 @@ public interface ReviewService {
 	
 	
 	
-	/*앱*/
+	/*************앱***************/
 	
 	// 후기 리스트 데이터
 	List<?> reviewList(int hpt_id) throws Exception;
@@ -55,7 +55,7 @@ public interface ReviewService {
 
 	
 	
-	/*For Sample Data*/
+	/*************For Sample Data***************/
 	// 후기 작성
 	int insertReviewAjax(ReviewVO vo) throws Exception;
 	
