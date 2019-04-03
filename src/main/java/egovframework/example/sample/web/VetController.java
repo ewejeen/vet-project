@@ -63,9 +63,9 @@ public class VetController {
 	 *
 	 */
 	@RequestMapping(value = "/vetSearchByName.do", produces = "application/json;charset=utf-8")
-	public @ResponseBody String vetSearchByName(String searchKeyword) throws Exception {
+	public @ResponseBody String vetSearchByName(String searchKeyword, Double latitude, Double longitude) throws Exception {
 		ObjectMapper om = new ObjectMapper();
-		List<?> list = vetService.searchVetByName(searchKeyword);
+		List<?> list = vetService.searchVetByName(searchKeyword, latitude, longitude);
 		String json = om.writeValueAsString(list);
 		
 		return json;
@@ -77,9 +77,9 @@ public class VetController {
 	 *
 	 */
 	@RequestMapping(value = "/vetSearchByRegion.do", produces = "application/json;charset=utf-8")
-	public @ResponseBody String vetSearchByRegion(String province, String city) throws Exception {
+	public @ResponseBody String vetSearchByRegion(String province, String city, Double latitude, Double longitude) throws Exception {
 		ObjectMapper om = new ObjectMapper();
-		List<?> list = vetService.searchVetByRegion(province, city);
+		List<?> list = vetService.searchVetByRegion(province, city, latitude, longitude);
 		String json = om.writeValueAsString(list);
 		
 		return json;
@@ -90,7 +90,7 @@ public class VetController {
 	 *	GPS로 받아 온 내 위치의 위도, 경도 기준으로 직선 거리가 가장 가까운 30개 동물 병원의 목록을 검색해서 JSON 형태로 조회한다.
 	 *
 	 */
-	@RequestMapping(value="searchNearest", produces="application/json;charset=utf8")
+	@RequestMapping(value="vetSearchNearest.do", produces="application/json;charset=utf8")
 	public @ResponseBody String searchNearest(Double latitude, Double longitude) throws Exception{
 		ObjectMapper om = new ObjectMapper();
 		List<?> list = vetService.searchNearest(latitude, longitude);

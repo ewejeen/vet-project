@@ -27,14 +27,14 @@ public class VetServiceImpl extends EgovAbstractServiceImpl implements VetServic
 	
 	// 상호명을 이용해 동물 병원의 목록을 검색한다.
 	@Override
-	public List<?> searchVetByName(String hpt_name) throws Exception {
-		return vetDAO.searchVetByName(hpt_name);
+	public List<?> searchVetByName(String hpt_name, Double latitude, Double longitude) throws Exception {
+		return vetDAO.searchVetByName(hpt_name, latitude, longitude);
 	}
 
 	// 지역명(시/도 + 시/군/구)을 이용해 동물 병원의 목록을 검색한다.
 	@Override
-	public List<?> searchVetByRegion(String province, String city) throws Exception {
-		return vetDAO.searchVetByRegion(province, city);
+	public List<?> searchVetByRegion(String province, String city, Double latitude, Double longitude) throws Exception {
+		return vetDAO.searchVetByRegion(province, city, latitude, longitude);
 	}
 
 	// 현재 나의 좌표를 기준으로 직선 거리가 가장 가까운 30개의 병원의 목록을 검색한다.

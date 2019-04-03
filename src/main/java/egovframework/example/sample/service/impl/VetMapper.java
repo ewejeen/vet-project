@@ -15,10 +15,10 @@ public interface VetMapper {
 	/*************앱***************/
 	
 	// 상호명을 이용해 동물 병원의 목록을 검색한다.
-	List<?> searchVetByName(@Param("hpt_name") String hpt_name) throws Exception;
+	List<?> searchVetByName(@Param("hpt_name") String hpt_name, @Param("myLatitude") Double latitude, @Param("myLongitude") Double longitude) throws Exception;
 
 	// 지역명(시/도 + 시/군/구)을 이용해 동물 병원의 목록을 검색한다.
-	List<?> searchVetByRegion(@Param("province") String province, @Param("city") String city) throws Exception;
+	List<?> searchVetByRegion(@Param("province") String province, @Param("city") String city, @Param("myLatitude") Double latitude, @Param("myLongitude") Double longitude) throws Exception;
 	
 	// 현재 나의 좌표를 기준으로 직선 거리가 가장 가까운 30개의 병원의 목록을 검색한다.
 	List<?> searchNearest(@Param("myLatitude") Double latitude, @Param("myLongitude") Double longitude) throws Exception;

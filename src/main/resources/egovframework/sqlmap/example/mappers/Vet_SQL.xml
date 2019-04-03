@@ -23,7 +23,9 @@
 				hos.hpt_id, hos.hpt_name, hos.hpt_hit, hos.hpt_phone,
 				geo.adrs_new, geo.adrs_old,		<!-- 결과 내 검색을 할 때 필요한 데이터 -->
 				IFNULL (NULLIF(geo.adrs_new,''), geo.adrs_old) address, <!-- 신주소 없으면 구주소 가져오기 -->
-				avg(rv.hpt_rate) rate_avg, count(rv.rv_id) review_cnt
+				avg(rv.hpt_rate) rate_avg, count(rv.rv_id) review_cnt,
+				( 6371 * acos( cos( radians(#{myLatitude}) ) * cos( radians( geo.latitude ) ) * cos( radians( geo.longitude ) - radians(#{myLongitude}) ) 
+					+ sin( radians(#{myLatitude}) ) * sin( radians( geo.latitude ) ) ) ) distance 
 			FROM
 				hospital as hos INNER JOIN hospital_geo as geo
 				ON hos.hpt_id = geo.hpt_id
@@ -40,7 +42,9 @@
 				hos.hpt_id, hos.hpt_name, hos.hpt_hit, hos.hpt_phone,
 				geo.adrs_new, geo.adrs_old,		<!-- 결과 내 검색을 할 때 필요한 데이터 -->
 				IFNULL (NULLIF(geo.adrs_new,''), geo.adrs_old) address, <!-- 신주소 없으면 구주소 가져오기 -->
-				avg(rv.hpt_rate) rate_avg, count(rv.hpt_rate) review_cnt
+				avg(rv.hpt_rate) rate_avg, count(rv.hpt_rate) review_cnt,
+				( 6371 * acos( cos( radians(#{myLatitude}) ) * cos( radians( geo.latitude ) ) * cos( radians( geo.longitude ) - radians(#{myLongitude}) ) 
+					+ sin( radians(#{myLatitude}) ) * sin( radians( geo.latitude ) ) ) ) distance 
 			FROM
 				hospital as hos INNER JOIN hospital_geo as geo
 				ON hos.hpt_id = geo.hpt_id
@@ -58,7 +62,7 @@
 				IFNULL (NULLIF(geo.adrs_new,''), geo.adrs_old) address, <!-- 신주소 없으면 구주소 가져오기 -->
 				avg(rv.hpt_rate) rate_avg, count(rv.hpt_rate) review_cnt,
 				( 6371 * acos( cos( radians(#{myLatitude}) ) * cos( radians( geo.latitude ) ) * cos( radians( geo.longitude ) - radians(#{myLongitude}) ) 
-					+ sin( radians(#{myLatitude}) ) * sin( radians( geo.latitude ) ) ) ) AS distance 
+					+ sin( radians(#{myLatitude}) ) * sin( radians( geo.latitude ) ) ) ) distance 
 			FROM 
 				hospital as hos INNER JOIN hospital_geo as geo
 				ON hos.hpt_id = geo.hpt_id
