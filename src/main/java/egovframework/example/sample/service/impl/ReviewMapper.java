@@ -11,7 +11,7 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 @Mapper("reviewMapper")
 public interface ReviewMapper {
 
-	/*웹*/
+	/*************웹***************/
 	
 	// 후기 리스트 웹
 	List<?> reviewListForWeb(SampleDefaultVO searchVO) throws Exception;
@@ -27,7 +27,7 @@ public interface ReviewMapper {
 	
 	
 	
-	/*앱*/
+	/*************앱***************/
 	
 	// 후기 리스트 데이터
 	List<?> reviewList(@Param("hpt_id") int hpt_id) throws Exception;
@@ -62,7 +62,8 @@ public interface ReviewMapper {
 
 	
 	
-	/*For Sample Data*/
+	/*************For Sample Data***************/
+	
 	// 후기 작성
 	int insertReviewAjax(ReviewVO vo) throws Exception;
 }

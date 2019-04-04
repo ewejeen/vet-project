@@ -15,10 +15,8 @@
 		<result property="x_axis" column="x_axis"/>
 		<result property="y_axis" column="y_axis"/>
 	</resultMap>
-
 	
-	<!-- 통계 -->
-	<!-- 해당 지역의 평점 높은 병원 -->
+	<!-- 해당 지역의 평점+후기 높은 TOP 5 병원을 조회한다. -->
 	<select id="statisticsRate" resultType="egovMap">
 			SELECT
 				hos.hpt_id, hos.hpt_name,
@@ -35,11 +33,13 @@
 			LIMIT 0,5
 	</select>
 
-	<!-- 해당 지역의 (반려동물 타입 별) 재방문율 높은 병원 탑5-->
+	<!-- 해당 지역의 재방문율 높은 TOP 5 병원을 조회한다.-->
+	
 	<!-- 재방문율 계산 방법 -->
 	<!--	
-		2번 이상 방문율: visit_is_new>=1인 방문자 수/총 방문자 수  * 100
+		visit_is_new>=1 방문자 수/총 방문자 수  * 100
 	-->
+	
 	<select id="statisticsRetention" resultType="egovMap">
 			SELECT
 				hos.hpt_id AS id, hos.hpt_name,

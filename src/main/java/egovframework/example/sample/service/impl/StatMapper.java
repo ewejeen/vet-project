@@ -9,9 +9,9 @@ import egovframework.rte.psl.dataaccess.mapper.Mapper;
 @Mapper("statMapper")
 public interface StatMapper {
 	
-	// 평점 좋은 병원
+	// 해당 지역의 평점+후기 높은 TOP 5 병원을 조회한다.
 	List<?> statisticsRate(@Param("province") String province, @Param("city") String city) throws Exception;
 
-	// 재방문율 높은 병원
+	// 해당 지역의 재방문율 높은 TOP 5 병원을 조회한다.
 	List<?> statisticsRetention(@Param("province") String province, @Param("city") String city) throws Exception;
 }

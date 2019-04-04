@@ -16,33 +16,21 @@
 		<result property="cmt_id" column="cmt_id"/>
 		<result property="cmt_content" column="cmt_content"/>
 		<result property="cmt_reg_date" column="cmt_reg_date"/>
-	</resultMap>
-
-	<!-- 후기 입력하기 -->
-	<insert id="insertReview" parameterType="ReviewVO" useGeneratedKeys="true" keyProperty="rv_id">
-			INSERT INTO 
-				review(hpt_id, hpt_rate, rv_title, rv_content, rv_image, pet_type, visit_date, visit_is_new)
-			VALUES
-				(#{hpt_id}, #{hpt_rate}, #{rv_title}, #{rv_content}, #{rv_image}, #{pet_type}, #{visit_date}, #{visit_is_new})
-	</insert>
-	<!-- AJAX로 랜덤 후기 등록 -->
-	<insert id="insertReviewAjax" parameterType="ReviewVO">
-			INSERT INTO 
-				review(hpt_id, hpt_rate, rv_title, rv_content, rv_image, pet_type, visit_date, visit_is_new)
-			VALUES
-				(#{hpt_id}, #{hpt_rate}, #{rv_title}, #{rv_content}, #{rv_image}, #{pet_type}, #{visit_date}, #{visit_is_new})
-	</insert>
+	</resultMap>	
 	
-	<!-- 웹에서 후기 리스트 (병원별 X, 전체)-->
+	
+	<!-- *************웹*************** -->
+	
+	<!-- 후기 리스트 웹 -->
 	<select id="reviewListForWeb" parameterType="searchVO" resultType="egovMap">
 			SELECT
 				rv.rv_id, rv.hpt_id, rv.rv_title, rv.rv_content, rv.hpt_rate, rv.rv_reg_date, 
 				rv.rv_image, rv.pet_type, rv.visit_date, rv.visit_is_new,
 				hos.hpt_name, geo.adrs_old, geo.adrs_new
 			FROM review rv
-			JOIN hospital hos 
-			ON hos.hpt_id = rv.hpt_id
-			JOIN hospital_geo as geo ON rv.hpt_id = geo.hpt_id
+				JOIN hospital hos 
+				ON hos.hpt_id = rv.hpt_id
+				JOIN hospital_geo as geo ON rv.hpt_id = geo.hpt_id
 			WHERE 1=1
 			<if test="searchKeyword != null and searchKeyword != ''">
 		        <choose>
@@ -61,13 +49,13 @@
 			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
 	</select>
 	
-	<!-- 웹 후기 리스트 카운트 -->
+	<!-- 후기 총 개수 -->
 	<select id="selectReviewListTotCnt" parameterType="searchVO" resultType="int">
 			SELECT COUNT(*) totcnt
 			FROM review rv
-			JOIN hospital hos 
-			ON hos.hpt_id = rv.hpt_id
-			JOIN hospital_geo as geo ON rv.hpt_id = geo.hpt_id
+				JOIN hospital hos 
+				ON hos.hpt_id = rv.hpt_id
+				JOIN hospital_geo as geo ON rv.hpt_id = geo.hpt_id
 			WHERE 1=1
 			<if test="searchKeyword != null and searchKeyword != ''">
 		        <choose>
@@ -83,40 +71,31 @@
 				</choose>
 			</if>
 	</select>
-
-	<!-- 앱 사용자 용  -->
-	<update id="updateReview">
-
-			UPDATE review
-			SET hpt_rate=#{hpt_rate}, rv_title=#{rv_title}, rv_content=#{rv_content}, rv_image=#{rv_image}, pet_type=#{pet_type}, visit_date=#{visit_date}, visit_is_new=#{visit_is_new}
-			WHERE rv_id=#{rv_id}
-
-	</update>
-
-	<delete id="deleteReview">
-
-			DELETE FROM review
-			WHERE rv_id=#{rv_id}
-
-	</delete>
-
+	
+	<!-- 후기 정보를 조회한다. -->
 	<select id="selectReview" resultMap="review">
-
 			SELECT
 				rv.rv_id, rv.hpt_id, rv.rv_title, rv.rv_content, rv.hpt_rate, rv.rv_reg_date, 
 				rv.rv_image, rv.pet_type, rv.visit_date, rv.visit_is_new,
 				hos.hpt_name, geo.adrs_old, geo.adrs_new
 			FROM review rv
-			JOIN hospital hos 
-			ON hos.hpt_id = rv.hpt_id
-			JOIN hospital_geo as geo ON rv.hpt_id = geo.hpt_id
+				JOIN hospital hos 
+				ON hos.hpt_id = rv.hpt_id
+				JOIN hospital_geo as geo ON rv.hpt_id = geo.hpt_id
 			WHERE rv.rv_id = #{rv.rv_id}
-
 	</select>
 	
+	<!-- 후기를 삭제한다. -->
+	<delete id="deleteReview">
+			DELETE FROM review
+			WHERE rv_id=#{rv_id}
+	</delete>
 	
 	
-	<!-- 후기 리스트 -->
+	
+	<!-- *************앱*************** -->
+	
+	<!-- 후기 리스트 데이터 -->
 	<select id="reviewList" resultType="egovMap">
 			SELECT
 				rv_id, hpt_id, rv_title, rv_content, hpt_rate,
@@ -126,11 +105,10 @@
 				review
 			WHERE 
 				hpt_id=#{hpt_id}
-			ORDER BY
-				rv_id DESC
+			ORDER BY rv_id DESC
 	</select>
-	
-	<!-- 후기 리스트 3개만 -->
+
+	<!-- 후기 리스트 데이터 3개만 -->
 	<select id="reviewListThree" resultType="egovMap">
 			SELECT
 				rv_id, hpt_id, rv_title, rv_content, 
@@ -140,12 +118,11 @@
 				review
 			WHERE 
 				hpt_id=#{hpt_id}
-			ORDER BY
-				rv_id DESC
+			ORDER BY rv_id DESC
 			LIMIT 0,3
 	</select>
 	
-	<!-- 후기 상세 보기 -->
+	<!-- 후기 리스트 상세 보기 -->
 	<select id="reviewDetail" resultType="egovMap">
 			SELECT
 				rv_id, hpt_id, hpt_rate, rv_title, rv_content, 
@@ -157,7 +134,22 @@
 				rv_id=#{rv_id}
 	</select>
 	
-	<!-- 후기의 댓글 목록 -->
+	<!-- 후기를 작성한다 -->
+	<insert id="insertReview" parameterType="ReviewVO" useGeneratedKeys="true" keyProperty="rv_id">
+			INSERT INTO 
+				review(hpt_id, hpt_rate, rv_title, rv_content, rv_image, pet_type, visit_date, visit_is_new)
+			VALUES
+				(#{hpt_id}, #{hpt_rate}, #{rv_title}, #{rv_content}, #{rv_image}, #{pet_type}, #{visit_date}, #{visit_is_new})
+	</insert>
+	
+	<!-- 후기를 수정한다 -->
+	<update id="updateReview">
+			UPDATE review
+			SET hpt_rate=#{hpt_rate}, rv_title=#{rv_title}, rv_content=#{rv_content}, rv_image=#{rv_image}, pet_type=#{pet_type}, visit_date=#{visit_date}, visit_is_new=#{visit_is_new}
+			WHERE rv_id=#{rv_id}
+	</update>
+
+	<!-- 후기의 댓글 목록을 조회한다. -->
 	<select id="commentList" parameterType="int" resultType="egovMap">
 			SELECT 
 				cmt_id, cmt_content, 
@@ -166,33 +158,44 @@
 				review_comment
 			WHERE
 				rv_id=#{rv_id}
-			ORDER BY
-				cmt_id DESC
+			ORDER BY cmt_id DESC
 	</select>
 	
-	<!-- 후기에 댓글 쓰기 -->
+	<!-- 후기 댓글 쓰기 -->
 	<insert id="insertComment" parameterType="ReviewVO" useGeneratedKeys="true" keyProperty="cmt_id">
-		INSERT INTO 
-			review_comment (cmt_content, rv_id)
-		VALUES 
-			(#{cmt_content}, #{rv_id})
+			INSERT INTO 
+				review_comment (cmt_content, rv_id)
+			VALUES 
+				(#{cmt_content}, #{rv_id})
 	</insert>
 	
 	<!-- 후기 댓글 삭제 -->
 	<delete id="deleteComment" parameterType="int">
-		DELETE FROM
-			review_comment
-		WHERE
-			cmt_id = #{cmt_id}
+			DELETE FROM
+				review_comment
+			WHERE
+				cmt_id = #{cmt_id}
 	</delete>
 	
-	<!-- 댓글 하나 정보 -->
+	<!-- 후기 댓글 하나의 정보를 조회한다. -->
 	<select id="commentDetail" parameterType="int" resultType="egovMap">
-		SELECT
-			cmt_id, cmt_content, rv_id,
-			DATE_FORMAT(cmt_reg_date, '%Y-%m-%d %H:%i') AS cmt_reg_date
-		FROM
-			review_comment
-		WHERE cmt_id=#{cmt_id}
+			SELECT
+				cmt_id, cmt_content, rv_id,
+				DATE_FORMAT(cmt_reg_date, '%Y-%m-%d %H:%i') AS cmt_reg_date
+			FROM
+				review_comment
+			WHERE cmt_id=#{cmt_id}
 	</select>
+
+	
+	
+	<!-- *************For Sample Data*************** -->
+	
+	<!-- 후기 작성  -->
+	<insert id="insertReviewAjax" parameterType="ReviewVO">
+			INSERT INTO 
+				review(hpt_id, hpt_rate, rv_title, rv_content, rv_image, pet_type, visit_date, visit_is_new)
+			VALUES
+				(#{hpt_id}, #{hpt_rate}, #{rv_title}, #{rv_content}, #{rv_image}, #{pet_type}, #{visit_date}, #{visit_is_new})
+	</insert>
 </mapper>

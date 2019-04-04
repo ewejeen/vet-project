@@ -2,9 +2,7 @@ package egovframework.example.sample.service;
 
 public class VetVO extends SampleDefaultVO {
 
-	private static final long serialVersionUID = 1L;
-
-	// hospital_geo2 테이블 사용
+	// hospital_geo 테이블
 	private int hpt_id;
 	private String adrs_old;
 	private String adrs_new;
@@ -13,6 +11,7 @@ public class VetVO extends SampleDefaultVO {
 	private String x_axis;
 	private String y_axis;
 
+	// hospital 테이블
 	private String hpt_name;
 	private String hpt_phone;
 	private String hpt_open;

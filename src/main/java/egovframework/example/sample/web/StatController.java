@@ -18,7 +18,11 @@ public class StatController {
 	@Resource(name = "statService")
 	private StatService statService;
 	
-	// 평점 높은 병원
+	/**
+	 * 
+	 *	JSON 형태로 해당 지역의 평점+후기 높은 TOP 5 병원을 조회한다.
+	 *
+	 */
 	@RequestMapping(value = "/statisticsRate.do", produces = "application/json;charset=utf-8")
 	public @ResponseBody String statisticsRate (String province, String city) throws Exception {
 		ObjectMapper om = new ObjectMapper();
@@ -28,7 +32,11 @@ public class StatController {
 		return json;
 	}	
 
-	// 재방문율 높은 병원
+	/**
+	 * 
+	 *	JSON 형태로 해당 지역의 재방문율 높은 TOP 5 병원을 조회한다.
+	 *
+	 */
 	@RequestMapping(value = "/statisticsRetention.do", produces = "application/json;charset=utf-8")
 	public @ResponseBody String statisticsRetention (String province, String city) throws Exception {
 		ObjectMapper om = new ObjectMapper();
@@ -37,5 +45,4 @@ public class StatController {
 		
 		return json;
 	}	
-	
 }

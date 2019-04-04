@@ -38,7 +38,7 @@
 			SELECT
 				id, title, content, reg_date, image
 			FROM notice
-			WHERE ID=#{id}
+			WHERE id=#{id}
 
 	</select>
 
@@ -58,7 +58,7 @@
 					</when>
 				</choose>
 			</if>
-			ORDER BY ID desc
+			ORDER BY id desc
 			LIMIT #{recordCountPerPage} OFFSET #{firstIndex}
 	</select>
 
@@ -86,8 +86,7 @@
 				DATE_FORMAT(reg_date, '%Y-%m-%d') AS reg_date, 
 				image
 			FROM notice
-			ORDER BY
-				id DESC
+			ORDER BY id DESC
 			
 	</select>
 

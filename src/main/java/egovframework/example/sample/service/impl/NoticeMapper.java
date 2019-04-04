@@ -7,12 +7,6 @@ import egovframework.example.sample.service.NoticeVO;
 
 import egovframework.rte.psl.dataaccess.mapper.Mapper;
 
-/**
- * 
- *		NoticeMapper.java
- *	
- */
-
 @Mapper("noticeMapper")
 public interface NoticeMapper {
 

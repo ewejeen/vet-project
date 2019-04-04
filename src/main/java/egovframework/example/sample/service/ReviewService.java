@@ -56,7 +56,7 @@ public interface ReviewService {
 	
 	
 	/*************For Sample Data***************/
+	
 	// 후기 작성
 	int insertReviewAjax(ReviewVO vo) throws Exception;
-	
 }

@@ -71,7 +71,6 @@ public class AdminController {
 		
 		return modelAndView;
 	}
-	
 
 	/**
 	 * 
