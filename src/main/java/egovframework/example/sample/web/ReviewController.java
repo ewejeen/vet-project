@@ -135,6 +135,7 @@ public class ReviewController {
 	public String deleteCommentForWeb(@RequestParam("checkArr") String list) throws Exception {
 		/* 받아온 checkArr을 comma를 delimiter로 해서 split한다 */
 		String[] arr = list.split(",");
+		System.out.println(arr);
 		/* split해서 받은 각각의 데이터(cmt_id)를 Integer로 변환, 이용해 deleteComment를 실행한다. */
 		for(int i=0;i<arr.length;i++){
 			reviewService.deleteComment(Integer.parseInt(arr[i]));

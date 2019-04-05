@@ -234,10 +234,10 @@
     				url : 'deleteComment.web',
     				type : 'POST',
     				data : {
-    					'cmt_id' : cmtId+','	/* 다중삭제 컨트롤러에 맞추기 위함 */
+    					'checkArr' : cmtId+','	/* 다중삭제 컨트롤러에 맞추기 위함 */
     				},
     				success : function(data){
-    					location.reload();
+    					//location.reload();
     					console.log(data);
     				},
     				error : function(xhr, status, msg){
