@@ -207,8 +207,7 @@
 	                    html += "<li class='cmtDel'><button onclick='deleteComment(" + data[i].cmtId + ")'>삭제</button></li>";
 	                    html += "</ul>";
 	                }
-                    html += "<div id='cmtDiv'>";
-                    html += "<input type='checkbox' name='selectAllChk' id='selectAllChk'/>";                    
+                    html += "<div id='cmtDiv'>";         
                     html += "<button onclick='selectAllCmt()' id='selectAll' type='button'>전체 댓글 선택</button>";
                     html += "<button onclick='deleteSelectedCmt()' id='deleteSelected' type='button'>선택 댓글 삭제</button>";
                     html += "</div>";
@@ -261,16 +260,9 @@
 
         /* 전체 선택 버튼 */
        	function selectAllCmt(){
-       		var chk = $("#selectAllChk").prop('checked');
-       		if(chk) {
-       			$(".cmtChkBox").prop("checked", true);
-       		} else {
-       			$(".cmtChkBox").prop("checked", false);
-       		}
-       		console.log('클릭');
-       		/* $('.cmtChkBox').prop('checked',function(){
+       		$('.cmtChkBox').prop('checked',function(){
        	        return !$(this).prop('checked');
-       	    }); */
+       	    });
        	}
 
         /* 선택 삭제 버튼 */
