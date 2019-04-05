@@ -201,11 +201,17 @@
 	                
 	                for(i=0; i<data.length; i++){
 	                    html += "<ul>";
+	                    html += "<li class='cmtChk'><input type='checkbox' name='cmtChkBox' class='cmtChkBox'  value='" + data[i].cmtId + "'/></li>";
 	                    html += "<li class='cmtCon'>" + data[i].cmtContent + "</li>";
 	                    html += "<li class='cmtReg'>" + data[i].cmtRegDate + "</li>";
 	                    html += "<li class='cmtDel'><button onclick='deleteComment(" + data[i].cmtId + ")'>삭제</button></li>";
 	                    html += "</ul>";
 	                }
+                    html += "<div id='cmtDiv'>";
+                    html += "<input type='checkbox' name='selectAllChk' id='selectAllChk'/>";                    
+                    html += "<button onclick='selectAllCmt()' id='selectAll' type='button'>전체 댓글 선택</button>";
+                    html += "<button onclick='deleteSelectedCmt()' id='deleteSelected' type='button'>선택 댓글 삭제</button>";
+                    html += "</div>";
 	            } else {
 	                html += "<ul>";
 	                html += "<li style='text-align: center; width:100%;'>등록된 댓글이 없습니다.</li>";
@@ -222,16 +228,17 @@
 			}
     	});
     	
-    	/* 댓글을 삭제한다 */
+    	/* 댓글을 삭제한다 (1개) */
     	function deleteComment(cmtId){
     		if(confirm('댓글을 삭제하시겠습니까?')){
     			$.ajax({
-    				url : 'deleteComment.do',
+    				url : 'deleteComment.web',
     				type : 'POST',
     				data : {
-    					'cmt_id' : cmtId
+    					'cmt_id' : cmtId+','	/* 다중삭제 컨트롤러에 맞추기 위함 */
     				},
     				success : function(data){
+    					location.reload();
     					console.log(data);
     				},
     				error : function(xhr, status, msg){
@@ -243,6 +250,59 @@
     		}
     		return false;
     	}
+        
+        /* 댓글을 삭제한다 (여러 개) */
+        $(document).ready(function(){
+        	$(".cmtChkBox").click(function(){
+        		$("#selectAllChk").prop("checked", false);
+        	});
+        	
+        });
+
+        /* 전체 선택 버튼 */
+       	function selectAllCmt(){
+       		var chk = $("#selectAllChk").prop('checked');
+       		if(chk) {
+       			$(".cmtChkBox").prop("checked", true);
+       		} else {
+       			$(".cmtChkBox").prop("checked", false);
+       		}
+       		console.log('클릭');
+       		/* $('.cmtChkBox').prop('checked',function(){
+       	        return !$(this).prop('checked');
+       	    }); */
+       	}
+
+        /* 선택 삭제 버튼 */
+       	function deleteSelectedCmt(){
+       		if(confirm('선택하신 댓글을 삭제하시겠습니까?')){
+       			/* checkArr에 체크된 value를 넣는다 */
+       			var checkArr = '';
+       			$('input[name="cmtChkBox"]:checked').each(function(){
+       				checkArr+=$(this).attr('value')+",";
+       			});
+       			
+       			$.ajax({
+   	    			url : 'deleteComment.web',
+   	    			type : 'POST',
+   	    			data : {
+   	    				'checkArr' : checkArr
+   	    			},
+   	    			/* 삭제 성공 시 alert를 띄운다 */
+   	    			success : function(data){
+   	    				alert(data+'개의 댓글이 삭제되었습니다.');
+   	    				location.reload();
+   	    			},
+   	    			error : function(xhr, status, msg) {
+   	    				console.debug('xhr:\n ' + xhr);
+   	    				console.debug('status:\n ' + status);
+   	    				console.debug('msg:\n ' + msg);
+   	    			}
+   	    		});
+       		}
+       		return false;
+       	}
+        
     </script>
 </body>
 </html>

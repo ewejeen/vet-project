@@ -125,6 +125,24 @@ public class ReviewController {
 		return ""+arr.length;
 	}
 	
+	/**
+	 * 
+	 *  후기의 댓글을 삭제한다.
+	 * 
+	 */
+	@RequestMapping(value="/deleteComment.web", method=RequestMethod.POST)
+	@ResponseBody
+	public String deleteCommentForWeb(@RequestParam("checkArr") String list) throws Exception {
+		/* 받아온 checkArr을 comma를 delimiter로 해서 split한다 */
+		String[] arr = list.split(",");
+		/* split해서 받은 각각의 데이터(cmt_id)를 Integer로 변환, 이용해 deleteComment를 실행한다. */
+		for(int i=0;i<arr.length;i++){
+			reviewService.deleteComment(Integer.parseInt(arr[i]));
+		}
+		/* alert 창에 띄우기 위해 몇 개의 데이터를 받았는지 반환해 준다 */
+		return ""+arr.length;
+	}
+	
 	
 	
 	/*************앱***************/
